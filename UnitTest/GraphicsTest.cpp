@@ -23,7 +23,7 @@ bool GraphicsTest::DefaultWindowTest()
 
     while (!Graphics::ShouldWindowClose(window))
     {
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
             Graphics::SetWindowShouldClose(window);
 
         Graphics::Clear(1.0f, 0.5, 0.0f, 1.0f);
@@ -34,5 +34,5 @@ bool GraphicsTest::DefaultWindowTest()
 
     Graphics::TerminateGLFW();
 
-    return false;
+    return true;
 }

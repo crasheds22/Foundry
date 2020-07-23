@@ -9,17 +9,29 @@ class TestBattery
 {
 public:
 	TestBattery();
+	~TestBattery();
 
 	bool RunTests();
 
 private:
-	std::list<UnitTest> TestList {};
+	std::list<UnitTest*> TestList {};
 };
 
 TestBattery::TestBattery()
 {
 	//Create new tests here, add to TestList
-	TestList.push_back(GraphicsTest());
+	TestList.push_front(new GraphicsTest());
+}
+
+TestBattery::~TestBattery()
+{
+	std::list<UnitTest*>::iterator it = TestList.begin();
+
+	while (it != TestList.end())
+	{
+		delete (*it);
+		TestList.remove(*(it++));
+	}
 }
 
 bool TestBattery::RunTests()
@@ -28,14 +40,14 @@ bool TestBattery::RunTests()
 
 	for (auto& ut : TestList)
 	{
-		if (ut.Test())
+		if (ut->Test())
 		{
 			//Replace this with a call to the log project later
-			std::cout << "PASSED: " << ut.TestName() << std::endl;
+			std::cout << "PASSED: " << ut->TestName() << std::endl;
 		}
 		else
 		{
-			std::cout << "FAILED: " << ut.TestName() << std::endl;
+			std::cout << "FAILED: " << ut->TestName() << std::endl;
 			allPassed = false;
 		}
 	}

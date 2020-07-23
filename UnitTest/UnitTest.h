@@ -7,7 +7,7 @@ public:
 	UnitTest(std::string Name) { this->Name = Name; }
 	virtual ~UnitTest() { };
 
-	virtual bool Test() { return true; }
+	virtual bool Test() = 0;
 
 	std::string TestName() const { return Name; }
 
