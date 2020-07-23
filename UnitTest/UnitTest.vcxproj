@@ -142,9 +142,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GraphicsTest.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GraphicsTest.h" />
     <ClInclude Include="TestBattery.h" />
     <ClInclude Include="UnitTest.h" />
   </ItemGroup>

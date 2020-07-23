@@ -3,6 +3,8 @@
 #include <list>
 #include <iostream>
 
+#include "GraphicsTest.h"
+
 class TestBattery
 {
 public:
@@ -17,6 +19,7 @@ private:
 TestBattery::TestBattery()
 {
 	//Create new tests here, add to TestList
+	TestList.push_back(GraphicsTest());
 }
 
 bool TestBattery::RunTests()
