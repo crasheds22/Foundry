@@ -16,6 +16,6 @@ public:
     
 private:
     bool DefaultWindowTest();
-
+    bool Shaders();
 };
 

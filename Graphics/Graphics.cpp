@@ -1,5 +1,6 @@
 #include "Graphics.h"
 
+#include <iostream>
 #include <cassert>
 
 void Graphics::InitializeGLFW()
@@ -63,4 +64,137 @@ void Graphics::PollForEvents()
 void Graphics::TerminateGLFW()
 {
 	glfwTerminate();
+}
+
+int Graphics::VertexShader(const char* source)
+{
+	int vShader = glCreateShader(GL_VERTEX_SHADER);
+
+	glShaderSource(vShader, 1, &source, NULL);
+	glCompileShader(vShader);
+
+	int success;
+	char infoLog[512];
+	glGetShaderiv(vShader, GL_COMPILE_STATUS, &success);
+
+	if (!success)
+	{
+		glGetShaderInfoLog(vShader, 512, NULL, infoLog);
+		std::cout << "Error: Vertex compilation failed\n" << infoLog << std::endl;
+		return 0;
+	}
+
+	return vShader;
+}
+
+int Graphics::FragmentShader(const char* source)
+{
+	int fShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	glShaderSource(fShader, 1, &source, NULL);
+	glCompileShader(fShader);
+
+	int success;
+	char infoLog[512];
+	glGetShaderiv(fShader, GL_COMPILE_STATUS, &success);
+
+	if (!success)
+	{
+		glGetShaderInfoLog(fShader, 512, NULL, infoLog);
+		std::cout << "Error: Fragment shader compilation failed\n" << infoLog << std::endl;
+		return 0;
+	}
+
+	return fShader;
+}
+
+int Graphics::LinkShaders(int vertex, int frag)
+{
+	int shaderProgram = glCreateProgram();
+
+	glAttachShader(shaderProgram, vertex);
+	glAttachShader(shaderProgram, frag);
+
+	glLinkProgram(shaderProgram);
+
+	int success;
+	char infoLog[512];
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+
+	if (!success)
+	{
+		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+		std::cout << "Error: shader program linking failed\n" << infoLog << std::endl;
+		return 0;
+	}
+
+	glDeleteShader(vertex);
+	glDeleteShader(frag);
+
+	return shaderProgram;
+}
+
+void Graphics::GenerateArrays(GLuint* arrays, int n)
+{
+	glGenVertexArrays(n, arrays);
+}
+
+void Graphics::GenerateBuffers(GLuint* buffers, int n)
+{
+	glGenBuffers(n, buffers);
+}
+
+void Graphics::BindArray(GLuint array)
+{
+	glBindVertexArray(array);
+}
+
+void Graphics::BindBuffer(eTarget target, int buffer)
+{
+	glBindBuffer(ToGLEnum(target), buffer);
+}
+
+void Graphics::BufferData(eMode mode, GLsizeiptr size, void* data, eUsage use)
+{
+	glBufferData(ToGLEnum(mode), size, data, ToGLEnum(use));
+}
+
+void Graphics::VertexAtttribPointer(int index, int size, eType type, bool normalized, std::size_t stride, void* pointer)
+{
+	glVertexAttribPointer(index, size, ToGLEnum(type), normalized, stride, pointer);
+}
+
+void Graphics::EnableVertexAttribArray(int index)
+{
+	glEnableVertexAttribArray(index);
+}
+
+void Graphics::DisableVertexAttribArray(int index)
+{
+	glDisableVertexAttribArray(index);
+}
+
+void Graphics::UseShaderProgram(int shader)
+{
+	glUseProgram(shader);
+}
+
+void Graphics::DrawElements(eMode mode, std::size_t count, eType type, void* indices)
+{
+	glDrawElements(ToGLEnum(mode), count, ToGLEnum(type), indices);
+}
+
+void Graphics::DeleteArray(GLuint* arrays, int n)
+{
+	glDeleteVertexArrays(n, arrays);
+}
+
+void Graphics::DeleteBuffers(GLuint* buffers, int n)
+{
+	glDeleteBuffers(n, buffers);
+}
+
+void Graphics::DeleteShaderProgram(int shader)
+{
+	glDeleteProgram(shader);
 }
