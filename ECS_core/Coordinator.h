@@ -35,59 +35,59 @@ namespace ECS
 		}
 
 		//Component methods
-		template<typename T>
+		template<typename Component>
 		void RegisterComponent()
 		{
-			mComponentManager->RegisterComponent<T>();
+			mComponentManager->RegisterComponent<Component>();
 		}
 
-		template<typename T>
-		void AddComponent(Entity entity, T component)
+		template<typename Component>
+		void AddComponent(Entity entity, Component component)
 		{
-			mComponentManager->AddComponent<T>(entity, component);
+			mComponentManager->AddComponent<Component>(entity, component);
 
 			auto signature = mEntityManager->GetSignature(entity);
-			signature.set(mComponentManager->GetComponentType<T>(), true);
+			signature.set(mComponentManager->GetComponentType<Component>(), true);
 			mEntityManager->SetSignature(entity, signature);
 
 			mSystemManager->EntitySignatureChanged(entity, signature);
 		}
 
-		template<typename T>
+		template<typename Component>
 		void RemoveComponent(Entity entity)
 		{
-			mComponentManager->RemoveComponent<T>(entity);
+			mComponentManager->RemoveComponent<Component>(entity);
 
 			auto signature = mEntityManager->GetSignature(entity);
-			signature.set(mComponentManager->GetComponentType<T>(), false);
+			signature.set(mComponentManager->GetComponentType<Component>(), false);
 			mEntityManager->SetSignature(entity, signature);
 
 			mSystemManager->EntitySignatureChanged(entity, signature);
 		}
 
-		template<typename T>
-		T& GetComponent(Entity entity)
+		template<typename Component>
+		Component& GetComponent(Entity entity)
 		{
-			return mComponentManager->GetComponent<T>(entity);
+			return mComponentManager->GetComponent<Component>(entity);
 		}
 
-		template<typename T>
+		template<typename Component>
 		ComponentType GetComponentType()
 		{
-			return mComponentManager->GetComponentType<T>();
+			return mComponentManager->GetComponentType<Component>();
 		}
 
 		//System methods
-		template<typename T>
-		std::shared_ptr<T> RegisterSystem()
+		template<typename System>
+		std::shared_ptr<System> RegisterSystem()
 		{
-			return mSystemManager->RegisterSystem<T>();
+			return mSystemManager->RegisterSystem<System>();
 		}
 
-		template<typename T>
+		template<typename System>
 		void SetSystemSignature(Signature signature)
 		{
-			mSystemManager->SetSignature<T>(signature);
+			mSystemManager->SetSignature<System>(signature);
 		}
 
 	private:
