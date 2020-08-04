@@ -21,5 +21,8 @@
     <ClInclude Include="ComponentArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
