@@ -32,7 +32,7 @@ bool CollisionDetection::BoxSphereCollision(Box &b, Sphere &s) {
 		if (s.center[i] < b.min[i]) {
 			distance += Squaref(s.center[i] - b.min[i]);
 		} // end if
-		else if (s.center[i] > b.min[i]) {
+		else if (s.center[i] > b.max[i]) {
 			distance += Squaref(s.center[i] - b.max[i]);
 		} // end else
 	} // end for
