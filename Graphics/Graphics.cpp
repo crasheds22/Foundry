@@ -65,3 +65,45 @@ void Graphics::TerminateGLFW()
 {
 	glfwTerminate();
 }
+
+void Graphics::GenerateVertexArrays(unsigned int* arrays, int n)
+{
+	glGenVertexArrays(n, arrays);
+}
+
+void Graphics::GenerateBuffers(unsigned int* buffers, int n)
+{
+	glGenBuffers(n, buffers);
+}
+
+void Graphics::BindArray(unsigned int array)
+{
+	glBindVertexArray(array);
+}
+
+void Graphics::BindBuffer(unsigned int buffer, GLsizeiptr size, void* data)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+}
+
+void Graphics::VertexAttribPointer(unsigned int vertIndex, int size, GLenum type, GLsizei stride, const void* offset)
+{
+	glVertexAttribPointer(vertIndex, size, type, GL_FALSE, stride, offset);
+	glEnableVertexAttribArray(vertIndex);
+}
+
+void Graphics::DrawArrays(GLenum mode, int first, GLsizei count)
+{
+	glDrawArrays(mode, first, count);
+}
+
+void Graphics::DeleteArrays(unsigned int* arrays, int n)
+{
+	glDeleteVertexArrays(n, arrays);
+}
+
+void Graphics::DeleteBuffers(unsigned int* buffers, int n)
+{
+	glDeleteBuffers(n, buffers);
+}

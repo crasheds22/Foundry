@@ -27,6 +27,19 @@ public:
 
 	static void TerminateGLFW();
 
+	static void GenerateVertexArrays(unsigned int* arrays, int n = 1);
+	static void GenerateBuffers(unsigned int* buffers, int n = 1);
+
+	static void BindArray(unsigned int array);
+	static void BindBuffer(unsigned int buffer, GLsizeiptr size, void* data);
+
+	static void VertexAttribPointer(unsigned int vertIndex, int size, GLenum type, GLsizei stride, const void* offset);
+
+	static void DrawArrays(GLenum mode, int first, GLsizei count);
+
+	static void DeleteArrays(unsigned int* arrays, int n);
+	static void DeleteBuffers(unsigned int* buffers, int n);
+
 private:
 	Graphics() { };
 };
