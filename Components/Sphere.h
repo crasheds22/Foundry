@@ -11,8 +11,6 @@
 
 class Sphere {
 public:
-
-private:
 	glm::vec3 center; // center point
 	float radius; // radius of sphere
 };

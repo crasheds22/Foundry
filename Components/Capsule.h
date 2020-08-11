@@ -12,6 +12,4 @@
 class Capsule {
 public:
 
-private:
-
 };
