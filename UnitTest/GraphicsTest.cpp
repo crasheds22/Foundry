@@ -45,99 +45,66 @@ bool GraphicsTest::DefaultWindowTest()
 
 bool GraphicsTest::Shaders()
 {
+    class ShaderObj
+    {
+    public:
+        unsigned int ID;
+
+        void New(const char* v, const char* f, const char* g)
+        {
+            ID = Shader::New(v, f, g);
+        }
+    };
+
     Graphics::InitializeGLFW();
 
-    GLFWwindow* window = Graphics::CreateWindow(800, 500, "Shaders");
+    GLFWwindow* window = Graphics::CreateWindow(500, 800, "Shaders");
     Graphics::MakeContextCurrent(window);
     Graphics::AssignFrameBufferSizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
     Graphics::InitializeGlad();
 
-	//Retrieve vertex and fragment source code from file
-	std::string vCode, fCode;
-	std::ifstream vFile, fFile;
+    ShaderObj shader;
+    shader.New("../Shaders/Vertex/3.3shader.vert", "../Shaders/Fragment/3.3shader.frag", nullptr);
 
-	vFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	fFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    float vertices[] =
+    {
+         0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
+        -0.5, -0.5, 0.0, 0.0, 1.0, 0.0,
+         0.0,  0.5, 0.0, 0.0, 0.0, 1.0
+    };
 
-	try
-	{
-		//open files
-		vFile.open("../Shaders/Vertex/shader.vert");
-		fFile.open("../Shaders/Fragment/shader.frag");
+    unsigned int VBO, VAO;
+    Graphics::GenerateVertexArrays(&VAO);
+    Graphics::GenerateBuffers(&VBO);
 
-		//read constents into stream
-		std::stringstream vStream, fStream;
-		vStream << vFile.rdbuf();
-		fStream << fFile.rdbuf();
+    Graphics::BindArray(VAO);
 
-		//close files
-		vFile.close();
-		fFile.close();
+    Graphics::BindBuffer(VBO, sizeof(vertices), vertices);
 
-		//convert stream to string
-		vCode = vStream.str();
-		fCode = fStream.str();
-	}
-	catch (std::ifstream::failure e)
-	{
-		std::cout << "ERROR IN LOADING SHADER" << std::endl;
-		return false;
-	}
+    Graphics::VertexAttribPointer(0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
+    Graphics::VertexAttribPointer(1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
-	int vertexShader = Graphics::VertexShader(vCode.c_str());
-	int fragmentShader = Graphics::FragmentShader(fCode.c_str());
-	int shaderProg = Graphics::LinkShaders(vertexShader, fragmentShader);
+    while (!Graphics::ShouldWindowClose(window))
+    {
+        if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+            Graphics::SetWindowShouldClose(window);
 
-	float vertices[] =
-	{
-		 0.5f,  0.5f, 0.0f,
-		 0.0f, -0.5f, 0.0f,
-		-0.5f, -0.5f, 0.0f,
-		-0.5f,  0.5f, 0.0f
-	};
+        Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-	unsigned int indices[] =
-	{
-		0, 1, 3,
-		1, 2, 3
-	};
+        Shader::Use(shader.ID);
 
-	unsigned int VBO, VAO, EBO;
-	Graphics::GenerateArrays(&VAO);
+        Graphics::BindArray(VAO);
+        Graphics::DrawArrays(GL_TRIANGLES, 0, 3);
 
-	Graphics::GenerateBuffers(&VBO);
-	Graphics::GenerateBuffers(&EBO);
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
+    }
 
-	Graphics::BindArray(VAO);
+    Graphics::DeleteArrays(&VAO, 1);
+    Graphics::DeleteBuffers(&VBO, 1);
 
-	Graphics::BindBuffer(eTarget::ArrayBuffer, VBO);
-	Graphics::BufferData(eMode::ArrayBuffer, sizeof(vertices), vertices, eUsage::StaticDraw);
-
-	Graphics::BindBuffer(eTarget::ArrayBuffer, EBO);
-	Graphics::BufferData(eMode::ArrayBuffer, sizeof(indices), indices, eUsage::StaticDraw);
-
-	Graphics::VertexAtttribPointer(0, 3, eType::Float, false, 3 * sizeof(float), (void*)0);
-	Graphics::EnableVertexAttribArray();
-
-	Graphics::BindArray(0);
-
-	while (!Graphics::ShouldWindowClose(window))
-	{
-		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
-			Graphics::SetWindowShouldClose(window);
-
-		Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
-
-		Graphics::UseShaderProgram(shaderProg);
-		Graphics::BindArray(VAO);
-		Graphics::DrawElements(eMode::Traingles, 6, eType::Unsigned_int, 0);
-
-		Graphics::SwapBuffers(window);
-		Graphics::PollForEvents();
-	}
-
-	Graphics::TerminateGLFW();
+    Graphics::TerminateGLFW();
 
     return true;
 }

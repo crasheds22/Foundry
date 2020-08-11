@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../Graphics/Graphics.h"
+#include "../Graphics/Shader.h"
 
 class GraphicsTest :
     public UnitTest
