@@ -65,7 +65,7 @@ bool GraphicsTest::Shaders()
     Graphics::InitializeGlad();
 
     ShaderObj shader;
-    shader.New("../Shaders/Vertex/shader.vert", "../Shaders/Fragment/shader.frag", nullptr);
+    shader.New("../Shaders/Vertex/3.3shader.vert", "../Shaders/Fragment/3.3shader.frag", nullptr);
 
     float vertices[] =
     {
