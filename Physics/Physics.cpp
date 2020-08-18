@@ -15,12 +15,12 @@ float Physics::CalculateLinearKineticEnergy(float mass, float fvelocity)
 	return (mass * (fvelocity * fvelocity)) / 2.0f;
 }
 
-float Physics::CalculateLinearDisplacement(float ivelocity, float fvelocity, float time)
+float Physics::CalculateLinearDisplacementV(float ivelocity, float fvelocity, float time)
 {
 	return (ivelocity + fvelocity) * time / 2.0f;
 }
 
-float Physics::CalculateLinearDisplacement(float ivelocity, float acceleration, float time)
+float Physics::CalculateLinearDisplacementA(float ivelocity, float acceleration, float time)
 {
 	return (ivelocity * time) + (acceleration * (time * time) / 2.0f);
 }
@@ -35,38 +35,38 @@ float Physics::CalculateLinearFinalVelocitySquared(float ivelocity, float accele
 	return (ivelocity * ivelocity) + (acceleration * displacement * 2.0f);
 }
 
-float Physics::CalculateAngularForce(float mass, float acceleration)
+float Physics::CalculateTorque(float inertia, float acceleration)
 {
-	return 0.0f;
+	return inertia * acceleration;
 }
 
-float Physics::CalculateAngularMomentum(float mass, float fvelocity)
+float Physics::CalculateAngularMomentum(float inertia, float fvelocity)
 {
-	return 0.0f;
+	return inertia * fvelocity;
 }
 
-float Physics::CalculateAngularKineticEnergy(float mass, float fvelocity)
+float Physics::CalculateAngularKineticEnergy(float inertia, float fvelocity)
 {
-	return 0.0f;
+	return (inertia * (fvelocity * fvelocity)) / 2.0f;
 }
 
-float Physics::CalculateAngularDisplacement(float ivelocity, float fvelocity, float time)
+float Physics::CalculateAngularDisplacementV(float ivelocity, float fvelocity, float time)
 {
-	return 0.0f;
+	return (ivelocity + fvelocity) * time / 2.0f;
 }
 
-float Physics::CalculateAngularDisplacement(float ivelocity, float acceleration, float time)
+float Physics::CalculateAngularDisplacementA(float ivelocity, float acceleration, float time)
 {
-	return 0.0f;
+	return (ivelocity * time) + (acceleration * (time * time) / 2.0f);
 }
 
 float Physics::CalculateAngularFinalVelocity(float ivelocity, float acceleration, float time)
 {
-	return 0.0f;
+	return (ivelocity + acceleration * time);
 }
 
 float Physics::CalculateAngularFinalVelocitySquared(float ivelocity, float acceleration, float displacement)
 {
-	return 0.0f;
+	return (ivelocity * ivelocity) + (acceleration * displacement * 2.0f);
 }
 
