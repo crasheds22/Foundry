@@ -5,9 +5,9 @@ float CollisionDetection::Squaref(float f) {
 } // end Squaref
 
 bool CollisionDetection::BoxCollision(Box &a, Box &b) {
-	if (a.max.x >= b.min.x && a.min.x <= b.max.x &&
-		a.max.y >= b.min.y && a.min.y <= b.max.y &&
-		a.max.z >= b.min.z && a.min.z <= b.max.z) {
+	if (a.min.x <= b.max.x && a.max.x >= b.min.x &&
+		a.min.y <= b.max.y && a.max.y >= b.min.y &&
+		a.min.z <= b.max.z && a.min.z >= b.max.z) {
 		return true;
 	} // end if
 
@@ -15,9 +15,12 @@ bool CollisionDetection::BoxCollision(Box &a, Box &b) {
 } // end BoxCollision
 
 bool CollisionDetection::SphereCollision(Sphere &a, Sphere &b) {
-	float distance = sqrtf(Squaref(b.center.x - a.center.x) + Squaref(b.center.y - a.center.y) + Squaref(b.center.z - a.center.z));
+	float distance;
+	distance = sqrtf(Squaref(a.center.x * b.center.x) +
+					 Squaref(a.center.y * b.center.y) +
+					 Squaref(a.center.z * b.center.z));
 
-	if ((a.radius + b.radius) > distance) {
+	if (distance < (a.radius + b.radius)) {
 		return true;
 	} // end if
 
@@ -25,19 +28,15 @@ bool CollisionDetection::SphereCollision(Sphere &a, Sphere &b) {
 } // end SphereCollision
 
 bool CollisionDetection::BoxSphereCollision(Box &b, Sphere &s) {
-	float distance = 0.0f;
+	float x = glm::max(b.min.x, glm::min(s.center.x, b.max.x));
+	float y = glm::max(b.min.y, glm::min(s.center.y, b.max.y));
+	float z = glm::max(b.min.z, glm::min(s.center.z, b.max.z));
 
-	// I'm not entirely sure how this formula works (or if I've even implemented it correctly)
-	for (int i = 0; i < 3; i++) {
-		if (s.center[i] < b.min[i]) {
-			distance += Squaref(s.center[i] - b.min[i]);
-		} // end if
-		else if (s.center[i] > b.max[i]) {
-			distance += Squaref(s.center[i] - b.max[i]);
-		} // end else
-	} // end for
+	float distance = sqrtf(Squaref(x - s.center.x) +
+						   Squaref(y - s.center.y) +
+						   Squaref(z - s.center.z));
 
-	if (distance <= Squaref(s.radius)) {
+	if (distance < Squaref(s.radius)) {
 		return true;
 	} // end if
 
