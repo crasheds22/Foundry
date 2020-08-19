@@ -4,9 +4,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "../Graphics/Graphics.h"
-#include "../Graphics/Shader.h"
-
 class GraphicsTest :
     public UnitTest
 {
@@ -16,7 +13,6 @@ public:
     bool Test() override;
     
 private:
-    bool DefaultWindowTest();
-    bool Shaders();
+
 };
 
