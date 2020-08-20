@@ -13,10 +13,15 @@ class ShaderTest
 public:
     unsigned int ID;
 
-    ShaderTest(const char* vPath, const char* fPath, const char* gPath = nullptr)
-    {
-        ID = Shader::New(vPath, fPath, gPath);
-    }
+    ShaderTest(const char* vPath, const char* fPath, const char* gPath = nullptr) : ID(Shader::New(vPath, fPath, gPath)) { }
+};
+
+class TextureTest
+{
+public:
+    unsigned int ID;
+
+    TextureTest(const char* path, bool flip = false, int channels = 3) : ID(Texture::New(path, flip, channels)) { }
 };
 
 bool GraphicsTest::Test()
@@ -28,6 +33,8 @@ bool GraphicsTest::Test()
     allPassed = HelloTriangle();
 
     allPassed = UsingShaders();
+
+    allPassed = Textures();
 
     return allPassed;
 }
@@ -107,7 +114,7 @@ bool GraphicsTest::HelloTriangle()
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(800, 500, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(800, 500, "Hello Triangle", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -257,7 +264,7 @@ bool GraphicsTest::UsingShaders()
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(800, 500, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(800, 500, "Shaders", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -337,6 +344,127 @@ bool GraphicsTest::UsingShaders()
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
+
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    // ------------------------------------------------------------------
+    glfwTerminate();
+
+    return true;
+}
+
+bool GraphicsTest::Textures()
+{
+    // glfw: initialize and configure
+    // ------------------------------
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    // glfw window creation
+    // --------------------
+    GLFWwindow* window = glfwCreateWindow(800, 500, "Textures", NULL, NULL);
+    if (window == NULL)
+    {
+        std::cout << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return false;
+    }
+    glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+
+    // glad: load all OpenGL function pointers
+    // ---------------------------------------
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return false;
+    }
+
+    // build and compile our shader zprogram
+    // ------------------------------------
+    ShaderTest ourShader("../Data/Shaders/4.2.texture.vs", "../Data/Shaders/4.2.texture.fs");
+
+    // set up vertex data (and buffer(s)) and configure vertex attributes
+    // ------------------------------------------------------------------
+    float vertices[] = {
+        // positions          // colors           // texture coords
+         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
+         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
+    };
+    unsigned int indices[] = {
+        0, 1, 3, // first triangle
+        1, 2, 3  // second triangle
+    };
+    unsigned int VBO, VAO, EBO;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    // texture coord attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+    TextureTest texture1("../Data/Textures/container.jpg", true, 3);
+    TextureTest texture2("../Data/Textures/awesomeface.png", true, 4);
+
+    // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
+    // -------------------------------------------------------------------------------------------
+    Shader::Use(ourShader.ID); // don't forget to activate/use the shader before setting uniforms!
+    Shader::setInt(ourShader.ID, "texture1", 0);
+    Shader::setInt(ourShader.ID, "texture2", 1);
+
+    // render loop
+    // -----------
+    while (!glfwWindowShouldClose(window))
+    {
+        // input
+        // -----
+        ProcessInput(window);
+
+        // render
+        // ------
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // bind textures on corresponding texture units
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture1.ID);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, texture2.ID);
+
+        // render container
+        Shader::Use(ourShader.ID);
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    // optional: de-allocate all resources once they've outlived their purpose:
+    // ------------------------------------------------------------------------
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------

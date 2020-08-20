@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../Graphics/Shader.h"
+#include "../Graphics/Texture.h"
 
 class GraphicsTest :
     public UnitTest
@@ -18,5 +19,6 @@ private:
     bool HelloWindow();
     bool HelloTriangle();
     bool UsingShaders();
+    bool Textures();
 };
 

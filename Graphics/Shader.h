@@ -44,6 +44,8 @@ public:
 
 private:
 	Shader() { };
+    Shader(const Shader& S) { };
+    ~Shader() { };
 
     static void checkCompileErrors(unsigned int shader, std::string type);
 };
