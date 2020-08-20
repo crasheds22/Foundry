@@ -13,6 +13,6 @@ public:
     bool Test() override;
     
 private:
-
+    bool HelloWindow();
 };
 
