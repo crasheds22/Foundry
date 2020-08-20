@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "../Graphics/Shader.h"
+
 class GraphicsTest :
     public UnitTest
 {
@@ -15,5 +17,6 @@ public:
 private:
     bool HelloWindow();
     bool HelloTriangle();
+    bool UsingShaders();
 };
 
