@@ -125,6 +125,9 @@ public:
     float lastX{};
     float lastY{};
 
+    float SCR_WIDTH = 800.0f;
+    float SCR_HEIGHT = 500.0f;
+
     CameraTest camera;
     
 private:
@@ -133,5 +136,6 @@ private:
     bool UsingShaders();
     bool Textures();
     bool CameraAndCubes();
+    bool IntroToLighting();
 };
 
