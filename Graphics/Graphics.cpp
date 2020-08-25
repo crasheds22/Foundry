@@ -100,7 +100,12 @@ void _Graphics::BindArray(unsigned int ID)
     glBindVertexArray(ID);
 }
 
-void _Graphics::BindBuffer(BufferType type, unsigned int ID, GLsizeiptr sizeptr, const void* data)
+void _Graphics::BindBuffer(BufferType type, unsigned int ID)
+{
+    glBindBuffer(Deserialise(type), ID);
+}
+
+void _Graphics::BindBufferAndData(BufferType type, unsigned int ID, GLsizeiptr sizeptr, const void* data)
 {
     glBindBuffer(Deserialise(type), ID);
     glBufferData(Deserialise(type), sizeptr, data, GL_STATIC_DRAW);

@@ -44,7 +44,8 @@ public:
 	static void GenerateBuffer(unsigned int& ID, int n = 1);
 
 	static void BindArray(unsigned int ID);
-	static void BindBuffer(BufferType type, unsigned int ID, GLsizeiptr sizeptr, const void* data);
+	static void BindBuffer(BufferType type, unsigned int ID);
+	static void BindBufferAndData(BufferType type, unsigned int ID, GLsizeiptr sizeptr, const void* data);
 	static void VertexAttirbutePointer(int index, int size, GLsizei stride, const void* offset);
 
 	static void UnbindBuffer(BufferType type);
