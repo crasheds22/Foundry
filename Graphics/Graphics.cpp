@@ -1,109 +1,249 @@
 #include "Graphics.h"
 
-#include <iostream>
-#include <cassert>
-
-void Graphics::InitializeGLFW()
+void _Graphics::InitializeGLFW()
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
-void Graphics::InitializeGlad()
+void _Graphics::InitializeGLAD()
 {
-	assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) && "Glad failed to load");
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cerr << "Failed to initialize GLAD" << std::endl;
+        std::exit(1);
+    }
 }
 
-GLFWwindow* Graphics::CreateWindow(int width, int height, std::string title)
+GLFWwindow* _Graphics::CreateWindow(int width, int height, std::string title)
 {
-	GLFWwindow* window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-
-	assert(window != NULL && "GLFW failed to create window");
-
-	return window;
+    GLFWwindow* window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    if (window == NULL)
+    {
+        glfwTerminate();
+        std::cerr << "Failed to create GLFW window" << std::endl;
+        std::exit(1);
+    }
+    return window;
 }
 
-void Graphics::MakeContextCurrent(GLFWwindow* window)
+void _Graphics::MakeWindowCurrent(GLFWwindow* window)
 {
-	glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window);
 }
 
-void Graphics::AssignFrameBufferSizeCallback(GLFWwindow* window, void(*func)(GLFWwindow*, int, int))
+void _Graphics::SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*, int, int))
 {
-	glfwSetFramebufferSizeCallback(window, func);
+    glfwSetFramebufferSizeCallback(window, resize);
 }
 
-void Graphics::SetWindowShouldClose(GLFWwindow* window)
+void _Graphics::SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double))
 {
-	glfwSetWindowShouldClose(window, true);
+    glfwSetCursorPosCallback(window, cursor);
 }
 
-bool Graphics::ShouldWindowClose(GLFWwindow* window)
+void _Graphics::SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double))
 {
-	return glfwWindowShouldClose(window);
+    glfwSetScrollCallback(window, scroll);
 }
 
-void Graphics::Clear(float r, float g, float b, float a)
+void _Graphics::CaptureMouse(GLFWwindow* window)
 {
-	glClearColor(r, g, b, a);
-	glClear(GL_COLOR_BUFFER_BIT);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-void Graphics::SwapBuffers(GLFWwindow* window)
+bool _Graphics::ShouldWindowClose(GLFWwindow* window)
 {
-	glfwSwapBuffers(window);
+    return glfwWindowShouldClose(window);
 }
 
-void Graphics::PollForEvents()
+void _Graphics::SetWindowShouldClose(GLFWwindow* window)
 {
-	glfwPollEvents();
+    glfwSetWindowShouldClose(window, true);
 }
 
-void Graphics::TerminateGLFW()
+void _Graphics::Clear(float r, float b, float g, float a)
 {
-	glfwTerminate();
+    glClearColor(r, g, b, a);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Graphics::GenerateVertexArrays(unsigned int* arrays, int n)
+void _Graphics::SwapBuffers(GLFWwindow* window)
 {
-	glGenVertexArrays(n, arrays);
+    glfwSwapBuffers(window);
 }
 
-void Graphics::GenerateBuffers(unsigned int* buffers, int n)
+void _Graphics::PollForEvents()
 {
-	glGenBuffers(n, buffers);
+    glfwPollEvents();
 }
 
-void Graphics::BindArray(unsigned int array)
+void _Graphics::Terminate()
 {
-	glBindVertexArray(array);
+    glfwTerminate();
 }
 
-void Graphics::BindBuffer(unsigned int buffer, GLsizeiptr size, void* data)
+void _Graphics::GenerateVertexArrays(unsigned int& ID, int n)
 {
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+    glGenVertexArrays(n, &ID);
 }
 
-void Graphics::VertexAttribPointer(unsigned int vertIndex, int size, GLenum type, GLsizei stride, const void* offset)
+void _Graphics::GenerateBuffer(unsigned int& ID, int n)
 {
-	glVertexAttribPointer(vertIndex, size, type, GL_FALSE, stride, offset);
-	glEnableVertexAttribArray(vertIndex);
+    glGenBuffers(n, &ID);
 }
 
-void Graphics::DrawArrays(GLenum mode, int first, GLsizei count)
+void _Graphics::BindArray(unsigned int ID)
 {
-	glDrawArrays(mode, first, count);
+    glBindVertexArray(ID);
 }
 
-void Graphics::DeleteArrays(unsigned int* arrays, int n)
+void _Graphics::BindBuffer(BufferType type, unsigned int ID)
 {
-	glDeleteVertexArrays(n, arrays);
+    glBindBuffer(Deserialise(type), ID);
 }
 
-void Graphics::DeleteBuffers(unsigned int* buffers, int n)
+void _Graphics::BindBufferAndData(BufferType type, unsigned int ID, GLsizeiptr sizeptr, const void* data)
 {
-	glDeleteBuffers(n, buffers);
+    glBindBuffer(Deserialise(type), ID);
+    glBufferData(Deserialise(type), sizeptr, data, GL_STATIC_DRAW);
+}
+
+void _Graphics::VertexAttirbutePointer(int index, int size, GLsizei stride, const void* offset)
+{
+    glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, offset);
+    glEnableVertexAttribArray(index);
+}
+
+void _Graphics::UnbindBuffer(BufferType type)
+{
+    glBindBuffer(Deserialise(type), 0);
+}
+
+void _Graphics::UnbindArray()
+{
+    glBindVertexArray(0);
+}
+
+void _Graphics::DrawElements(Shape shapes, GLsizei count, DataType type, const void* indices)
+{
+    glDrawElements(Deserialise(shapes), count, Deserialise(type), indices);
+}
+
+void _Graphics::DrawArrays(Shape shapes, int first, GLsizei count)
+{
+    glDrawArrays(Deserialise(shapes), first, count);
+}
+
+void _Graphics::DeleteBuffers(unsigned int& ID, int n)
+{
+    glDeleteBuffers(n, &ID);
+}
+
+void _Graphics::DeleteArrays(unsigned int& ID, int n)
+{
+    glDeleteVertexArrays(n, &ID);
+}
+
+void _Graphics::DeleteProgram(unsigned int ID)
+{
+    glDeleteProgram(ID);
+}
+
+void _Graphics::BindTextureOnUnit(Unit unit, unsigned int ID)
+{
+    glActiveTexture(Deserialise(unit));
+    glBindTexture(GL_TEXTURE_2D, ID);
+}
+
+void _Graphics::SetWindowUserPointer(GLFWwindow* window, void* pointer)
+{
+    glfwSetWindowUserPointer(window, pointer);
+}
+
+void _Graphics::Enable(Capability cap)
+{
+    glEnable(Deserialise(cap));
+}
+
+void _Graphics::Disable(Capability cap)
+{
+    glDisable(Deserialise(cap));
+}
+
+float _Graphics::GetTime()
+{
+    return glfwGetTime();
+}
+
+
+
+
+GLenum _Graphics::Deserialise(BufferType type)
+{
+    switch (type)
+    {
+    case BufferType::ARRAY:
+        return GL_ARRAY_BUFFER;
+    case BufferType::ELEMENT:
+        return GL_ELEMENT_ARRAY_BUFFER;
+    }
+}
+
+GLenum _Graphics::Deserialise(Shape type)
+{
+    switch (type)
+    {
+    case Shape::TRIANGLES:
+        return GL_TRIANGLES;
+    }
+}
+
+GLenum _Graphics::Deserialise(DataType type)
+{
+    switch (type)
+    {
+    case DataType::FLOAT:
+        return GL_FLOAT;
+    case DataType::UNSIGNED_INT:
+        return GL_UNSIGNED_INT;
+    }
+}
+
+GLenum _Graphics::Deserialise(Unit unit)
+{
+    switch (unit)
+    {
+    case Unit::ZERO:
+        return GL_TEXTURE0;
+    case Unit::ONE:
+        return GL_TEXTURE1;
+    case Unit::TWO:
+        return GL_TEXTURE2;
+    case Unit::THREE:
+        return GL_TEXTURE3;
+    case Unit::FOUR:
+        return GL_TEXTURE4;
+    case Unit::FIVE:
+        return GL_TEXTURE5;
+    case Unit::SIX:
+        return GL_TEXTURE6;
+    case Unit::SEVEN:
+        return GL_TEXTURE7;
+    case Unit::EIGHT:
+        return GL_TEXTURE8;
+    case Unit::NINE:
+        return GL_TEXTURE9;
+    }
+}
+
+GLenum _Graphics::Deserialise(Capability cap)
+{
+    switch (cap)
+    {
+    case Capability::DEPTH:
+        return GL_DEPTH_TEST;
+    }
 }

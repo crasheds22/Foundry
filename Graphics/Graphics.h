@@ -1,45 +1,81 @@
 #pragma once
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <string>
-#include <stdexcept>
 
-class Graphics
+#include <string>
+#include <iostream>
+
+class _Graphics
 {
 public:
+	enum class BufferType { ELEMENT, ARRAY };
+
+	enum class Shape { TRIANGLES };
+
+	enum class DataType { UNSIGNED_INT, FLOAT };
+
+	enum class Unit { ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE };
+
+	enum class Capability { DEPTH };
+
 	static void InitializeGLFW();
-	static void InitializeGlad();
-
+	static void InitializeGLAD();
 	static GLFWwindow* CreateWindow(int width, int height, std::string title);
+	static void MakeWindowCurrent(GLFWwindow* window);
 
-	static void MakeContextCurrent(GLFWwindow* window);
+	static void SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*, int, int));
+	static void SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double));
+	static void SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double));
 
-	static void AssignFrameBufferSizeCallback(GLFWwindow* window, void(*func)(GLFWwindow*, int, int));
+	static void CaptureMouse(GLFWwindow* window);
 
 	static bool ShouldWindowClose(GLFWwindow* window);
 	static void SetWindowShouldClose(GLFWwindow* window);
 
-	static void Clear(float r = 0.0f, float g = 0.0f, float b = 0.0f, float a = 0.0f);
+	static void Clear(float r = 0.0f, float b = 0.0f, float g = 0.0f, float a = 0.0f);
 
 	static void SwapBuffers(GLFWwindow* window);
-
 	static void PollForEvents();
 
-	static void TerminateGLFW();
+	static void Terminate();
 
-	static void GenerateVertexArrays(unsigned int* arrays, int n = 1);
-	static void GenerateBuffers(unsigned int* buffers, int n = 1);
+	static void GenerateVertexArrays(unsigned int& ID, int n = 1);
+	static void GenerateBuffer(unsigned int& ID, int n = 1);
 
-	static void BindArray(unsigned int array);
-	static void BindBuffer(unsigned int buffer, GLsizeiptr size, void* data);
+	static void BindArray(unsigned int ID);
+	static void BindBuffer(BufferType type, unsigned int ID);
+	static void BindBufferAndData(BufferType type, unsigned int ID, GLsizeiptr sizeptr, const void* data);
+	static void VertexAttirbutePointer(int index, int size, GLsizei stride, const void* offset);
 
-	static void VertexAttribPointer(unsigned int vertIndex, int size, GLenum type, GLsizei stride, const void* offset);
+	static void UnbindBuffer(BufferType type);
+	static void UnbindArray();
 
-	static void DrawArrays(GLenum mode, int first, GLsizei count);
+	static void DrawElements(Shape shapes, GLsizei count, DataType type, const void* indices);
+	static void DrawArrays(Shape shapes, int first, GLsizei count);
 
-	static void DeleteArrays(unsigned int* arrays, int n);
-	static void DeleteBuffers(unsigned int* buffers, int n);
+	static void DeleteBuffers(unsigned int& ID, int n);
+	static void DeleteArrays(unsigned int& ID, int n);
+
+	static void DeleteProgram(unsigned int ID);
+
+	static void BindTextureOnUnit(Unit unit, unsigned int ID);
+
+	static void SetWindowUserPointer(GLFWwindow* window, void* pointer);
+
+	static void Enable(Capability cap);
+	static void Disable(Capability cap);
+
+	static float GetTime();
 
 private:
-	Graphics() { };
+	_Graphics() { };
+	_Graphics(const _Graphics& G) { };
+	~_Graphics() { };
+
+	static GLenum Deserialise(BufferType type);
+	static GLenum Deserialise(Shape type);
+	static GLenum Deserialise(DataType type);
+	static GLenum Deserialise(Unit unit);
+	static GLenum Deserialise(Capability cap);
 };
