@@ -40,16 +40,11 @@ bool GraphicsTest::Test()
 {
     bool allPassed = false;
 
-    //allPassed = HelloWindow();
-
-    //allPassed = HelloTriangle();
-
-    //allPassed = UsingShaders();
-
-    //allPassed = Textures();
-
-    //allPassed = CameraAndCubes();
-
+    allPassed = HelloWindow();
+    allPassed = HelloTriangle();
+    allPassed = UsingShaders();
+    allPassed = Textures();
+    allPassed = CameraAndCubes();
     allPassed = IntroToLighting();
 
     return allPassed;
@@ -84,34 +79,21 @@ void GraphicsTest::ScrollCallback(GLFWwindow* window, double xOff, double yOff)
 
 bool GraphicsTest::HelloWindow()
 {
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    _Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(800, 500, "HelloWindow", NULL, NULL);
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return false;
-    }
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hello window");
+    _Graphics::MakeWindowCurrent(window);
+    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return false;
-    }
+    _Graphics::InitializaGLAD();
 
     // render loop
     // -----------
-    while (!glfwWindowShouldClose(window))
+    while (!_Graphics::ShouldWindowClose(window))
     {
         // input
         // -----
@@ -119,18 +101,17 @@ bool GraphicsTest::HelloWindow()
 
         // render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
+        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        _Graphics::SwapBuffers(window);
+        _Graphics::PollForEvents();
     }
 
-    glfwTerminate();
+    _Graphics::Terminate();
 
-    return false;
+    return true;
 }
 
 bool GraphicsTest::HelloTriangle()
