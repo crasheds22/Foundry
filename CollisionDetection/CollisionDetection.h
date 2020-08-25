@@ -8,10 +8,14 @@
 */
 
 #include <glm/glm.hpp>
+
+#include "../ECS_core/System.h"
+
 #include "../Components/Box.h"
 #include "../Components/Sphere.h"
 
-class CollisionDetection {
+class CollisionDetection : public ECS::System
+{
 public:
 
 private:
