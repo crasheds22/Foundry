@@ -149,6 +149,11 @@ void Shader::setMat4(unsigned int ID, const std::string& name, const glm::mat4& 
     glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 }
 
+void Shader::DeleteShader(unsigned int ID)
+{
+    glDeleteProgram(ID);
+}
+
 void Shader::checkCompileErrors(unsigned int shader, std::string type)
 {
     int success;

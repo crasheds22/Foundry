@@ -42,6 +42,8 @@ public:
 
     static void setMat4 (unsigned int ID, const std::string& name, const glm::mat4& mat);
 
+    static void DeleteShader(unsigned int ID);
+
 private:
 	Shader() { };
     Shader(const Shader& S) { };
