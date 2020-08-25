@@ -405,40 +405,27 @@ bool GraphicsTest::CameraAndCubes()
 
     // glfw: initialize and configure
     // ------------------------------
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    _Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(800, 500, "LearnOpenGL", NULL, NULL);
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-    glfwSetWindowUserPointer(window, this);
-    glfwSetFramebufferSizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    glfwSetCursorPosCallback(window, GraphicsTest::MouseCallback);
-    glfwSetScrollCallback(window, GraphicsTest::ScrollCallback);
+    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Camera and Cubes");
+    _Graphics::MakeWindowCurrent(window);
+    _Graphics::SetWindowUserPointer(window, this);
+    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    _Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
+    _Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
 
     // tell GLFW to capture our mouse
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    _Graphics::CaptureMouse(window);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
+    _Graphics::InitializeGLAD();
 
     // configure global opengl state
     // -----------------------------
-    glEnable(GL_DEPTH_TEST);
+    _Graphics::Enable(_Graphics::Capability::DEPTH);
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -503,20 +490,17 @@ bool GraphicsTest::CameraAndCubes()
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
     unsigned int VBO, VAO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    _Graphics::GenerateVertexArrays(VAO);
+    _Graphics::GenerateBuffer(VBO);
 
-    glBindVertexArray(VAO);
+    _Graphics::BindArray(VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    _Graphics::BindBuffer(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    _Graphics::VertexAttirbutePointer(0, 3, 5 * sizeof(float), (void*)0);
     // texture coord attribute
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    _Graphics::VertexAttirbutePointer(1, 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
 
     // load and create a texture 
@@ -533,11 +517,11 @@ bool GraphicsTest::CameraAndCubes()
 
     // render loop
     // -----------
-    while (!glfwWindowShouldClose(window))
+    while (!_Graphics::ShouldWindowClose(window))
     {
         // per-frame time logic
         // --------------------
-        float currentFrame = glfwGetTime();
+        float currentFrame = _Graphics::GetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
@@ -547,14 +531,11 @@ bool GraphicsTest::CameraAndCubes()
 
         // render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1.ID);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture2.ID);
+        _Graphics::BindTextureOnUnit(_Graphics::Unit::ZERO, texture1.ID);
+        _Graphics::BindTextureOnUnit(_Graphics::Unit::ONE, texture2.ID);
 
         // activate shader
         Shader::Use(ourShader.ID);
@@ -568,7 +549,7 @@ bool GraphicsTest::CameraAndCubes()
         Shader::setMat4(ourShader.ID, "view", view);
 
         // render boxes
-        glBindVertexArray(VAO);
+        _Graphics::BindArray(VAO);
         for (unsigned int i = 0; i < 10; i++)
         {
             // calculate the model matrix for each object and pass it to shader before drawing
@@ -578,23 +559,23 @@ bool GraphicsTest::CameraAndCubes()
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             Shader::setMat4(ourShader.ID, "model", model);
 
-            glDrawArrays(GL_TRIANGLES, 0, 36);
+            _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
         }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        _Graphics::SwapBuffers(window);
+        _Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
+    _Graphics::DeleteArrays(VAO, 1);
+    _Graphics::DeleteBuffers(VBO, 1);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    glfwTerminate();
+    _Graphics::Terminate();
 
     return true;
 }

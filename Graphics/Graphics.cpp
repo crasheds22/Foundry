@@ -39,6 +39,21 @@ void _Graphics::SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*,
     glfwSetFramebufferSizeCallback(window, resize);
 }
 
+void _Graphics::SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double))
+{
+    glfwSetCursorPosCallback(window, cursor);
+}
+
+void _Graphics::SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double))
+{
+    glfwSetScrollCallback(window, scroll);
+}
+
+void _Graphics::CaptureMouse(GLFWwindow* window)
+{
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
 bool _Graphics::ShouldWindowClose(GLFWwindow* window)
 {
     return glfwWindowShouldClose(window);
@@ -52,7 +67,7 @@ void _Graphics::SetWindowShouldClose(GLFWwindow* window)
 void _Graphics::Clear(float r, float b, float g, float a)
 {
     glClearColor(r, g, b, a);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void _Graphics::SwapBuffers(GLFWwindow* window)
@@ -138,6 +153,26 @@ void _Graphics::BindTextureOnUnit(Unit unit, unsigned int ID)
     glBindTexture(GL_TEXTURE_2D, ID);
 }
 
+void _Graphics::SetWindowUserPointer(GLFWwindow* window, void* pointer)
+{
+    glfwSetWindowUserPointer(window, pointer);
+}
+
+void _Graphics::Enable(Capability cap)
+{
+    glEnable(Deserialise(cap));
+}
+
+void _Graphics::Disable(Capability cap)
+{
+    glDisable(Deserialise(cap));
+}
+
+float _Graphics::GetTime()
+{
+    return glfwGetTime();
+}
+
 
 
 
@@ -196,5 +231,14 @@ GLenum _Graphics::Deserialise(Unit unit)
         return GL_TEXTURE8;
     case Unit::NINE:
         return GL_TEXTURE9;
+    }
+}
+
+GLenum _Graphics::Deserialise(Capability cap)
+{
+    switch (cap)
+    {
+    case Capability::DEPTH:
+        return GL_DEPTH_TEST;
     }
 }
