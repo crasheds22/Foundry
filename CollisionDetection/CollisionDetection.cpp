@@ -21,22 +21,22 @@ bool CollisionDetection::BoxCollision(Component::Box &a, Component::Box &b)
 
 bool CollisionDetection::SphereCollision(Component::Sphere &a, Component::Sphere &b) 
 {
-	float distance = sqrtf(Squaref(a.center.x * b.center.x) +
-							Squaref(a.center.y * b.center.y) +
-							Squaref(a.center.z * b.center.z));
+	float distance = sqrtf(Squaref(a.Centre().x * b.Centre().x) +
+						   Squaref(a.Centre().y * b.Centre().y) +
+						   Squaref(a.Centre().z * b.Centre().z));
 
-	return distance < (a.radius + b.radius);
+	return distance < (a.Radius(0 + b.Radius());
 } // end SphereCollision
 
 bool CollisionDetection::BoxSphereCollision(Component::Box &b, Component::Sphere &s) 
 {
-	float x = glm::max(b.Min().x, glm::min(s.center.x, b.Max().x));
-	float y = glm::max(b.Min().y, glm::min(s.center.y, b.Max().y));
-	float z = glm::max(b.Min().z, glm::min(s.center.z, b.Max().z));
+	float x = glm::max(b.Min().x, glm::min(s.Centre().x, b.Max().x));
+	float y = glm::max(b.Min().y, glm::min(s.Centre().y, b.Max().y));
+	float z = glm::max(b.Min().z, glm::min(s.Centre().z, b.Max().z));
 
-	float distance = sqrtf(Squaref(x - s.center.x) +
-						   Squaref(y - s.center.y) +
-						   Squaref(z - s.center.z));
+	float distance = sqrtf(Squaref(x - s.Centre().x) +
+						   Squaref(y - s.Centre().y) +
+						   Squaref(z - s.Centre().z));
 
-	return distance < Squaref(s.radius);
+	return distance < Squaref(s.Radius());
 } // end BoxSphereCollision
