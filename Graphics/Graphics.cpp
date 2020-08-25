@@ -112,6 +112,11 @@ void _Graphics::DrawElements(Shape shapes, GLsizei count, DataType type, const v
     glDrawElements(Deserialise(shapes), count, Deserialise(type), indices);
 }
 
+void _Graphics::DrawArrays(Shape shapes, int first, GLsizei count)
+{
+    glDrawArrays(Deserialise(shapes), first, count);
+}
+
 void _Graphics::DeleteBuffers(unsigned int& ID, int n)
 {
     glDeleteBuffers(n, &ID);

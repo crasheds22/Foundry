@@ -43,6 +43,7 @@ public:
 	static void UnbindArray();
 
 	static void DrawElements(Shape shapes, GLsizei count, DataType type, const void* indices);
+	static void DrawArrays(Shape shapes, int first, GLsizei count);
 
 	static void DeleteBuffers(unsigned int& ID, int n);
 	static void DeleteArrays(unsigned int& ID, int n);
