@@ -15,8 +15,10 @@ public:
 
 	enum class DataType { UNSIGNED_INT, FLOAT };
 
+	enum class Unit { ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE };
+
 	static void InitializeGLFW();
-	static void InitializaGLAD();
+	static void InitializeGLAD();
 	static GLFWwindow* CreateWindow(int width, int height, std::string title);
 	static void MakeWindowCurrent(GLFWwindow* window);
 
@@ -49,6 +51,8 @@ public:
 	static void DeleteArrays(unsigned int& ID, int n);
 
 	static void DeleteProgram(unsigned int ID);
+
+	static void BindTextureOnUnit(Unit unit, unsigned int ID);
 private:
 	_Graphics() { };
 	_Graphics(const _Graphics& G) { };
@@ -57,4 +61,5 @@ private:
 	static GLenum Deserialise(BufferType type);
 	static GLenum Deserialise(Shape type);
 	static GLenum Deserialise(DataType type);
+	static GLenum Deserialise(Unit unit);
 };

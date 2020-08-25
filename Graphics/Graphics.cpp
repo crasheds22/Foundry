@@ -8,7 +8,7 @@ void _Graphics::InitializeGLFW()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
-void _Graphics::InitializaGLAD()
+void _Graphics::InitializeGLAD()
 {
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -132,6 +132,12 @@ void _Graphics::DeleteProgram(unsigned int ID)
     glDeleteProgram(ID);
 }
 
+void _Graphics::BindTextureOnUnit(Unit unit, unsigned int ID)
+{
+    glActiveTexture(Deserialise(unit));
+    glBindTexture(GL_TEXTURE_2D, ID);
+}
+
 
 
 
@@ -163,5 +169,32 @@ GLenum _Graphics::Deserialise(DataType type)
         return GL_FLOAT;
     case DataType::UNSIGNED_INT:
         return GL_UNSIGNED_INT;
+    }
+}
+
+GLenum _Graphics::Deserialise(Unit unit)
+{
+    switch (unit)
+    {
+    case Unit::ZERO:
+        return GL_TEXTURE0;
+    case Unit::ONE:
+        return GL_TEXTURE1;
+    case Unit::TWO:
+        return GL_TEXTURE2;
+    case Unit::THREE:
+        return GL_TEXTURE3;
+    case Unit::FOUR:
+        return GL_TEXTURE4;
+    case Unit::FIVE:
+        return GL_TEXTURE5;
+    case Unit::SIX:
+        return GL_TEXTURE6;
+    case Unit::SEVEN:
+        return GL_TEXTURE7;
+    case Unit::EIGHT:
+        return GL_TEXTURE8;
+    case Unit::NINE:
+        return GL_TEXTURE9;
     }
 }
