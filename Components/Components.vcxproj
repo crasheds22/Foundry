@@ -142,7 +142,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
-    <ClInclude Include="Capsule.h" />
     <ClInclude Include="Sphere.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

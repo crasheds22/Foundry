@@ -9,8 +9,12 @@
 
 #include <glm/glm.hpp>
 
-class Sphere {
-public:
-	glm::vec3 center; // center point
-	float radius; // radius of sphere
-};
+namespace Component
+{
+	class Sphere 
+	{
+	public:
+		glm::vec3 center; // center point
+		float radius; // radius of sphere
+	};
+}

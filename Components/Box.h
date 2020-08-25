@@ -9,8 +9,12 @@
 
 #include <glm/glm.hpp>
 
-class Box {
-public:
-	glm::vec3 min; // minimum point
-	glm::vec3 max; // maximum point
-};
+namespace Component
+{
+	class Box 
+	{
+	public:
+		glm::vec3 min; // minimum point
+		glm::vec3 max; // maximum point
+	};
+}
