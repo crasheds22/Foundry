@@ -40,12 +40,12 @@ bool GraphicsTest::Test()
 {
     bool allPassed = false;
 
-    //allPassed = HelloWindow();
-    //allPassed = HelloTriangle();
-    //allPassed = UsingShaders();
-    //allPassed = Textures();
-    //allPassed = CameraAndCubes();
-    //allPassed = IntroToLighting();
+    allPassed = HelloWindow();
+    allPassed = HelloTriangle();
+    allPassed = UsingShaders();
+    allPassed = Textures();
+    allPassed = CameraAndCubes();
+    allPassed = IntroToLighting();
     allPassed = Lighting();
 
     return allPassed;
