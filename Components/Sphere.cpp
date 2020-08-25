@@ -21,7 +21,7 @@ namespace Component
 	
 	void Sphere::Centre(glm::vec3 centre)
 	{
-		this->mCentre = centre;
+		mCentre = centre;
 	}
 	
 	float Sphere::Radius() const
@@ -31,6 +31,6 @@ namespace Component
 	
 	void Sphere::Radius(float radius)
 	{
-		this->mRadius = radius;
+		mRadius = radius;
 	}
 }

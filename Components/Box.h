@@ -19,12 +19,12 @@ namespace Component
 		~Box();
 
 		glm::vec3 Max() const;
-		void Max(glm::vec3 newMax);
+		void Max(glm::vec3 max);
 		glm::vec3 Min() const;
-		void Min(glm::vec3 newMin);
+		void Min(glm::vec3 min);
 
 	private:
-		glm::vec3 min; // minimum point
-		glm::vec3 max; // maximum point
+		glm::vec3 mMin; // minimum point
+		glm::vec3 mMax; // maximum point
 	};
 }

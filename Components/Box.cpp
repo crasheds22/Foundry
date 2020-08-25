@@ -2,11 +2,11 @@
 
 namespace Component
 {
-	Box::Box(glm::vec3 min, glm::vec3 max) : min(min), max(max)
+	Box::Box(glm::vec3 min, glm::vec3 max) : mMin(min), mMax(max)
 	{
 	}
 
-	Box::Box(const Box& b) : min(b.min), max(b.max)
+	Box::Box(const Box& b) : mMin(b.mMin), mMax(b.mMax)
 	{
 	}
 	
@@ -16,21 +16,21 @@ namespace Component
 	
 	glm::vec3 Box::Max() const
 	{
-		return max;
+		return mMax;
 	}
 
-	void Box::Max(glm::vec3 newMax)
+	void Box::Max(glm::vec3 max)
 	{
-		max = newMax;
+		mMax = max;
 	}
 	
 	glm::vec3 Box::Min() const
 	{
-		return min;
+		return mMin;
 	}
 
-	void Box::Min(glm::vec3 newMin)
+	void Box::Min(glm::vec3 min)
 	{
-		min = newMin;
+		mMin = min;
 	}
 }
