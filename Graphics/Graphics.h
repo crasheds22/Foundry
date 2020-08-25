@@ -9,6 +9,12 @@
 class _Graphics
 {
 public:
+	enum class BufferType { ELEMENT, ARRAY };
+
+	enum class Shape { TRIANGLES };
+
+	enum class DataType { UNSIGNED_INT, FLOAT };
+
 	static void InitializeGLFW();
 	static void InitializaGLAD();
 	static GLFWwindow* CreateWindow(int width, int height, std::string title);
@@ -25,8 +31,29 @@ public:
 	static void PollForEvents();
 
 	static void Terminate();
+
+	static void GenerateVertexArrays(unsigned int& ID, int n = 1);
+	static void GenerateBuffer(unsigned int& ID, int n = 1);
+
+	static void BindArray(unsigned int ID);
+	static void BindBuffer(BufferType type, unsigned int ID, GLsizeiptr sizeptr, const void* data);
+	static void VertexAttirbutePointer(int index, int size, GLsizei stride, const void* offset);
+
+	static void UnbindBuffer(BufferType type);
+	static void UnbindArray();
+
+	static void DrawElements(Shape shapes, GLsizei count, DataType type, const void* indices);
+
+	static void DeleteBuffers(unsigned int& ID, int n);
+	static void DeleteArrays(unsigned int& ID, int n);
+
+	static void DeleteProgram(unsigned int ID);
 private:
 	_Graphics() { };
 	_Graphics(const _Graphics& G) { };
 	~_Graphics() { };
+
+	static GLenum Deserialise(BufferType type);
+	static GLenum Deserialise(Shape type);
+	static GLenum Deserialise(DataType type);
 };
