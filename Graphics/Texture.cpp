@@ -7,43 +7,43 @@
 
 #include <iostream>
 
-unsigned int Texture::New(const char* path, bool flip, int channels)
+unsigned int Texture::New(const char* path, bool flip)
 {
     // load and create a texture 
     // -------------------------
-    unsigned int ID;
+    unsigned int texID;
+    glGenTextures(1, &texID);
 
-    glGenTextures(1, &ID);
-    glBindTexture(GL_TEXTURE_2D, ID);
-    // set the texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // load image, create texture and generate mipmaps
-    int width, height, nrChannels;
-    
-    if(flip) 
-        stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-    else
-        stbi_set_flip_vertically_on_load(false);
-    
-    unsigned char* data = stbi_load(path, &width, &height, &nrChannels, 0);
+    stbi_set_flip_vertically_on_load(flip);
+
+    int width, height, channel;
+    unsigned char* data = stbi_load(path, &width, &height, &channel, 0);
     if (data)
     {
-        if(channels == 3)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        else if(channels == 4)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        GLenum format;
+        if (channel == 1)
+            format = GL_RED;
+        else if (channel == 3)
+            format = GL_RGB;
+        else if (channel == 4)
+            format = GL_RGBA;
 
+        glBindTexture(GL_TEXTURE_2D, texID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
     }
     else
     {
         std::cout << "Failed to load texture" << std::endl;
+        stbi_image_free(data);
     }
-    stbi_image_free(data);
 
-    return ID;
+    return texID;
 }
