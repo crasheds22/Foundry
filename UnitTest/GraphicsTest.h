@@ -138,5 +138,7 @@ private:
     bool Textures();
     bool CameraAndCubes();
     bool IntroToLighting();
+    bool Lighting();
+
 };
 

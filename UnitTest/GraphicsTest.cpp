@@ -33,7 +33,7 @@ class TextureTest
 public:
     unsigned int ID;
 
-    TextureTest(const char* path, bool flip = false, int channels = 3) : ID(Texture::New(path, flip, channels)) { }
+    TextureTest(const char* path, bool flip = false) : ID(Texture::New(path, flip)) { }
 };
 
 bool GraphicsTest::Test()
@@ -46,6 +46,7 @@ bool GraphicsTest::Test()
     allPassed = Textures();
     allPassed = CameraAndCubes();
     allPassed = IntroToLighting();
+    allPassed = Lighting();
 
     return allPassed;
 }
@@ -344,8 +345,8 @@ bool GraphicsTest::Textures()
     // texture coord attribute
     _Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
-    TextureTest texture1("../Data/Textures/container.jpg", true, 3);
-    TextureTest texture2("../Data/Textures/awesomeface.png", true, 4);
+    TextureTest texture1("../Data/Textures/container.jpg", true);
+    TextureTest texture2("../Data/Textures/awesomeface.png");
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
@@ -505,8 +506,8 @@ bool GraphicsTest::CameraAndCubes()
 
     // load and create a texture 
     // -------------------------
-    TextureTest texture1("../Data/Textures/container.jpg", true);
-    TextureTest texture2("../Data/Textures/awesomeface.png", true, 4);
+    TextureTest texture1("../Data/Textures/container.jpg");
+    TextureTest texture2("../Data/Textures/awesomeface.png", true);
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
@@ -742,6 +743,290 @@ bool GraphicsTest::IntroToLighting()
 
         _Graphics::BindArray(lightCubeVAO);
         _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
+
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        _Graphics::SwapBuffers(window);
+        _Graphics::PollForEvents();
+    }
+
+    // optional: de-allocate all resources once they've outlived their purpose:
+    // ------------------------------------------------------------------------
+    _Graphics::DeleteArrays(cubeVAO, 1);
+    _Graphics::DeleteArrays(lightCubeVAO, 1);
+    _Graphics::DeleteBuffers(VBO, 1);
+
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    // ------------------------------------------------------------------
+    _Graphics::Terminate();
+
+    return true;
+}
+
+bool GraphicsTest::Lighting()
+{
+    glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
+    camera = CameraTest(glm::vec3(0.0f, 0.0f, 3.0f));
+
+    deltaTime = 0.0f;
+    lastFrame = 0.0f;
+    lastX = SCR_WIDTH / 2.0f;
+    lastY = SCR_HEIGHT / 2.0f;
+    FirstMouse = true;
+
+    // glfw: initialize and configure
+    // ------------------------------
+    _Graphics::InitializeGLFW();
+
+    // glfw window creation
+    // --------------------
+    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Light scene");
+    _Graphics::MakeWindowCurrent(window);
+    _Graphics::SetWindowUserPointer(window, this);
+    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    _Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
+    _Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
+
+    // tell GLFW to capture our mouse
+    _Graphics::CaptureMouse(window);
+
+    // glad: load all OpenGL function pointers
+    // ---------------------------------------
+    _Graphics::InitializeGLAD();
+
+    // configure global opengl state
+    // -----------------------------
+    _Graphics::Enable(_Graphics::Capability::DEPTH);
+
+    // build and compile our shader zprogram
+    // ------------------------------------
+    ShaderTest lightingShader("../Data/Shaders/6.multiple_lights.vs", "../Data/Shaders/6.multiple_lights.fs");
+    ShaderTest lightCubeShader("../Data/Shaders/6.light_cube.vs", "../Data/Shaders/6.light_cube.fs");
+
+    // set up vertex data (and buffer(s)) and configure vertex attributes
+    // ------------------------------------------------------------------
+    float vertices[] = {
+        // positions          // normals           // texture coords
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f,  1.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f,  0.0f,
+
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  1.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f,
+
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+        -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f,  0.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f,  1.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  1.0f
+    };
+    // positions all containers
+    glm::vec3 cubePositions[] = {
+        glm::vec3(0.0f,  0.0f,  0.0f),
+        glm::vec3(2.0f,  5.0f, -15.0f),
+        glm::vec3(-1.5f, -2.2f, -2.5f),
+        glm::vec3(-3.8f, -2.0f, -12.3f),
+        glm::vec3(2.4f, -0.4f, -3.5f),
+        glm::vec3(-1.7f,  3.0f, -7.5f),
+        glm::vec3(1.3f, -2.0f, -2.5f),
+        glm::vec3(1.5f,  2.0f, -2.5f),
+        glm::vec3(1.5f,  0.2f, -1.5f),
+        glm::vec3(-1.3f,  1.0f, -1.5f)
+    };
+    // positions of the point lights
+    glm::vec3 pointLightPositions[] = {
+        glm::vec3(0.7f,  0.2f,  2.0f),
+        glm::vec3(2.3f, -3.3f, -4.0f),
+        glm::vec3(-4.0f,  2.0f, -12.0f),
+        glm::vec3(0.0f,  0.0f, -3.0f)
+    };
+    // first, configure the cube's VAO (and VBO)
+    unsigned int VBO, cubeVAO;
+    _Graphics::GenerateVertexArrays(cubeVAO);
+    _Graphics::GenerateBuffer(VBO);
+
+    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+
+    _Graphics::BindArray(cubeVAO);
+    _Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
+    _Graphics::VertexAttirbutePointer(1, 3, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    _Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+    // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+    unsigned int lightCubeVAO;
+    _Graphics::GenerateVertexArrays(lightCubeVAO);
+    _Graphics::BindArray(lightCubeVAO);
+
+    _Graphics::BindBuffer(_Graphics::BufferType::ARRAY, VBO);
+    // note that we update the lamp's position attribute's stride to reflect the updated buffer data
+    _Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
+
+    // load textures (we now use a utility function to keep the code more organized)
+    // -----------------------------------------------------------------------------
+    TextureTest diffuseMap("../Data/Textures/container2.png");
+    TextureTest specularMap("../Data/Textures/container2_specular.png");
+
+    // shader configuration
+    // --------------------
+    Shader::Use(lightingShader.ID);
+    Shader::setInt(lightingShader.ID, "material.diffuse", 0);
+    Shader::setInt(lightingShader.ID, "material.specular", 1);
+
+
+    // render loop
+    // -----------
+    while (!_Graphics::ShouldWindowClose(window))
+    {
+        // per-frame time logic
+        // --------------------
+        float currentFrame = _Graphics::GetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        // input
+        // -----
+        ProcessInput(window, &camera, deltaTime);
+
+        // render
+        // ------
+        _Graphics::Clear(0.1f, 0.1f, 0.1f, 1.0f);
+
+        // be sure to activate shader when setting uniforms/drawing objects
+        Shader::Use(lightingShader.ID);
+        Shader::setVec3(lightingShader.ID, "viewPos", camera.GetPosition());
+        Shader::setFloat(lightingShader.ID, "material.shininess", 32.0f);
+
+        /*
+           Here we set all the uniforms for the 5/6 types of lights we have. We have to set them manually and index
+           the proper PointLight struct in the array to set each uniform variable. This can be done more code-friendly
+           by defining light types as classes and set their values in there, or by using a more efficient uniform approach
+           by using 'Uniform buffer objects', but that is something we'll discuss in the 'Advanced GLSL' tutorial.
+        */
+        // directional light
+        Shader::setVec3(lightingShader.ID, "dirLight.direction", -0.2f, -1.0f, -0.3f);
+        Shader::setVec3(lightingShader.ID, "dirLight.ambient", 0.05f, 0.05f, 0.05f);
+        Shader::setVec3(lightingShader.ID, "dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+        Shader::setVec3(lightingShader.ID, "dirLight.specular", 0.5f, 0.5f, 0.5f);
+        // point light 1
+        Shader::setVec3(lightingShader.ID, "pointLights[0].position", pointLightPositions[0]);
+        Shader::setVec3(lightingShader.ID, "pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+        Shader::setVec3(lightingShader.ID, "pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+        Shader::setVec3(lightingShader.ID, "pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+        Shader::setFloat(lightingShader.ID, "pointLights[0].constant", 1.0f);
+        Shader::setFloat(lightingShader.ID, "pointLights[0].linear", 0.09);
+        Shader::setFloat(lightingShader.ID, "pointLights[0].quadratic", 0.032);
+        // point light 2
+        Shader::setVec3(lightingShader.ID, "pointLights[1].position", pointLightPositions[1]);
+        Shader::setVec3(lightingShader.ID, "pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
+        Shader::setVec3(lightingShader.ID, "pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+        Shader::setVec3(lightingShader.ID, "pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+        Shader::setFloat(lightingShader.ID, "pointLights[1].constant", 1.0f);
+        Shader::setFloat(lightingShader.ID, "pointLights[1].linear", 0.09);
+        Shader::setFloat(lightingShader.ID, "pointLights[1].quadratic", 0.032);
+        // point light 3
+        Shader::setVec3(lightingShader.ID, "pointLights[2].position", pointLightPositions[2]);
+        Shader::setVec3(lightingShader.ID, "pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
+        Shader::setVec3(lightingShader.ID, "pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
+        Shader::setVec3(lightingShader.ID, "pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+        Shader::setFloat(lightingShader.ID, "pointLights[2].constant", 1.0f);
+        Shader::setFloat(lightingShader.ID, "pointLights[2].linear", 0.09);
+        Shader::setFloat(lightingShader.ID, "pointLights[2].quadratic", 0.032);
+        // point light 4
+        Shader::setVec3(lightingShader.ID, "pointLights[3].position", pointLightPositions[3]);
+        Shader::setVec3(lightingShader.ID, "pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
+        Shader::setVec3(lightingShader.ID, "pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
+        Shader::setVec3(lightingShader.ID, "pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+        Shader::setFloat(lightingShader.ID, "pointLights[3].constant", 1.0f);
+        Shader::setFloat(lightingShader.ID, "pointLights[3].linear", 0.09);
+        Shader::setFloat(lightingShader.ID, "pointLights[3].quadratic", 0.032);
+        // spotLight
+        Shader::setVec3(lightingShader.ID, "spotLight.position", camera.GetPosition());
+        Shader::setVec3(lightingShader.ID, "spotLight.direction", camera.GetFront());
+        Shader::setVec3(lightingShader.ID, "spotLight.ambient", 0.0f, 0.0f, 0.0f);
+        Shader::setVec3(lightingShader.ID, "spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+        Shader::setVec3(lightingShader.ID, "spotLight.specular", 1.0f, 1.0f, 1.0f);
+        Shader::setFloat(lightingShader.ID, "spotLight.constant", 1.0f);
+        Shader::setFloat(lightingShader.ID, "spotLight.linear", 0.09);
+        Shader::setFloat(lightingShader.ID, "spotLight.quadratic", 0.032);
+        Shader::setFloat(lightingShader.ID, "spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+        Shader::setFloat(lightingShader.ID, "spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+
+        // view/projection transformations
+        glm::mat4 projection = glm::perspective(glm::radians(camera.GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = camera.ViewMatrix();
+        Shader::setMat4(lightingShader.ID, "projection", projection);
+        Shader::setMat4(lightingShader.ID, "view", view);
+
+        // world transformation
+        glm::mat4 model = glm::mat4(1.0f);
+        Shader::setMat4(lightingShader.ID, "model", model);
+
+        // bind diffuse map
+        _Graphics::BindTextureOnUnit(_Graphics::Unit::ZERO, diffuseMap.ID);
+        // bind specular map
+        _Graphics::BindTextureOnUnit(_Graphics::Unit::ONE, specularMap.ID);
+
+        // render containers
+        _Graphics::BindArray(cubeVAO);
+        for (unsigned int i = 0; i < 10; i++)
+        {
+            // calculate the model matrix for each object and pass it to shader before drawing
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, cubePositions[i]);
+            float angle = 20.0f * i;
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            Shader::setMat4(lightingShader.ID, "model", model);
+
+            _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
+        }
+
+        // also draw the lamp object(s)
+        Shader::Use(lightingShader.ID);
+        Shader::setMat4(lightingShader.ID, "projection", projection);
+        Shader::setMat4(lightingShader.ID, "view", view);
+
+        // we now draw as many light bulbs as we have point lights.
+        _Graphics::BindArray(lightCubeVAO);
+        for (unsigned int i = 0; i < 4; i++)
+        {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, pointLightPositions[i]);
+            model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+            Shader::setMat4(lightingShader.ID, "model", model);
+
+            _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
+        }
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
