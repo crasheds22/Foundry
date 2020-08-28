@@ -8,18 +8,21 @@
 */
 
 #include <glm/glm.hpp>
+
+#include "../ECS_core/System.h"
+
 #include "../Components/Box.h"
 #include "../Components/Sphere.h"
-#include "../Components/Capsule.h"
 
-class CollisionDetection {
+class CollisionDetection : public ECS::System
+{
 public:
 
 private:
-	bool BoxCollision(Box &a, Box &b);
-	bool SphereCollision(Sphere &a, Sphere &b);
+	bool BoxCollision(Component::Box &a, Component::Box &b);
+	bool SphereCollision(Component::Sphere &a, Component::Sphere &b);
 	//bool CapsuleCollision(Capsule &a, Capulse &b);
-	bool BoxSphereCollision(Box &b, Sphere &s);
+	bool BoxSphereCollision(Component::Box &b, Component::Sphere &s);
 
 	// MOVE THIS ELSEWHERE
 	float Squaref(float f);
