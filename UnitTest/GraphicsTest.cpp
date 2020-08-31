@@ -33,7 +33,7 @@ class TextureTest
 public:
     unsigned int ID;
 
-    TextureTest(const char* path, bool flip = false) : ID(Texture::New(path, flip)) { }
+    TextureTest(const char* path) : ID(Texture::New(path)) { }
 };
 
 bool GraphicsTest::Test()
@@ -345,7 +345,8 @@ bool GraphicsTest::Textures()
     // texture coord attribute
     _Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
-    TextureTest texture1("../Data/Textures/container.jpg", true);
+    Texture::FlipVertically();
+    TextureTest texture1("../Data/Textures/container.jpg");
     TextureTest texture2("../Data/Textures/awesomeface.png");
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
@@ -506,8 +507,9 @@ bool GraphicsTest::CameraAndCubes()
 
     // load and create a texture 
     // -------------------------
+    Texture::FlipVertically();
     TextureTest texture1("../Data/Textures/container.jpg");
-    TextureTest texture2("../Data/Textures/awesomeface.png", true);
+    TextureTest texture2("../Data/Textures/awesomeface.png");
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------

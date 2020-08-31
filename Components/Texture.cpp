@@ -5,15 +5,15 @@ using StaticTexture = Texture;
 
 namespace Component
 {
-	Texture::Texture(std::string path, bool flipV)
-		: Texture(path.c_str(), flipV)
+	Texture::Texture(std::string path)
+		: Texture(path.c_str())
 	{
 
 	}
 
-	Texture::Texture(const char* path, bool flipV)
+	Texture::Texture(const char* path)
 	{
-		mID = StaticTexture::New(path, flipV);
+		mID = StaticTexture::New(path);
 	}
 
 	Texture::~Texture()
