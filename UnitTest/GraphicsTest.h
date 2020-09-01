@@ -139,6 +139,7 @@ private:
     bool CameraAndCubes();
     bool IntroToLighting();
     bool Lighting();
+    bool ModelOne();
 
 };
 

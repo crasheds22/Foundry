@@ -36,6 +36,14 @@ public:
     TextureTest(const char* path) : ID(Texture::New(path)) { }
 };
 
+class ModelTest
+{
+public:
+
+
+    ModelTest(const char* path) { };
+};
+
 bool GraphicsTest::Test()
 {
     bool allPassed = false;
@@ -1042,6 +1050,95 @@ bool GraphicsTest::Lighting()
     _Graphics::DeleteArrays(cubeVAO, 1);
     _Graphics::DeleteArrays(lightCubeVAO, 1);
     _Graphics::DeleteBuffers(VBO, 1);
+
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    // ------------------------------------------------------------------
+    _Graphics::Terminate();
+
+    return true;
+}
+
+bool GraphicsTest::ModelOne()
+{
+    // glfw: initialize and configure
+    // ------------------------------
+    _Graphics::InitializeGLFW();
+
+    // glfw window creation
+    // --------------------
+    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Model One");
+    _Graphics::MakeWindowCurrent(window);
+    _Graphics::SetWindowUserPointer(window, this);
+    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    _Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
+    _Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
+
+    // tell GLFW to capture our mouse
+    _Graphics::CaptureMouse(window);
+
+    // glad: load all OpenGL function pointers
+    // ---------------------------------------
+    _Graphics::InitializeGLAD();
+
+    // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+    Texture::FlipVertically();
+
+    // configure global opengl state
+    // -----------------------------
+    _Graphics::Enable(_Graphics::Capability::DEPTH);
+
+    // build and compile shaders
+    // -------------------------
+    ShaderTest ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+
+    // load models
+    // -----------
+    ModelTest ourModel("resources/objects/backpack/backpack.obj");
+
+
+    // draw in wireframe
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // render loop
+    // -----------
+    while (!_Graphics::ShouldWindowClose(window))
+    {
+        // per-frame time logic
+        // --------------------
+        float currentFrame = _Graphics::GetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        // input
+        // -----
+        ProcessInput(window);
+
+        // render
+        // ------
+        _Graphics::Clear(0.05f, 0.05f, 0.05f, 1.0f);
+
+        // don't forget to enable shader before setting uniforms
+        Shader::Use(ourShader.ID);
+
+        // view/projection transformations
+        glm::mat4 projection = glm::perspective(glm::radians(camera.GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = camera.ViewMatrix();
+        Shader::setMat4(ourShader.ID, "projection", projection);
+        Shader::setMat4(ourShader.ID, "view", view);
+
+        // render the loaded model
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+        Shader::setMat4(ourShader.ID, "model", model);
+        ourModel.Draw(ourShader);
+
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        _Graphics::SwapBuffers(window);
+        _Graphics::PollForEvents();
+    }
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
