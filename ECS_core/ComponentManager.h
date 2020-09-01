@@ -65,6 +65,11 @@ namespace ECS
 			}
 		}
 
+	private:
+		std::unordered_map<const char*, ComponentType> mComponentTypes;
+		std::unordered_map<const char*, std::shared_ptr<IComponentArray>> mComponentArrays;
+		ComponentType mNextComponentType;
+
 		template <typename Component>
 		std::shared_ptr<ComponentArray<Component>> GetComponentArray()
 		{
@@ -75,10 +80,5 @@ namespace ECS
 
 			return std::static_pointer_cast<ComponentArray<Component>>(mComponentArrays[typeName]);
 		}
-
-	private:
-		std::unordered_map<const char*, ComponentType> mComponentTypes;
-		std::unordered_map<const char*, std::shared_ptr<IComponentArray>> mComponentArrays;
-		ComponentType mNextComponentType;
 	};
 }
