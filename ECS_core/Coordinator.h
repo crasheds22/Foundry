@@ -77,6 +77,12 @@ namespace ECS
 			return mComponentManager->GetComponentType<Component>();
 		}
 
+		template<typename Component>
+		std::shared_ptr<ComponentArray<Component>> GetComponentArray()
+		{
+			return mComponentManager->GetComponentArray<Component>();
+		}
+
 		//System methods
 		template<typename System>
 		std::shared_ptr<System> RegisterSystem()
