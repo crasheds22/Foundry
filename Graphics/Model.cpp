@@ -80,19 +80,13 @@ void Mesh::SetUpMesh()
 	glBindVertexArray(0);
 }
 
-Model::Model(const std::string path)
-{
-	LoadModel(path);
-}
+std::vector<ModelTexture> Model::mTexturesLoaded;
+std::string Model::mDirectory;
 
-void Model::Draw(unsigned int shaderID)
+std::vector<Mesh> Model::New(const std::string path)
 {
-	for (auto& mesh : mMeshes)
-		mesh.Draw(shaderID);
-}
+	std::vector<Mesh> meshes;
 
-void Model::LoadModel(const std::string path)
-{
 	// read file via ASSIMP
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -106,10 +100,12 @@ void Model::LoadModel(const std::string path)
 	mDirectory = path.substr(0, path.find_last_of('/'));
 
 	// process ASSIMP's root node recursively
-	ProcessNode(scene->mRootNode, scene);
+	ProcessNode(scene->mRootNode, scene, meshes);
+
+	return meshes;
 }
 
-void Model::ProcessNode(aiNode* node, const aiScene* scene)
+void Model::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes)
 {
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -117,12 +113,12 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene)
 		// the node object only contains indices to index the actual objects in the scene. 
 		// the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		mMeshes.push_back(ProcessMesh(mesh, scene));
+		meshes.push_back(ProcessMesh(mesh, scene));
 	}
 	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
-		ProcessNode(node->mChildren[i], scene);
+		ProcessNode(node->mChildren[i], scene, meshes);
 	}
 }
 

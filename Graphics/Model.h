@@ -51,19 +51,14 @@ private:
 class Model
 {
 public:
-	Model(const std::string path);
-
-	void Draw(unsigned int shaderID);
+	static std::vector<Mesh> New(const std::string path);
 
 private:
-	std::vector<ModelTexture> mTexturesLoaded;
-	std::vector<Mesh> mMeshes;
-	std::string mDirectory;
-
-	void LoadModel(const std::string path);
-
-	void ProcessNode(aiNode* node, const aiScene* scene);
-	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	std::vector<ModelTexture> LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
+	static std::vector<ModelTexture> mTexturesLoaded;
+	static std::string mDirectory;
+	
+	static void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
+	static Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	static std::vector<ModelTexture> LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
 };
 

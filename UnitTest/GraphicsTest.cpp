@@ -39,22 +39,29 @@ public:
 class ModelTest
 {
 public:
-    Model model;
+    ModelTest(const char* path) : mMeshes(Model::New(path)) { };
 
-    ModelTest(const char* path) : model(Model(std::string(path))) { };
+    void Draw(unsigned int shaderID)
+    {
+        for (auto& mesh : mMeshes)
+            mesh.Draw(shaderID);
+    }
+
+private:
+    std::vector<Mesh> mMeshes;
 };
 
 bool GraphicsTest::Test()
 {
     bool allPassed = false;
 
-    //allPassed = HelloWindow();
-    //allPassed = HelloTriangle();
-    //allPassed = UsingShaders();
-    //allPassed = Textures();
-    //allPassed = CameraAndCubes();
-    //allPassed = IntroToLighting();
-    //allPassed = Lighting();
+    allPassed = HelloWindow();
+    allPassed = HelloTriangle();
+    allPassed = UsingShaders();
+    allPassed = Textures();
+    allPassed = CameraAndCubes();
+    allPassed = IntroToLighting();
+    allPassed = Lighting();
     allPassed = ModelOne();
 
     return allPassed;
@@ -1132,7 +1139,7 @@ bool GraphicsTest::ModelOne()
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
         Shader::setMat4(ourShader.ID, "model", model);
-        ourModel.model.Draw(ourShader.ID);
+        ourModel.Draw(ourShader.ID);
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
