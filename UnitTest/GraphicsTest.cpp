@@ -39,22 +39,23 @@ public:
 class ModelTest
 {
 public:
+    Model model;
 
-
-    ModelTest(const char* path) { };
+    ModelTest(const char* path) : model(Model(std::string(path))) { };
 };
 
 bool GraphicsTest::Test()
 {
     bool allPassed = false;
 
-    allPassed = HelloWindow();
-    allPassed = HelloTriangle();
-    allPassed = UsingShaders();
-    allPassed = Textures();
-    allPassed = CameraAndCubes();
-    allPassed = IntroToLighting();
-    allPassed = Lighting();
+    //allPassed = HelloWindow();
+    //allPassed = HelloTriangle();
+    //allPassed = UsingShaders();
+    //allPassed = Textures();
+    //allPassed = CameraAndCubes();
+    //allPassed = IntroToLighting();
+    //allPassed = Lighting();
+    allPassed = ModelOne();
 
     return allPassed;
 }
@@ -1093,7 +1094,7 @@ bool GraphicsTest::ModelOne()
 
     // load models
     // -----------
-    ModelTest ourModel("resources/objects/backpack/backpack.obj");
+    ModelTest ourModel("../Data/Models/Backpack/backpack.obj");
 
 
     // draw in wireframe
@@ -1111,7 +1112,7 @@ bool GraphicsTest::ModelOne()
 
         // input
         // -----
-        ProcessInput(window);
+        ProcessInput(window, &camera, deltaTime);
 
         // render
         // ------
@@ -1131,7 +1132,7 @@ bool GraphicsTest::ModelOne()
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
         Shader::setMat4(ourShader.ID, "model", model);
-        ourModel.Draw(ourShader);
+        ourModel.model.Draw(ourShader.ID);
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

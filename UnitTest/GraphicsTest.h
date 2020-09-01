@@ -13,6 +13,7 @@
 #include "../Graphics/Shader.h"
 #include "../Graphics/Texture.h"
 #include "../Graphics/Graphics.h"
+#include "../Graphics/Model.h"
 
 enum class Camera_Movement { FORWARD, BACKWARD, RIGHT, LEFT };
 

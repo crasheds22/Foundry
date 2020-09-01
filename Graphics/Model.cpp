@@ -212,5 +212,32 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 std::vector<ModelTexture> Model::LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName)
 {
-	return std::vector<ModelTexture>();
+	std::vector<ModelTexture> textures;
+	for (unsigned int i = 0; i < material->GetTextureCount(type); i++)
+	{
+		aiString str;
+		material->GetTexture(type, i, &str);
+		// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
+		bool skip = false;
+		for (unsigned int j = 0; j < mTexturesLoaded.size(); j++)
+		{
+			if (std::strcmp(mTexturesLoaded[j].Path.data(), str.C_Str()) == 0)
+			{
+				textures.push_back(mTexturesLoaded[j]);
+				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
+				break;
+			}
+		}
+		if (!skip)
+		{   // if texture hasn't been loaded already, load it
+			ModelTexture texture;
+			std::string filePath = mDirectory + "/" + str.C_Str();
+			texture.ID = Texture::New(filePath.c_str());
+			texture.Type = typeName;
+			texture.Path = str.C_Str();
+			textures.push_back(texture);
+			mTexturesLoaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+		}
+	}
+	return textures;
 }
