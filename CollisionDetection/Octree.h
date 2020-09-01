@@ -8,7 +8,6 @@
 */
 
 #include <functional>
-#include <iostream>
 
 #define CHILD_AMT 8
 
