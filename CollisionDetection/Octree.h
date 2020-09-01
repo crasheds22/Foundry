@@ -10,11 +10,13 @@
 #include <functional>
 #include <iostream>
 
+#define CHILD_AMT 8
+
 template <class T>
 struct node {
 	T info{};
 	node* parent;
-	node* children[8];
+	node* children[CHILD_AMT];
 
 	node() : children() {
 		// initialises children to nullptr

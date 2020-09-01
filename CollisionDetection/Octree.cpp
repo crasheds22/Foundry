@@ -13,7 +13,7 @@ Octree<T>::~Octree() {
 
 template <class T>
 void Octree<T>::Traverse(node<T> n, std::function<void(const T&)> f) {
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < CHILD_AMT; i++) {
 		if (n.children[i] != nullptr) {
 			f(n.children[i]->info);
 		} // end if
@@ -50,7 +50,7 @@ void Octree<T>::Insert(T t) {
 
 template <class T>
 void Octree<T>::Destroy(node<T> n) {
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < CHILD_AMT; i++) {
 		if (n.children[i] != nullptr) {
 			Destroy(n.children[i]);
 		} // end if
