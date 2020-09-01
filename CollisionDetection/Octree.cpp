@@ -7,8 +7,7 @@ Octree<T>::Octree() {
 
 template <class T>
 Octree<T>::~Octree() {
-	Destroy(root);
-	delete root;
+	DestroyTree();
 }
 
 template <class T>
@@ -56,8 +55,9 @@ void Octree<T>::Destroy(node<T> n) {
 		} // end if
 		delete n.children[i];
 	} // end for
-	
-	delete n.parent;
+
+	delete[] n.children;
+	n.parent = nullptr;
 }
 
 template <class T>
