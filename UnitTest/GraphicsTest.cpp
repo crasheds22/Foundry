@@ -33,7 +33,22 @@ class TextureTest
 public:
     unsigned int ID;
 
-    TextureTest(const char* path, bool flip = false) : ID(Texture::New(path, flip)) { }
+    TextureTest(const char* path) : ID(Texture::New(path)) { }
+};
+
+class ModelTest
+{
+public:
+    ModelTest(const char* path) : mMeshes(Model::New(path)) { };
+
+    void Draw(unsigned int shaderID)
+    {
+        for (auto& mesh : mMeshes)
+            mesh.Draw(shaderID);
+    }
+
+private:
+    std::vector<Mesh> mMeshes;
 };
 
 bool GraphicsTest::Test()
@@ -47,6 +62,7 @@ bool GraphicsTest::Test()
     allPassed = CameraAndCubes();
     allPassed = IntroToLighting();
     allPassed = Lighting();
+    allPassed = ModelOne();
 
     return allPassed;
 }
@@ -345,7 +361,8 @@ bool GraphicsTest::Textures()
     // texture coord attribute
     _Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
-    TextureTest texture1("../Data/Textures/container.jpg", true);
+    Texture::FlipVertically();
+    TextureTest texture1("../Data/Textures/container.jpg");
     TextureTest texture2("../Data/Textures/awesomeface.png");
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
@@ -506,8 +523,9 @@ bool GraphicsTest::CameraAndCubes()
 
     // load and create a texture 
     // -------------------------
+    Texture::FlipVertically();
     TextureTest texture1("../Data/Textures/container.jpg");
-    TextureTest texture2("../Data/Textures/awesomeface.png", true);
+    TextureTest texture2("../Data/Textures/awesomeface.png");
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
@@ -1040,6 +1058,95 @@ bool GraphicsTest::Lighting()
     _Graphics::DeleteArrays(cubeVAO, 1);
     _Graphics::DeleteArrays(lightCubeVAO, 1);
     _Graphics::DeleteBuffers(VBO, 1);
+
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    // ------------------------------------------------------------------
+    _Graphics::Terminate();
+
+    return true;
+}
+
+bool GraphicsTest::ModelOne()
+{
+    // glfw: initialize and configure
+    // ------------------------------
+    _Graphics::InitializeGLFW();
+
+    // glfw window creation
+    // --------------------
+    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Model One");
+    _Graphics::MakeWindowCurrent(window);
+    _Graphics::SetWindowUserPointer(window, this);
+    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    _Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
+    _Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
+
+    // tell GLFW to capture our mouse
+    _Graphics::CaptureMouse(window);
+
+    // glad: load all OpenGL function pointers
+    // ---------------------------------------
+    _Graphics::InitializeGLAD();
+
+    // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+    Texture::FlipVertically();
+
+    // configure global opengl state
+    // -----------------------------
+    _Graphics::Enable(_Graphics::Capability::DEPTH);
+
+    // build and compile shaders
+    // -------------------------
+    ShaderTest ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+
+    // load models
+    // -----------
+    ModelTest ourModel("../Data/Models/Backpack/backpack.obj");
+
+
+    // draw in wireframe
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // render loop
+    // -----------
+    while (!_Graphics::ShouldWindowClose(window))
+    {
+        // per-frame time logic
+        // --------------------
+        float currentFrame = _Graphics::GetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        // input
+        // -----
+        ProcessInput(window, &camera, deltaTime);
+
+        // render
+        // ------
+        _Graphics::Clear(0.05f, 0.05f, 0.05f, 1.0f);
+
+        // don't forget to enable shader before setting uniforms
+        Shader::Use(ourShader.ID);
+
+        // view/projection transformations
+        glm::mat4 projection = glm::perspective(glm::radians(camera.GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = camera.ViewMatrix();
+        Shader::setMat4(ourShader.ID, "projection", projection);
+        Shader::setMat4(ourShader.ID, "view", view);
+
+        // render the loaded model
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+        Shader::setMat4(ourShader.ID, "model", model);
+        ourModel.Draw(ourShader.ID);
+
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        _Graphics::SwapBuffers(window);
+        _Graphics::PollForEvents();
+    }
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------

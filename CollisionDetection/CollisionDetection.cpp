@@ -25,7 +25,7 @@ bool CollisionDetection::SphereCollision(Component::Sphere &a, Component::Sphere
 						   Squaref(a.Centre().y * b.Centre().y) +
 						   Squaref(a.Centre().z * b.Centre().z));
 
-	return distance < (a.Radius(0 + b.Radius());
+	return distance < (a.Radius() + b.Radius());
 } // end SphereCollision
 
 bool CollisionDetection::BoxSphereCollision(Component::Box &b, Component::Sphere &s) 

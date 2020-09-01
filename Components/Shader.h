@@ -14,7 +14,6 @@ namespace Component
 	class Shader
 	{
 	public:
-		Shader(std::string vertexPath, std::string fragmentPath, std::string geometryPath = "");
 		Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 		~Shader();
 

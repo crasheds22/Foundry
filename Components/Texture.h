@@ -7,8 +7,8 @@ namespace Component
 	class Texture
 	{
 	public:
-		Texture(std::string path, bool flipV = false);
-		Texture(const char* path, bool flipV = false);
+		Texture(std::string path);
+		Texture(const char* path);
 		~Texture();
 
 		unsigned int ID() const;

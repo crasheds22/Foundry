@@ -7,14 +7,12 @@
 
 #include <iostream>
 
-unsigned int Texture::New(const char* path, bool flip)
+unsigned int Texture::New(const char* path)
 {
     // load and create a texture 
     // -------------------------
     unsigned int texID;
     glGenTextures(1, &texID);
-
-    stbi_set_flip_vertically_on_load(flip);
 
     int width, height, channel;
     unsigned char* data = stbi_load(path, &width, &height, &channel, 0);
@@ -46,4 +44,9 @@ unsigned int Texture::New(const char* path, bool flip)
     }
 
     return texID;
+}
+
+void Texture::FlipVertically()
+{
+    stbi_set_flip_vertically_on_load(true);
 }

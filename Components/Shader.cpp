@@ -5,12 +5,6 @@ using StaticShader = Shader;
 
 namespace Component
 {
-	Shader::Shader(std::string vertexPath, std::string fragmentPath, std::string geometryPath)
-		: Shader(vertexPath.c_str(), fragmentPath.c_str(), geometryPath.length() > 0 ? geometryPath : nullptr)
-	{
-		
-	}
-	
 	Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 	{
 		mID = StaticShader::New(vertexPath, fragmentPath, geometryPath);
