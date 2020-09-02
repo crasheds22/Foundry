@@ -16,7 +16,7 @@ namespace ECS
 	};
 
 	template<typename Component>
-	class ComponentArray : IComponentArray
+	class ComponentArray : public IComponentArray
 	{
 	public:
 		void InsertData(Entity entity, Component component)

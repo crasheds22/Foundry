@@ -80,6 +80,5 @@ namespace ECS
 
 			return std::static_pointer_cast<ComponentArray<Component>>(mComponentArrays[typeName]);
 		}
-
 	};
 }
