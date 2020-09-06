@@ -8,6 +8,8 @@
 
 #include "../ECS_core/Coordinator.h"
 
+#include "com_Camera.h"
+
 extern ECS::Coordinator mCoordinator;
 
 class Props
@@ -22,6 +24,9 @@ public:
 	static void CalcDeltaTime();
 	static double DeltaTime();
 
+	static Component::Camera* GetActiveCamera();
+	static void SetActiveCamera(Component::Camera* cam);
+
 private:
 	Props() {};
 	Props(const Props& p) {};
@@ -30,5 +35,7 @@ private:
 	static double mCurrentTime;
 	static double mLastFrame;
 	static double mDeltaTime;
+
+	static Component::Camera* mActiveCamera;
 };
 

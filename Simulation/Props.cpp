@@ -4,6 +4,8 @@ double Props::mCurrentTime = 0;
 double Props::mLastFrame = 0;
 double Props::mDeltaTime = 0;
 
+Component::Camera* Props::mActiveCamera = nullptr;
+
 void Props::KeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 }
@@ -36,4 +38,14 @@ void Props::CalcDeltaTime()
 double Props::DeltaTime()
 {
 	return mDeltaTime;
+}
+
+Component::Camera* Props::GetActiveCamera()
+{
+	return mActiveCamera;
+}
+
+void Props::SetActiveCamera(Component::Camera* cam)
+{
+	mActiveCamera = cam;
 }

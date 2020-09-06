@@ -71,6 +71,11 @@ public:
 
 	static float GetTime();
 
+	static double ScreenWidth();
+	static double ScreenHeight();
+
+	static float AspectRatio();
+
 private:
 	_Graphics() { };
 	_Graphics(const _Graphics& G) { };
@@ -81,4 +86,7 @@ private:
 	static GLenum Deserialise(DataType type);
 	static GLenum Deserialise(Unit unit);
 	static GLenum Deserialise(Capability cap);
+
+	static double mScreenWidth;
+	static double mScreenHeight;
 };
