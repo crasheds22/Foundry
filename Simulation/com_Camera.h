@@ -12,6 +12,7 @@ namespace Component
 	class Camera
 	{
 	public:
+		Camera() {};
 		Camera(glm::vec3 pos, glm::vec3 wup = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f);
 		Camera(const Camera& c);
 		~Camera();
@@ -35,19 +36,19 @@ namespace Component
 		void Zoom(float yOffset);
 
 	private:
-		glm::vec3 mPosition;
-		glm::vec3 mFront;
-		glm::vec3 mRight;
-		glm::vec3 mUp;
-		glm::vec3 mWorldUp;
+		glm::vec3 mPosition{};
+		glm::vec3 mFront{};
+		glm::vec3 mRight{};
+		glm::vec3 mUp{};
+		glm::vec3 mWorldUp{};
 
-		float mYaw;
-		float mPitch;
-		float mRoll;
+		float mYaw{};
+		float mPitch{};
+		float mRoll{};
 
-		float mZoom;
+		float mZoom{};
 
-		std::map<Direction, glm::vec3> DirectionMapper;
+		std::map<Direction, glm::vec3> DirectionMapper{};
 
 		void UpdateCameraVectors();
 		void UpdateMapper();
