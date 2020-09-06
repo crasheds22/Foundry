@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="com_Box.h" />
     <ClInclude Include="com_Camera.h" />
+    <ClInclude Include="com_Player.h" />
     <ClInclude Include="Props.h" />
     <ClInclude Include="sys_CollisionDetection.h" />
     <ClInclude Include="com_Model.h" />
@@ -158,6 +159,7 @@
   <ItemGroup>
     <ClCompile Include="com_Box.cpp" />
     <ClCompile Include="com_Camera.cpp" />
+    <ClCompile Include="com_Player.cpp" />
     <ClCompile Include="Props.cpp" />
     <ClCompile Include="sys_CollisionDetection.cpp" />
     <ClCompile Include="com_Model.cpp" />
