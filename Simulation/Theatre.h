@@ -1,5 +1,10 @@
 #pragma once
 
+#include "Stage.h"
+#include "Props.h"
+
+#include "../Graphics/Graphics.h"
+
 class Theatre
 {
 public:
@@ -14,5 +19,8 @@ private:
 	bool Shutdown();
 
 	bool mInitialised;
+	Stage mStageOne;
+
+	GLFWwindow* mWindow;
 };
 

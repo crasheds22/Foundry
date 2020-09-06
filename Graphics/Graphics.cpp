@@ -29,6 +29,22 @@ GLFWwindow* _Graphics::CreateWindow(int width, int height, std::string title)
     return window;
 }
 
+GLFWwindow* _Graphics::CreateWindow(std::string title)
+{
+    GLFWmonitor* primary = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(primary);
+
+    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, title, primary, NULL);
+    if (window == NULL)
+    {
+        glfwTerminate();
+        std::cerr << "Failed to create a window" << std::endl;
+        std::exit(0);
+    }
+
+    return window;
+}
+
 void _Graphics::MakeWindowCurrent(GLFWwindow* window)
 {
     glfwMakeContextCurrent(window);
@@ -39,6 +55,11 @@ void _Graphics::SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*,
     glfwSetFramebufferSizeCallback(window, resize);
 }
 
+void _Graphics::SetMouseButtonCallback(GLFWwindow* window, void(*mouseBtn)(GLFWwindow*, int, int, int))
+{
+    glfwSetMouseButtonCallback(window, mouseBtn);
+}
+
 void _Graphics::SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double))
 {
     glfwSetCursorPosCallback(window, cursor);
@@ -47,6 +68,11 @@ void _Graphics::SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*,
 void _Graphics::SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double))
 {
     glfwSetScrollCallback(window, scroll);
+}
+
+void _Graphics::SetKeyboardCallback(GLFWwindow* window, void(*keys)(GLFWwindow*, int, int, int, int))
+{
+    glfwSetKeyCallback(window, keys);
 }
 
 void _Graphics::CaptureMouse(GLFWwindow* window)

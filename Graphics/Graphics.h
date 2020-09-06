@@ -22,11 +22,14 @@ public:
 	static void InitializeGLFW();
 	static void InitializeGLAD();
 	static GLFWwindow* CreateWindow(int width, int height, std::string title);
+	static GLFWwindow* CreateWindow(std::string title);
 	static void MakeWindowCurrent(GLFWwindow* window);
 
 	static void SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*, int, int));
+	static void SetMouseButtonCallback(GLFWwindow* window, void(*mouseBtn)(GLFWwindow*, int, int, int));
 	static void SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double));
 	static void SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double));
+	static void SetKeyboardCallback(GLFWwindow* window, void(*keys)(GLFWwindow*, int, int, int, int));
 
 	static void CaptureMouse(GLFWwindow* window);
 

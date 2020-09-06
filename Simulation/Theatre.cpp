@@ -3,6 +3,8 @@
 Theatre::Theatre() : mInitialised(false)
 {
     Init();
+
+    mStageOne = Stage();
 }
 
 Theatre::~Theatre()
@@ -15,18 +17,43 @@ void Theatre::Init()
     if (mInitialised)
         Shutdown();
 
+    _Graphics::InitializeGLFW();
 
+    mWindow = _Graphics::CreateWindow("Simulation");
+
+    _Graphics::MakeWindowCurrent(mWindow);
+
+    _Graphics::SetResizeCallback(mWindow, Props::ResizeCallback);
+    _Graphics::SetCursorCallback(mWindow, Props::MouseMoveCallback);
+    _Graphics::SetMouseButtonCallback(mWindow, Props::MouseButtonCallback);
+    _Graphics::SetScrollCallback(mWindow, Props::ScrollWheelCallback);
+    _Graphics::SetKeyboardCallback(mWindow, Props::KeyboardCallback);
+
+    _Graphics::CaptureMouse(mWindow);
+
+    _Graphics::InitializeGLAD();
+
+    _Graphics::Enable(_Graphics::Capability::DEPTH);
+
+    mInitialised = true;
 }
 
 void Theatre::PlayShows()
 {
-    do
+    while (!_Graphics::ShouldWindowClose(mWindow))
     {
+        Props::DeltaTime();
 
-    } while (true);
+        mStageOne.PlayShow();
+
+        _Graphics::SwapBuffers(mWindow);
+        _Graphics::PollForEvents();
+    }
 }
 
 bool Theatre::Shutdown()
 {
-    return false;
+    _Graphics::Terminate();
+
+    return true;
 }
