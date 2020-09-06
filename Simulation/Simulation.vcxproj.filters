@@ -81,5 +81,6 @@
     <ClCompile Include="Render.cpp">
       <Filter>Systems\Source</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
 </Project>
