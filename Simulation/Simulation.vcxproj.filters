@@ -25,9 +25,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
@@ -54,11 +51,11 @@
     <ClInclude Include="com_Box.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
+    <ClInclude Include="com_Camera.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Model.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
@@ -84,6 +81,9 @@
     <ClCompile Include="Theatre.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="com_Box.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Camera.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
   </ItemGroup>
