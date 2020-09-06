@@ -52,6 +52,7 @@
     <ClInclude Include="Render.h">
       <Filter>Systems\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Theatre.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Box.cpp">
@@ -82,5 +83,6 @@
       <Filter>Systems\Source</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Theatre.cpp" />
   </ItemGroup>
 </Project>
