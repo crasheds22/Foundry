@@ -25,9 +25,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Render.h">
-      <Filter>Systems\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Theatre.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="com_Box.h">
@@ -54,11 +51,11 @@
     <ClInclude Include="sys_CollisionDetection.h">
       <Filter>Systems\Header</Filter>
     </ClInclude>
+    <ClInclude Include="sys_Render.h">
+      <Filter>Systems\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Render.cpp">
-      <Filter>Systems\Source</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Theatre.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -84,6 +81,9 @@
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="sys_CollisionDetection.cpp">
+      <Filter>Systems\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="sys_Render.cpp">
       <Filter>Systems\Source</Filter>
     </ClCompile>
   </ItemGroup>

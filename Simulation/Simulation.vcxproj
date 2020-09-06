@@ -145,7 +145,7 @@
     <ClInclude Include="com_Camera.h" />
     <ClInclude Include="sys_CollisionDetection.h" />
     <ClInclude Include="com_Model.h" />
-    <ClInclude Include="Render.h" />
+    <ClInclude Include="sys_Render.h" />
     <ClInclude Include="com_Shader.h" />
     <ClInclude Include="com_Sphere.h" />
     <ClInclude Include="Stage.h" />
@@ -158,7 +158,7 @@
     <ClCompile Include="com_Camera.cpp" />
     <ClCompile Include="sys_CollisionDetection.cpp" />
     <ClCompile Include="com_Model.cpp" />
-    <ClCompile Include="Render.cpp" />
+    <ClCompile Include="sys_Render.cpp" />
     <ClCompile Include="com_Shader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="com_Sphere.cpp" />

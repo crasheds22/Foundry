@@ -1,11 +1,10 @@
 #pragma once
 
 #include "../ECS_core/System.h"
-#include "../ECS_core/Coordinator.h"
 
-#include "Model.h"
-#include "Shader.h"
-#include "Transform.h"
+#include "com_Model.h"
+#include "com_Shader.h"
+#include "com_Transform.h"
 
 namespace System
 {
