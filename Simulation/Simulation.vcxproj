@@ -146,7 +146,7 @@
     <ClInclude Include="CollisionDetection.h" />
     <ClInclude Include="com_Model.h" />
     <ClInclude Include="Render.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="com_Shader.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Texture.h" />
@@ -159,7 +159,7 @@
     <ClCompile Include="CollisionDetection.cpp" />
     <ClCompile Include="com_Model.cpp" />
     <ClCompile Include="Render.cpp" />
-    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="com_Shader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Stage.cpp" />

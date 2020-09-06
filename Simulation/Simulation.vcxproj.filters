@@ -25,9 +25,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Shader.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Sphere.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
@@ -54,11 +51,11 @@
     <ClInclude Include="com_Model.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
+    <ClInclude Include="com_Shader.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Sphere.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
@@ -84,6 +81,9 @@
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="com_Model.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Shader.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
   </ItemGroup>
