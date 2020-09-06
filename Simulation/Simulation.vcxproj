@@ -143,7 +143,7 @@
   <ItemGroup>
     <ClInclude Include="com_Box.h" />
     <ClInclude Include="com_Camera.h" />
-    <ClInclude Include="CollisionDetection.h" />
+    <ClInclude Include="sys_CollisionDetection.h" />
     <ClInclude Include="com_Model.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="com_Shader.h" />
@@ -156,7 +156,7 @@
   <ItemGroup>
     <ClCompile Include="com_Box.cpp" />
     <ClCompile Include="com_Camera.cpp" />
-    <ClCompile Include="CollisionDetection.cpp" />
+    <ClCompile Include="sys_CollisionDetection.cpp" />
     <ClCompile Include="com_Model.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="com_Shader.cpp" />

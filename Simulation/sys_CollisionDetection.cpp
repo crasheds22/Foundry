@@ -1,7 +1,4 @@
-#include "CollisionDetection.h"
-
-#include "../ECS_core/Coordinator.h"
-//extern Coordinator gCoordinator;
+#include "sys_CollisionDetection.h"
 
 float CollisionDetection::Squaref(float f) 
 {

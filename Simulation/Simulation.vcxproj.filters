@@ -25,9 +25,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CollisionDetection.h">
-      <Filter>Systems\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Render.h">
       <Filter>Systems\Header</Filter>
     </ClInclude>
@@ -54,11 +51,11 @@
     <ClInclude Include="com_Transform.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
+    <ClInclude Include="sys_CollisionDetection.h">
+      <Filter>Systems\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CollisionDetection.cpp">
-      <Filter>Systems\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Render.cpp">
       <Filter>Systems\Source</Filter>
     </ClCompile>
@@ -85,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="com_Transform.cpp">
       <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="sys_CollisionDetection.cpp">
+      <Filter>Systems\Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
