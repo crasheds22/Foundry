@@ -1,5 +1,8 @@
 #include "sys_Render.h"
 
+#include "../ECS_core/Coordinator.h"
+extern ECS::Coordinator mCoordinator;
+
 namespace System
 {
 	Render::Render()

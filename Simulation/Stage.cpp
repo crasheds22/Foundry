@@ -1,5 +1,8 @@
 #include "Stage.h"
 
+#include "../ECS_core/Coordinator.h"
+ECS::Coordinator mCoordinator;
+
 Stage::Stage() : mInitialised(false)
 {
 	Init();

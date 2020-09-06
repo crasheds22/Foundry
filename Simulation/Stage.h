@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../ECS_core/Coordinator.h"
-
 #include "com_Camera.h"
 #include "com_Model.h"
 #include "com_Player.h"
@@ -14,7 +12,6 @@
 #include <vector>
 
 #include "Props.h"
-ECS::Coordinator mCoordinator;
 
 class Stage
 {

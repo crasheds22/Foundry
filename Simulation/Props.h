@@ -6,11 +6,7 @@
 
 #include "../Graphics/Graphics.h"
 
-#include "../ECS_core/Coordinator.h"
-
 #include "com_Camera.h"
-
-extern ECS::Coordinator mCoordinator;
 
 class Props
 {
