@@ -151,7 +151,7 @@
     <ClInclude Include="Stage.h" />
     <ClInclude Include="com_Texture.h" />
     <ClInclude Include="Theatre.h" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="com_Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="com_Box.cpp" />
@@ -165,7 +165,7 @@
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="com_Texture.cpp" />
     <ClCompile Include="Theatre.cpp" />
-    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="com_Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
