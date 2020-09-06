@@ -6,7 +6,7 @@ namespace System
 	{
 	}
 
-	void Render::Update(float dt)
+	void Render::Update()
 	{
 		for (const auto& entity : mEntities)
 		{

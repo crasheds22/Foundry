@@ -34,7 +34,7 @@ GLFWwindow* _Graphics::CreateWindow(std::string title)
     GLFWmonitor* primary = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(primary);
 
-    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, title, primary, NULL);
+    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, title.c_str(), primary, NULL);
     if (window == NULL)
     {
         glfwTerminate();

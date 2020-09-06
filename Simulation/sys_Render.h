@@ -2,9 +2,7 @@
 
 #include "../ECS_core/System.h"
 
-#include "com_Model.h"
-#include "com_Shader.h"
-#include "com_Transform.h"
+#include "Props.h"
 
 namespace System
 {
@@ -13,7 +11,7 @@ namespace System
 	public:
 		Render();
 
-		void Update(float dt);
+		void Update();
 
 	private:
 

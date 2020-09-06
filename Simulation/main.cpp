@@ -6,7 +6,7 @@ int main()
 {
 	std::cout << "Nothing here bruv" << std::endl;
 
-	Theatre venue = Theatre();
+	Theatre venue;
 
 	venue.PlayShows();
 

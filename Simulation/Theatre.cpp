@@ -3,8 +3,6 @@
 Theatre::Theatre() : mInitialised(false)
 {
     Init();
-
-    mStageOne = Stage();
 }
 
 Theatre::~Theatre()
@@ -43,6 +41,8 @@ void Theatre::PlayShows()
     while (!_Graphics::ShouldWindowClose(mWindow))
     {
         Props::DeltaTime();
+
+        _Graphics::Clear();
 
         mStageOne.PlayShow();
 
