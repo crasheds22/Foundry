@@ -13,6 +13,9 @@
 #include <memory>
 #include <vector>
 
+#include "Props.h"
+ECS::Coordinator mCoordinator;
+
 class Stage
 {
 public:
@@ -27,8 +30,6 @@ private:
 	void PackDown();
 
 	bool mInitialised;
-
-	ECS::Coordinator mCoordinator;
 
 	std::shared_ptr<System::Render> mRenderSystem;
 

@@ -1,11 +1,14 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 #include <map>
 
 #include "../Graphics/Graphics.h"
+
+#include "../ECS_core/Coordinator.h"
+
+extern ECS::Coordinator mCoordinator;
 
 class Props
 {
