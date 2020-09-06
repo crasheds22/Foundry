@@ -147,7 +147,7 @@
     <ClInclude Include="com_Model.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="com_Shader.h" />
-    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="com_Sphere.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Theatre.h" />
@@ -161,7 +161,7 @@
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="com_Shader.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="com_Sphere.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Theatre.cpp" />
