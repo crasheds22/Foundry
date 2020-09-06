@@ -12,24 +12,24 @@ namespace ECS
 	class SystemManager
 	{
 	public:
-		template<typename System>
-		std::shared_ptr<ECS::System> RegisterSystem()
+		template<typename TSystem>
+		std::shared_ptr<TSystem> RegisterSystem()
 		{
-			const char* typeName = typeid(System).name();
+			const char* typeName = typeid(TSystem).name();
 
 			assert(mSystems.find(typeName) == mSystems.end()
 				&& "Registering system more than once.");
 
-			auto system = std::make_shared<ECS::System>();
+			auto system = std::make_shared<TSystem>();
 			mSystems.insert({ typeName, system });
 
 			return system;
 		}
 
-		template<typename System>
+		template<typename TSystem>
 		void SetSignature(Signature signature)
 		{
-			const char* typeName = typeid(System).name();
+			const char* typeName = typeid(TSystem).name();
 
 			assert(mSystems.find(typeName) != mSystems.end()
 				&& "System used before registered.");
@@ -68,6 +68,6 @@ namespace ECS
 
 	private:
 		std::unordered_map<const char*, Signature> mSignatures;
-		std::unordered_map<const char*, std::shared_ptr<ECS::System>> mSystems;
+		std::unordered_map<const char*, std::shared_ptr<System>> mSystems;
 	};
 }

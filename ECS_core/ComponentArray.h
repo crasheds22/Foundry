@@ -15,11 +15,11 @@ namespace ECS
 		virtual void EntityDestroyed(Entity entity) = 0;
 	};
 
-	template<typename Component>
+	template<typename TComponent>
 	class ComponentArray : public IComponentArray
 	{
 	public:
-		void InsertData(Entity entity, Component component)
+		void InsertData(Entity entity, TComponent component)
 		{
 			assert(mEntityToIndexMap.find(entity) == mEntityToIndexMap.end()
 				&& "Component added to same entity more than once."); //<------ Send this via a log to screen/file
@@ -57,7 +57,7 @@ namespace ECS
 			--mSize;
 		}
 
-		Component& GetData(Entity entity)
+		TComponent& GetData(Entity entity)
 		{
 			assert(mEntityToIndexMap.find(entity) != mEntityToIndexMap.end()
 				&& "Retrieving non-existant component.");
@@ -75,7 +75,7 @@ namespace ECS
 
 
 	private:
-		std::array<Component, MAX_ENTITIES> mComponentArray;
+		std::array<TComponent, MAX_ENTITIES> mComponentArray;
 
 		std::unordered_map<Entity, size_t> mEntityToIndexMap;
 		std::unordered_map<size_t, Entity> mIndexToEntityMap;
