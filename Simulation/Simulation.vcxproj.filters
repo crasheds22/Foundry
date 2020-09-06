@@ -53,6 +53,7 @@
       <Filter>Systems\Header</Filter>
     </ClInclude>
     <ClInclude Include="Theatre.h" />
+    <ClInclude Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Box.cpp">
@@ -84,5 +85,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Theatre.cpp" />
+    <ClCompile Include="Stage.cpp" />
   </ItemGroup>
 </Project>
