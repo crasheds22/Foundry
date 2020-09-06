@@ -54,6 +54,7 @@
     <ClInclude Include="sys_Render.h">
       <Filter>Systems\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Props.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -86,5 +87,6 @@
     <ClCompile Include="sys_Render.cpp">
       <Filter>Systems\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Props.cpp" />
   </ItemGroup>
 </Project>
