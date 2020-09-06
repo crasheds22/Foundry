@@ -25,9 +25,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Texture.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
@@ -54,11 +51,11 @@
     <ClInclude Include="com_Sphere.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
+    <ClInclude Include="com_Texture.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
@@ -84,6 +81,9 @@
       <Filter>Components\Source</Filter>
     </ClCompile>
     <ClCompile Include="com_Sphere.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Texture.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
   </ItemGroup>
