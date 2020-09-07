@@ -8,6 +8,8 @@
 
 #include "com_Camera.h"
 
+enum class Action { FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN };
+
 class Props
 {
 public:
@@ -23,6 +25,10 @@ public:
 	static Component::Camera* GetActiveCamera();
 	static void SetActiveCamera(Component::Camera* cam);
 
+	static bool KeyDown(Action key);
+	static bool KeyHeld(Action key);
+	static bool KeyUp(Action key);
+
 private:
 	Props() {};
 	Props(const Props& p) {};
@@ -33,5 +39,10 @@ private:
 	static double mDeltaTime;
 
 	static Component::Camera* mActiveCamera;
+
+	static std::map<int, bool> mKeyDown;
+	static std::map<int, bool> mKeyUp;
+
+	static std::map<Action, int> mKeyBind;
 };
 

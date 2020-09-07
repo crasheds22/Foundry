@@ -6,8 +6,30 @@ double Props::mDeltaTime = 0;
 
 Component::Camera* Props::mActiveCamera = nullptr;
 
+std::map<int, bool> Props::mKeyUp;
+std::map<int, bool> Props::mKeyDown;
+
+std::map<Action, int> Props::mKeyBind
+{
+	{Action::LEFT,		GLFW_KEY_A},
+	{Action::RIGHT,		GLFW_KEY_D},
+	{Action::FORWARD,	GLFW_KEY_W},
+	{Action::BACKWARD,	GLFW_KEY_S}
+};
+
 void Props::KeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	if (action == GLFW_PRESS)
+	{
+		mKeyDown[key] = true;
+		mKeyUp[key] = false;
+	}
+
+	if (action == GLFW_RELEASE)
+	{
+		mKeyDown[key] = false;
+		mKeyUp[key] = true;
+	}
 }
 
 void Props::MouseMoveCallback(GLFWwindow* window, double xPos, double yPos)
@@ -24,6 +46,7 @@ void Props::ScrollWheelCallback(GLFWwindow* window, double xOff, double yOff)
 
 void Props::ResizeCallback(GLFWwindow* window, int width, int height)
 {
+	glViewport(0, 0, width, height);
 }
 
 void Props::CalcDeltaTime()
@@ -48,4 +71,19 @@ Component::Camera* Props::GetActiveCamera()
 void Props::SetActiveCamera(Component::Camera* cam)
 {
 	mActiveCamera = cam;
+}
+
+bool Props::KeyDown(Action key)
+{
+	return mKeyDown[mKeyBind[key]];
+}
+
+bool Props::KeyHeld(Action key)
+{
+	return mKeyDown[mKeyBind[key]];
+}
+
+bool Props::KeyUp(Action key)
+{
+	return mKeyUp[mKeyBind[key]];
 }
