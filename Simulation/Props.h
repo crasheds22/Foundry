@@ -8,7 +8,7 @@
 
 #include "com_Camera.h"
 
-enum class Action { FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN };
+enum class Action { FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN, };
 
 class Props
 {
@@ -29,6 +29,10 @@ public:
 	static bool KeyHeld(Action key);
 	static bool KeyUp(Action key);
 
+	static bool MouseButtonDown();
+	static bool MouseButtonHeld();
+	static bool MouseButtonUp();
+
 private:
 	Props() {};
 	Props(const Props& p) {};
@@ -44,5 +48,10 @@ private:
 	static std::map<int, bool> mKeyUp;
 
 	static std::map<Action, int> mKeyBind;
+
+	static std::map<int, bool> mMouseButtonDown;
+	static std::map<int, bool> mMouseButtonUp;
+
+	static std::map<Action, int> mMouseButtonBind;
 };
 

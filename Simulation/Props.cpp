@@ -17,6 +17,11 @@ std::map<Action, int> Props::mKeyBind
 	{Action::BACKWARD,	GLFW_KEY_S}
 };
 
+std::map<int, bool> Props::mMouseButtonDown;
+std::map<int, bool> Props::mMouseButtonUp;
+
+std::map<Action, int> Props::mMouseButtonBind;
+
 void Props::KeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (action == GLFW_PRESS)
@@ -38,6 +43,17 @@ void Props::MouseMoveCallback(GLFWwindow* window, double xPos, double yPos)
 
 void Props::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 {
+	if (action == GLFW_PRESS)
+	{
+		mMouseButtonDown[button] = true;
+		mMouseButtonUp[button] = false;
+	}
+
+	if (action == GLFW_RELEASE)
+	{
+		mMouseButtonDown[button] = false;
+		mMouseButtonUp[button] = true;
+	}
 }
 
 void Props::ScrollWheelCallback(GLFWwindow* window, double xOff, double yOff)
@@ -86,4 +102,19 @@ bool Props::KeyHeld(Action key)
 bool Props::KeyUp(Action key)
 {
 	return mKeyUp[mKeyBind[key]];
+}
+
+bool Props::MouseButtonDown()
+{
+	return false;
+}
+
+bool Props::MouseButtonHeld()
+{
+	return false;
+}
+
+bool Props::MouseButtonUp()
+{
+	return false;
 }
