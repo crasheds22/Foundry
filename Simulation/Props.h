@@ -33,6 +33,9 @@ public:
 	static bool MouseButtonHeld();
 	static bool MouseButtonUp();
 
+	static double MouseOffsetX();
+	static double MouseOffsetY();
+
 private:
 	Props() {};
 	Props(const Props& p) {};
@@ -53,5 +56,12 @@ private:
 	static std::map<int, bool> mMouseButtonUp;
 
 	static std::map<Action, int> mMouseButtonBind;
+
+	static bool mFirstMouse;
+
+	static double mLastMouseX;
+	static double mLastMouseY;
+	static double mMouseOffsetX;
+	static double mMouseOffsetY;
 };
 

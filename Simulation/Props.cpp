@@ -22,6 +22,13 @@ std::map<int, bool> Props::mMouseButtonUp;
 
 std::map<Action, int> Props::mMouseButtonBind;
 
+bool Props::mFirstMouse = true;
+
+double Props::mLastMouseX = 0.0;
+double Props::mLastMouseY = 0.0;
+double Props::mMouseOffsetX = 0.0;
+double Props::mMouseOffsetY = 0.0;
+
 void Props::KeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (action == GLFW_PRESS)
@@ -39,6 +46,15 @@ void Props::KeyboardCallback(GLFWwindow* window, int key, int scancode, int acti
 
 void Props::MouseMoveCallback(GLFWwindow* window, double xPos, double yPos)
 {
+	if (mFirstMouse)
+	{
+		mLastMouseX = xPos;
+		mLastMouseY = yPos;
+		mFirstMouse = false;
+	}
+
+	mMouseOffsetX = xPos - mLastMouseX;
+	mMouseOffsetY = mLastMouseY - yPos;
 }
 
 void Props::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
@@ -117,4 +133,14 @@ bool Props::MouseButtonHeld()
 bool Props::MouseButtonUp()
 {
 	return false;
+}
+
+double Props::MouseOffsetX()
+{
+	return mMouseOffsetX;
+}
+
+double Props::MouseOffsetY()
+{
+	return mMouseOffsetY;
 }
