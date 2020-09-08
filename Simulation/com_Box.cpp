@@ -4,15 +4,17 @@ namespace Component
 {
 	Box::Box(glm::vec3 min, glm::vec3 max) : mMin(min), mMax(max)
 	{
+		Type(ColliderType::BOX);
 	}
 
 	Box::Box(const Box& b) : mMin(b.mMin), mMax(b.mMax)
 	{
+		Type(ColliderType::BOX);
 	}
 	
-	Box::~Box()
+	/* Box::~Box()
 	{
-	}
+	} */
 	
 	glm::vec3 Box::Max() const
 	{
