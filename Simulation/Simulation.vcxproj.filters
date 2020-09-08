@@ -58,6 +58,12 @@
     <ClInclude Include="com_Player.h">
       <Filter>Components\Header</Filter>
     </ClInclude>
+    <ClInclude Include="com_Plane.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Collider.h">
+      <Filter>Components\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -92,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="Props.cpp" />
     <ClCompile Include="com_Player.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Plane.cpp">
+      <Filter>Components\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Collider.cpp">
       <Filter>Components\Source</Filter>
     </ClCompile>
   </ItemGroup>

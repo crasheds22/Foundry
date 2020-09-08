@@ -10,9 +10,9 @@ namespace Component
 	{
 	}
 	
-	Box::~Box()
+	/* Box::~Box()
 	{
-	}
+	} */
 	
 	glm::vec3 Box::Max() const
 	{

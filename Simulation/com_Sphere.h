@@ -8,10 +8,11 @@
 
 
 #include <glm/glm.hpp>
+#include "com_Collider.h"
 
 namespace Component
 {
-	class Sphere 
+	class Sphere : public Collider
 	{
 	public:
 		Sphere(glm::vec3 centre, float rad);
