@@ -11,8 +11,8 @@
 
 #include "../ECS_core/System.h"
 
-#include "Box.h"
-#include "Sphere.h"
+#include "com_Box.h"
+#include "com_Sphere.h"
 
 class CollisionDetection : public ECS::System
 {

@@ -1,4 +1,4 @@
-#include "Box.h"
+#include "com_Box.h"
 
 namespace Component
 {

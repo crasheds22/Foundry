@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include "com_Camera.h"
 
 namespace Component
 {

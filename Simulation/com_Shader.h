@@ -14,6 +14,8 @@ namespace Component
 	class Shader
 	{
 	public:
+		Shader() {};
+		Shader(const Shader& s) {};
 		Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 		~Shader();
 
@@ -43,6 +45,6 @@ namespace Component
 		void setMat4(const std::string& name, const glm::mat4& mat);
 
 	private:
-		unsigned int mID;
+		unsigned int mID{};
 	};
 }

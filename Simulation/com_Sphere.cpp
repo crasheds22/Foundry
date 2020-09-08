@@ -1,4 +1,4 @@
-#include "Sphere.h"
+#include "com_Sphere.h"
 
 namespace Component
 {

@@ -122,6 +122,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;Graphics.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,26 +142,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CollisionDetection.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="Render.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="Sphere.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="com_Box.h" />
+    <ClInclude Include="com_Camera.h" />
+    <ClInclude Include="com_Player.h" />
+    <ClInclude Include="Props.h" />
+    <ClInclude Include="sys_CollisionDetection.h" />
+    <ClInclude Include="com_Model.h" />
+    <ClInclude Include="sys_Render.h" />
+    <ClInclude Include="com_Shader.h" />
+    <ClInclude Include="com_Sphere.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="com_Texture.h" />
+    <ClInclude Include="Theatre.h" />
+    <ClInclude Include="com_Transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Box.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CollisionDetection.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Render.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="Sphere.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="com_Box.cpp" />
+    <ClCompile Include="com_Camera.cpp" />
+    <ClCompile Include="com_Player.cpp" />
+    <ClCompile Include="Props.cpp" />
+    <ClCompile Include="sys_CollisionDetection.cpp" />
+    <ClCompile Include="com_Model.cpp" />
+    <ClCompile Include="sys_Render.cpp" />
+    <ClCompile Include="com_Shader.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="com_Sphere.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="com_Texture.cpp" />
+    <ClCompile Include="Theatre.cpp" />
+    <ClCompile Include="com_Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,6 +7,7 @@ namespace Component
 	class Transform
 	{
 	public:
+		Transform() {};
 		Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale);
 		Transform(const Transform& t);
 		~Transform();
@@ -21,8 +22,8 @@ namespace Component
 		void Scale(glm::vec3 scale);
 
 	private:
-		glm::vec3 mPosition;
-		glm::vec3 mRotation;
-		glm::vec3 mScale;
+		glm::vec3 mPosition{};
+		glm::vec3 mRotation{};
+		glm::vec3 mScale{};
 	};
 }

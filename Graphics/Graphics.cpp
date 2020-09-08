@@ -1,5 +1,8 @@
 #include "Graphics.h"
 
+double _Graphics::mScreenHeight = 0;
+double _Graphics::mScreenWidth = 0;
+
 void _Graphics::InitializeGLFW()
 {
     glfwInit();
@@ -26,6 +29,28 @@ GLFWwindow* _Graphics::CreateWindow(int width, int height, std::string title)
         std::cerr << "Failed to create GLFW window" << std::endl;
         std::exit(1);
     }
+
+    mScreenHeight = height;
+    mScreenWidth = width;
+    return window;
+}
+
+GLFWwindow* _Graphics::CreateWindow(std::string title)
+{
+    GLFWmonitor* primary = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(primary);
+
+    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, title.c_str(), primary, NULL);
+    if (window == NULL)
+    {
+        glfwTerminate();
+        std::cerr << "Failed to create a window" << std::endl;
+        std::exit(0);
+    }
+
+    mScreenHeight = mode->height;
+    mScreenWidth = mode->width;
+
     return window;
 }
 
@@ -39,6 +64,11 @@ void _Graphics::SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*,
     glfwSetFramebufferSizeCallback(window, resize);
 }
 
+void _Graphics::SetMouseButtonCallback(GLFWwindow* window, void(*mouseBtn)(GLFWwindow*, int, int, int))
+{
+    glfwSetMouseButtonCallback(window, mouseBtn);
+}
+
 void _Graphics::SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double))
 {
     glfwSetCursorPosCallback(window, cursor);
@@ -47,6 +77,11 @@ void _Graphics::SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*,
 void _Graphics::SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double))
 {
     glfwSetScrollCallback(window, scroll);
+}
+
+void _Graphics::SetKeyboardCallback(GLFWwindow* window, void(*keys)(GLFWwindow*, int, int, int, int))
+{
+    glfwSetKeyCallback(window, keys);
 }
 
 void _Graphics::CaptureMouse(GLFWwindow* window)
@@ -176,6 +211,21 @@ void _Graphics::Disable(Capability cap)
 float _Graphics::GetTime()
 {
     return glfwGetTime();
+}
+
+double _Graphics::ScreenWidth()
+{
+    return mScreenWidth;
+}
+
+double _Graphics::ScreenHeight()
+{
+    return mScreenHeight;
+}
+
+float _Graphics::AspectRatio()
+{
+    return mScreenWidth / mScreenHeight;
 }
 
 

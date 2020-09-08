@@ -11,7 +11,7 @@ namespace ECS
 	class EntityManager
 	{
 	public:
-		EntityManager()
+		EntityManager(): mLivingEntityCount(0)
 		{
 			for (Entity entity = 0; entity < MAX_ENTITIES; entity++)
 			{
@@ -59,7 +59,7 @@ namespace ECS
 
 	private:
 		std::queue<Entity> mAvailableEntities;
-		std::array<Signature, MAX_ENTITIES> mSignatures;
+		std::array<Signature, MAX_ENTITIES> mSignatures { };
 		uint32_t mLivingEntityCount;
 	};
 }
