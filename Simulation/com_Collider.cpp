@@ -6,7 +6,6 @@ namespace Component
 	} // end Collider
 
 	Collider::~Collider() {
-
 	} // end ~Collider
 
 	void Collider::Type(ColliderType type) {

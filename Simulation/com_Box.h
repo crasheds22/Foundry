@@ -66,7 +66,7 @@ namespace Component
 		void Min(glm::vec3 min);
 
 	private:
-		glm::vec3 mMin; // minimum point
-		glm::vec3 mMax; // maximum point
+		glm::vec3 mMin; /// minimum point
+		glm::vec3 mMax; /// maximum point
 	};
 }
