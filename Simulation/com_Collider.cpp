@@ -3,7 +3,6 @@
 namespace Component
 {
 	Collider::Collider() {
-		
 	} // end Collider
 
 	Collider::~Collider() {

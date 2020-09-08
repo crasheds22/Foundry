@@ -4,10 +4,12 @@ namespace Component
 {
 	Sphere::Sphere(glm::vec3 centre, float rad) : mCentre(centre), mRadius(rad)
 	{
+		Type(ColliderType::SPHERE);
 	}
 
 	Sphere::Sphere(const Sphere& s) : mCentre(s.mCentre), mRadius(s.mRadius)
 	{
+		Type(ColliderType::SPHERE);
 	}
 	
 	Sphere::~Sphere()
