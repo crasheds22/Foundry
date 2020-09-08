@@ -24,6 +24,13 @@ namespace Component
 		Collider();
 
 		/**
+		* @brief constructs collider from type
+		* 
+		* @param ColliderType type - type of collider
+		*/
+		Collider(ColliderType type);
+
+		/**
 		* @brief destructor
 		*/
 		virtual ~Collider();
@@ -41,7 +48,7 @@ namespace Component
 		* @return ColliderType mType - enum class for type of collider
 		*/
 		ColliderType Type();
-	private:
+	protected:
 		ColliderType mType; /// enum class for type of collider (i.e. box, sphere, etc.)
 	};
 }

@@ -37,3 +37,12 @@ bool CollisionDetection::BoxSphereCollision(Component::Box &b, Component::Sphere
 
 	return distance < Squaref(s.Radius());
 } // end BoxSphereCollision
+
+bool CollisionDetection::TestCollision(Component::Collider& a, Component::Collider& b) {
+	if ((a.Type() == Component::ColliderType::BOX) && (b.Type() == Component::ColliderType::BOX)) {
+		return BoxCollision(static_cast<Component::Box>(a), static_cast<Component::Box>(b));
+	}
+
+
+	return false;
+}

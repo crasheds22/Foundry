@@ -11,19 +11,28 @@
 
 #include "../ECS_core/System.h"
 
+#include "com_Collider.h"
 #include "com_Box.h"
 #include "com_Sphere.h"
 
 class CollisionDetection : public ECS::System
 {
 public:
-
+	/**
+	* @brief takes two colliders and calls the appropriate function to test for collision
+	* 
+	* @param Collider &a - first of the two colliders
+	* @param Collider &b - second of the two colliders
+	* @return true if collision, false if none
+	*/
+	bool TestCollision(Component::Collider& a, Component::Collider& b);
 private:
 	/**
 	* @brief detect collision between two boxes
 	* 
 	* @param Box &a - first of the two boxes to check for a collision between
 	* @param Box &b - second of the two boxes to check for a collision between
+	* @return true if collision, false if none
 	*/
 	bool BoxCollision(Component::Box &a, Component::Box &b);
 
@@ -42,6 +51,7 @@ private:
 	* 
 	* @param Box &b - box to check if it has collided with a sphere
 	* @param Sphere &s - sphere to check if it has collided with a box
+	* @return true if collision, false if none
 	*/
 	bool BoxSphereCollision(Component::Box &b, Component::Sphere &s);
 

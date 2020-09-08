@@ -35,7 +35,7 @@ namespace Component
 		* 
 		* @post box is destructed
 		*/
-		//~Box();
+		~Box();
 
 		/**
 		* @brief returns max

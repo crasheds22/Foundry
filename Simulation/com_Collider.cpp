@@ -5,6 +5,10 @@ namespace Component
 	Collider::Collider() {
 	} // end Collider
 
+	Collider::Collider(ColliderType type) {
+		mType = type;
+	}
+
 	Collider::~Collider() {
 	} // end ~Collider
 

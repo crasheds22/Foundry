@@ -2,14 +2,12 @@
 
 namespace Component
 {
-	Sphere::Sphere(glm::vec3 center, float rad) : mCenter(center), mRadius(rad)
+	Sphere::Sphere(glm::vec3 center, float rad) : mCenter(center), mRadius(rad), Collider(ColliderType::SPHERE)
 	{
-		Type(ColliderType::SPHERE);
 	}
 
-	Sphere::Sphere(const Sphere& s) : mCenter(s.mCenter), mRadius(s.mRadius)
+	Sphere::Sphere(const Sphere& s) : mCenter(s.mCenter), mRadius(s.mRadius), Collider(ColliderType::BOX)
 	{
-		Type(ColliderType::SPHERE);
 	}
 	
 	Sphere::~Sphere()
