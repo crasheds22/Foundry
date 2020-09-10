@@ -5,11 +5,15 @@ namespace Component
 	class com_Player
 	{
 	public:
-		com_Player();
-		com_Player(const com_Player& p);
-		~com_Player();
+		com_Player() : mMoveSpeed(0.0f), mRotateSpeed(0.0f) {};
+		com_Player(float move, float rotate);
+
+		float MoveSpeed() const;
+		float RotateSpeed() const;
 
 	private:
+		float mMoveSpeed;
+		float mRotateSpeed;
 
 	};
 }
