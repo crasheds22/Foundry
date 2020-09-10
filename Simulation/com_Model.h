@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "../Graphics/Model.h"
+#include "Model.h"
 
 namespace Component
 {

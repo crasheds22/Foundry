@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ECS_core/System.h"
+#include "System.h"
 
 namespace System
 {

@@ -9,6 +9,8 @@
 
 #include <string>
 
+#include "Shader.h"
+
 namespace Component
 {
 	class com_Shader

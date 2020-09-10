@@ -2,8 +2,8 @@
 
 #include "UnitTest.h"
 
-#include "../Graphics/Graphics.h"
-#include "../Graphics/Texture.h"
+#include "Graphics.h"
+#include "Texture.h"
 
 #include "com_Shader.h"
 #include "com_Texture.h"

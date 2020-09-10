@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "Texture.h"
+
 namespace Component
 {
 	class com_Texture

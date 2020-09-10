@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ECS_core/Types.h"
+#include "Types.h"
 
 #include <glm/glm.hpp>
 #include <glm/geometric.hpp>

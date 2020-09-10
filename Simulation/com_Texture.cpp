@@ -1,7 +1,5 @@
 #include "com_Texture.h"
 
-#include "../Graphics/Texture.h"
-
 namespace Component
 {
 	com_Texture::com_Texture(std::string path)

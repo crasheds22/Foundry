@@ -1,7 +1,5 @@
 #include "com_Shader.h"
 
-#include "../Graphics/Shader.h"
-
 namespace Component
 {
 	com_Shader::com_Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
