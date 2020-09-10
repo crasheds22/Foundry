@@ -1,9 +1,9 @@
 #include "Graphics.h"
 
-double _Graphics::mScreenHeight = 0;
-double _Graphics::mScreenWidth = 0;
+double Graphics::mScreenHeight = 0;
+double Graphics::mScreenWidth = 0;
 
-void _Graphics::InitializeGLFW()
+void Graphics::InitializeGLFW()
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -11,7 +11,7 @@ void _Graphics::InitializeGLFW()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
-void _Graphics::InitializeGLAD()
+void Graphics::InitializeGLAD()
 {
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -20,7 +20,7 @@ void _Graphics::InitializeGLAD()
     }
 }
 
-GLFWwindow* _Graphics::CreateWindow(int width, int height, std::string title)
+GLFWwindow* Graphics::CreateWindow(int width, int height, std::string title)
 {
     GLFWwindow* window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     if (window == NULL)
@@ -35,7 +35,7 @@ GLFWwindow* _Graphics::CreateWindow(int width, int height, std::string title)
     return window;
 }
 
-GLFWwindow* _Graphics::CreateWindow(std::string title)
+GLFWwindow* Graphics::CreateWindow(std::string title)
 {
     GLFWmonitor* primary = glfwGetPrimaryMonitor();
     const GLFWvidmode* mode = glfwGetVideoMode(primary);
@@ -54,176 +54,176 @@ GLFWwindow* _Graphics::CreateWindow(std::string title)
     return window;
 }
 
-void _Graphics::MakeWindowCurrent(GLFWwindow* window)
+void Graphics::MakeWindowCurrent(GLFWwindow* window)
 {
     glfwMakeContextCurrent(window);
 }
 
-void _Graphics::SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*, int, int))
+void Graphics::SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*, int, int))
 {
     glfwSetFramebufferSizeCallback(window, resize);
 }
 
-void _Graphics::SetMouseButtonCallback(GLFWwindow* window, void(*mouseBtn)(GLFWwindow*, int, int, int))
+void Graphics::SetMouseButtonCallback(GLFWwindow* window, void(*mouseBtn)(GLFWwindow*, int, int, int))
 {
     glfwSetMouseButtonCallback(window, mouseBtn);
 }
 
-void _Graphics::SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double))
+void Graphics::SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double))
 {
     glfwSetCursorPosCallback(window, cursor);
 }
 
-void _Graphics::SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double))
+void Graphics::SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double))
 {
     glfwSetScrollCallback(window, scroll);
 }
 
-void _Graphics::SetKeyboardCallback(GLFWwindow* window, void(*keys)(GLFWwindow*, int, int, int, int))
+void Graphics::SetKeyboardCallback(GLFWwindow* window, void(*keys)(GLFWwindow*, int, int, int, int))
 {
     glfwSetKeyCallback(window, keys);
 }
 
-void _Graphics::CaptureMouse(GLFWwindow* window)
+void Graphics::CaptureMouse(GLFWwindow* window)
 {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-bool _Graphics::ShouldWindowClose(GLFWwindow* window)
+bool Graphics::ShouldWindowClose(GLFWwindow* window)
 {
     return glfwWindowShouldClose(window);
 }
 
-void _Graphics::SetWindowShouldClose(GLFWwindow* window)
+void Graphics::SetWindowShouldClose(GLFWwindow* window)
 {
     glfwSetWindowShouldClose(window, true);
 }
 
-void _Graphics::Clear(float r, float b, float g, float a)
+void Graphics::Clear(float r, float b, float g, float a)
 {
     glClearColor(r, g, b, a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void _Graphics::SwapBuffers(GLFWwindow* window)
+void Graphics::SwapBuffers(GLFWwindow* window)
 {
     glfwSwapBuffers(window);
 }
 
-void _Graphics::PollForEvents()
+void Graphics::PollForEvents()
 {
     glfwPollEvents();
 }
 
-void _Graphics::Terminate()
+void Graphics::Terminate()
 {
     glfwTerminate();
 }
 
-void _Graphics::GenerateVertexArrays(unsigned int& ID, int n)
+void Graphics::GenerateVertexArrays(unsigned int& ID, int n)
 {
     glGenVertexArrays(n, &ID);
 }
 
-void _Graphics::GenerateBuffer(unsigned int& ID, int n)
+void Graphics::GenerateBuffer(unsigned int& ID, int n)
 {
     glGenBuffers(n, &ID);
 }
 
-void _Graphics::BindArray(unsigned int ID)
+void Graphics::BindArray(unsigned int ID)
 {
     glBindVertexArray(ID);
 }
 
-void _Graphics::BindBuffer(BufferType type, unsigned int ID)
+void Graphics::BindBuffer(BufferType type, unsigned int ID)
 {
     glBindBuffer(Deserialise(type), ID);
 }
 
-void _Graphics::BindBufferAndData(BufferType type, unsigned int ID, GLsizeiptr sizeptr, const void* data)
+void Graphics::BindBufferAndData(BufferType type, unsigned int ID, GLsizeiptr sizeptr, const void* data)
 {
     glBindBuffer(Deserialise(type), ID);
     glBufferData(Deserialise(type), sizeptr, data, GL_STATIC_DRAW);
 }
 
-void _Graphics::VertexAttirbutePointer(int index, int size, GLsizei stride, const void* offset)
+void Graphics::VertexAttirbutePointer(int index, int size, GLsizei stride, const void* offset)
 {
     glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, offset);
     glEnableVertexAttribArray(index);
 }
 
-void _Graphics::UnbindBuffer(BufferType type)
+void Graphics::UnbindBuffer(BufferType type)
 {
     glBindBuffer(Deserialise(type), 0);
 }
 
-void _Graphics::UnbindArray()
+void Graphics::UnbindArray()
 {
     glBindVertexArray(0);
 }
 
-void _Graphics::DrawElements(Shape shapes, GLsizei count, DataType type, const void* indices)
+void Graphics::DrawElements(Shape shapes, GLsizei count, DataType type, const void* indices)
 {
     glDrawElements(Deserialise(shapes), count, Deserialise(type), indices);
 }
 
-void _Graphics::DrawArrays(Shape shapes, int first, GLsizei count)
+void Graphics::DrawArrays(Shape shapes, int first, GLsizei count)
 {
     glDrawArrays(Deserialise(shapes), first, count);
 }
 
-void _Graphics::DeleteBuffers(unsigned int& ID, int n)
+void Graphics::DeleteBuffers(unsigned int& ID, int n)
 {
     glDeleteBuffers(n, &ID);
 }
 
-void _Graphics::DeleteArrays(unsigned int& ID, int n)
+void Graphics::DeleteArrays(unsigned int& ID, int n)
 {
     glDeleteVertexArrays(n, &ID);
 }
 
-void _Graphics::DeleteProgram(unsigned int ID)
+void Graphics::DeleteProgram(unsigned int ID)
 {
     glDeleteProgram(ID);
 }
 
-void _Graphics::BindTextureOnUnit(Unit unit, unsigned int ID)
+void Graphics::BindTextureOnUnit(Unit unit, unsigned int ID)
 {
     glActiveTexture(Deserialise(unit));
     glBindTexture(GL_TEXTURE_2D, ID);
 }
 
-void _Graphics::SetWindowUserPointer(GLFWwindow* window, void* pointer)
+void Graphics::SetWindowUserPointer(GLFWwindow* window, void* pointer)
 {
     glfwSetWindowUserPointer(window, pointer);
 }
 
-void _Graphics::Enable(Capability cap)
+void Graphics::Enable(Capability cap)
 {
     glEnable(Deserialise(cap));
 }
 
-void _Graphics::Disable(Capability cap)
+void Graphics::Disable(Capability cap)
 {
     glDisable(Deserialise(cap));
 }
 
-float _Graphics::GetTime()
+float Graphics::GetTime()
 {
     return glfwGetTime();
 }
 
-double _Graphics::ScreenWidth()
+double Graphics::ScreenWidth()
 {
     return mScreenWidth;
 }
 
-double _Graphics::ScreenHeight()
+double Graphics::ScreenHeight()
 {
     return mScreenHeight;
 }
 
-float _Graphics::AspectRatio()
+float Graphics::AspectRatio()
 {
     return mScreenWidth / mScreenHeight;
 }
@@ -231,7 +231,7 @@ float _Graphics::AspectRatio()
 
 
 
-GLenum _Graphics::Deserialise(BufferType type)
+GLenum Graphics::Deserialise(BufferType type)
 {
     switch (type)
     {
@@ -242,7 +242,7 @@ GLenum _Graphics::Deserialise(BufferType type)
     }
 }
 
-GLenum _Graphics::Deserialise(Shape type)
+GLenum Graphics::Deserialise(Shape type)
 {
     switch (type)
     {
@@ -251,7 +251,7 @@ GLenum _Graphics::Deserialise(Shape type)
     }
 }
 
-GLenum _Graphics::Deserialise(DataType type)
+GLenum Graphics::Deserialise(DataType type)
 {
     switch (type)
     {
@@ -262,7 +262,7 @@ GLenum _Graphics::Deserialise(DataType type)
     }
 }
 
-GLenum _Graphics::Deserialise(Unit unit)
+GLenum Graphics::Deserialise(Unit unit)
 {
     switch (unit)
     {
@@ -289,7 +289,7 @@ GLenum _Graphics::Deserialise(Unit unit)
     }
 }
 
-GLenum _Graphics::Deserialise(Capability cap)
+GLenum Graphics::Deserialise(Capability cap)
 {
     switch (cap)
     {

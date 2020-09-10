@@ -5,7 +5,7 @@
 void ProcessInput(GLFWwindow* window, CameraTest* camera = nullptr, float dt = 0.0f)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        _Graphics::SetWindowShouldClose(window);
+        Graphics::SetWindowShouldClose(window);
 
     if (camera)
     {
@@ -96,21 +96,21 @@ void GraphicsTest::ScrollCallback(GLFWwindow* window, double xOff, double yOff)
 
 bool GraphicsTest::HelloWindow()
 {
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hello window");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hello window");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // input
         // -----
@@ -118,15 +118,15 @@ bool GraphicsTest::HelloWindow()
 
         // render
         // ------
-        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
         
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
@@ -135,17 +135,17 @@ bool GraphicsTest::HelloTriangle()
 {
     // glfw: initialize and configure
     // ------------------------------
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hello Triangles");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hello Triangles");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
 
     // build and compile our shader program
@@ -165,27 +165,27 @@ bool GraphicsTest::HelloTriangle()
         1, 2, 3   // second Triangle
     };
     unsigned int VBO, VAO, EBO;
-    _Graphics::GenerateVertexArrays(VAO);
-    _Graphics::GenerateBuffer(VBO);
-    _Graphics::GenerateBuffer(EBO);
+    Graphics::GenerateVertexArrays(VAO);
+    Graphics::GenerateBuffer(VBO);
+    Graphics::GenerateBuffer(EBO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    _Graphics::BindArray(VAO);
+    Graphics::BindArray(VAO);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ELEMENT, EBO, sizeof(indices), indices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ELEMENT, EBO, sizeof(indices), indices);
 
-    _Graphics::VertexAttirbutePointer(0, 3, 3 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 3 * sizeof(float), (void*)0);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    _Graphics::UnbindBuffer(_Graphics::BufferType::ARRAY);
+    Graphics::UnbindBuffer(Graphics::BufferType::ARRAY);
 
     // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    _Graphics::UnbindArray();
+    Graphics::UnbindArray();
 
 
     // uncomment this call to draw in wireframe polygons.
@@ -193,7 +193,7 @@ bool GraphicsTest::HelloTriangle()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // input
         // -----
@@ -201,48 +201,48 @@ bool GraphicsTest::HelloTriangle()
 
         // render
         // ------
-        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // draw our first triangle
         Shader::Use(shader.ID);
-        _Graphics::BindArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+        Graphics::BindArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         //glDrawArrays(GL_TRIANGLES, 0, 6);
-        _Graphics::DrawElements(_Graphics::Shape::TRIANGLES, 6, _Graphics::DataType::UNSIGNED_INT, 0);
+        Graphics::DrawElements(Graphics::Shape::TRIANGLES, 6, Graphics::DataType::UNSIGNED_INT, 0);
         // glBindVertexArray(0); // no need to unbind it every time 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    _Graphics::DeleteArrays(VAO, 1);
-    _Graphics::DeleteBuffers(VBO, 1);
-    _Graphics::DeleteBuffers(EBO, 1);
-    _Graphics::DeleteProgram(shader.ID);
+    Graphics::DeleteArrays(VAO, 1);
+    Graphics::DeleteBuffers(VBO, 1);
+    Graphics::DeleteBuffers(EBO, 1);
+    Graphics::DeleteProgram(shader.ID);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
 
 bool GraphicsTest::UsingShaders()
 {
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Using shaders");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Using shaders");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // build and compile our shader program
     // ------------------------------------
@@ -258,17 +258,17 @@ bool GraphicsTest::UsingShaders()
     };
 
     unsigned int VBO, VAO;
-    _Graphics::GenerateVertexArrays(VAO);
-    _Graphics::GenerateBuffer(VBO);
+    Graphics::GenerateVertexArrays(VAO);
+    Graphics::GenerateBuffer(VBO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    _Graphics::BindArray(VAO);
+    Graphics::BindArray(VAO);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
     // position attribute
-    _Graphics::VertexAttirbutePointer(0, 3, 6 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 6 * sizeof(float), (void*)0);
     // color attribute
-    _Graphics::VertexAttirbutePointer(1, 3, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(1, 3, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
@@ -277,7 +277,7 @@ bool GraphicsTest::UsingShaders()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // input
         // -----
@@ -285,27 +285,27 @@ bool GraphicsTest::UsingShaders()
 
         // render
         // ------
-        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // render the triangle
         Shader::Use(ourShader.ID);
-        _Graphics::BindArray(VAO);
-        _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 3);
+        Graphics::BindArray(VAO);
+        Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 3);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    _Graphics::DeleteArrays(VAO, 1);
-    _Graphics::DeleteBuffers(VBO, 1);
+    Graphics::DeleteArrays(VAO, 1);
+    Graphics::DeleteBuffers(VBO, 1);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
@@ -314,17 +314,17 @@ bool GraphicsTest::Textures()
 {
     // glfw: initialize and configure
     // ------------------------------
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Textures");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Textures");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -344,22 +344,22 @@ bool GraphicsTest::Textures()
         1, 2, 3  // second triangle
     };
     unsigned int VBO, VAO, EBO;
-    _Graphics::GenerateVertexArrays(VAO);
-    _Graphics::GenerateBuffer(VBO);
-    _Graphics::GenerateBuffer(EBO);
+    Graphics::GenerateVertexArrays(VAO);
+    Graphics::GenerateBuffer(VBO);
+    Graphics::GenerateBuffer(EBO);
 
-    _Graphics::BindArray(VAO);
+    Graphics::BindArray(VAO);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ELEMENT, EBO, sizeof(indices), indices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ELEMENT, EBO, sizeof(indices), indices);
 
     // position attribute
-    _Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
     // color attribute
-    _Graphics::VertexAttirbutePointer(1, 3, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(1, 3, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     // texture coord attribute
-    _Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
     Texture::FlipVertically();
     TextureTest texture1("../Data/Textures/container.jpg");
@@ -373,7 +373,7 @@ bool GraphicsTest::Textures()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // input
         // -----
@@ -381,32 +381,32 @@ bool GraphicsTest::Textures()
 
         // render
         // ------
-        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ZERO, texture1.ID);
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ONE, texture2.ID);
+        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.ID);
+        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID);
 
         // render container
         Shader::Use(ourShader.ID);
-        _Graphics::BindArray(VAO);
-        _Graphics::DrawElements(_Graphics::Shape::TRIANGLES, 6, _Graphics::DataType::UNSIGNED_INT, 0);
+        Graphics::BindArray(VAO);
+        Graphics::DrawElements(Graphics::Shape::TRIANGLES, 6, Graphics::DataType::UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    _Graphics::DeleteArrays(VAO, 1);
-    _Graphics::DeleteBuffers(VBO, 1);
-    _Graphics::DeleteBuffers(EBO, 1);
+    Graphics::DeleteArrays(VAO, 1);
+    Graphics::DeleteBuffers(VBO, 1);
+    Graphics::DeleteBuffers(EBO, 1);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
@@ -423,27 +423,27 @@ bool GraphicsTest::CameraAndCubes()
 
     // glfw: initialize and configure
     // ------------------------------
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Camera and Cubes");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetWindowUserPointer(window, this);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    _Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
-    _Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Camera and Cubes");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetWindowUserPointer(window, this);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
+    Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
 
     // tell GLFW to capture our mouse
-    _Graphics::CaptureMouse(window);
+    Graphics::CaptureMouse(window);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // configure global opengl state
     // -----------------------------
-    _Graphics::Enable(_Graphics::Capability::DEPTH);
+    Graphics::Enable(Graphics::Capability::DEPTH);
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -508,17 +508,17 @@ bool GraphicsTest::CameraAndCubes()
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
     unsigned int VBO, VAO;
-    _Graphics::GenerateVertexArrays(VAO);
-    _Graphics::GenerateBuffer(VBO);
+    Graphics::GenerateVertexArrays(VAO);
+    Graphics::GenerateBuffer(VBO);
 
-    _Graphics::BindArray(VAO);
+    Graphics::BindArray(VAO);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
     // position attribute
-    _Graphics::VertexAttirbutePointer(0, 3, 5 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 5 * sizeof(float), (void*)0);
     // texture coord attribute
-    _Graphics::VertexAttirbutePointer(1, 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(1, 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
 
     // load and create a texture 
@@ -536,11 +536,11 @@ bool GraphicsTest::CameraAndCubes()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // per-frame time logic
         // --------------------
-        float currentFrame = _Graphics::GetTime();
+        float currentFrame = Graphics::GetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
@@ -550,11 +550,11 @@ bool GraphicsTest::CameraAndCubes()
 
         // render
         // ------
-        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ZERO, texture1.ID);
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ONE, texture2.ID);
+        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.ID);
+        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID);
 
         // activate shader
         Shader::Use(ourShader.ID);
@@ -568,7 +568,7 @@ bool GraphicsTest::CameraAndCubes()
         Shader::setMat4(ourShader.ID, "view", view);
 
         // render boxes
-        _Graphics::BindArray(VAO);
+        Graphics::BindArray(VAO);
         for (unsigned int i = 0; i < 10; i++)
         {
             // calculate the model matrix for each object and pass it to shader before drawing
@@ -578,23 +578,23 @@ bool GraphicsTest::CameraAndCubes()
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             Shader::setMat4(ourShader.ID, "model", model);
 
-            _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
+            Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
         }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    _Graphics::DeleteArrays(VAO, 1);
-    _Graphics::DeleteBuffers(VBO, 1);
+    Graphics::DeleteArrays(VAO, 1);
+    Graphics::DeleteBuffers(VBO, 1);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
@@ -613,27 +613,27 @@ bool GraphicsTest::IntroToLighting()
 
     // glfw: initialize and configure
     // ------------------------------
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Lights intro");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetWindowUserPointer(window, this);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    _Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
-    _Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Lights intro");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetWindowUserPointer(window, this);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
+    Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
 
     // tell GLFW to capture our mouse
-    _Graphics::CaptureMouse(window);
+    Graphics::CaptureMouse(window);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // configure global opengl state
     // -----------------------------
-    _Graphics::Enable(_Graphics::Capability::DEPTH);
+    Graphics::Enable(Graphics::Capability::DEPTH);
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -687,36 +687,36 @@ bool GraphicsTest::IntroToLighting()
     };
     // first, configure the cube's VAO (and VBO)
     unsigned int VBO, cubeVAO;
-    _Graphics::GenerateVertexArrays(cubeVAO);
-    _Graphics::GenerateBuffer(VBO);
+    Graphics::GenerateVertexArrays(cubeVAO);
+    Graphics::GenerateBuffer(VBO);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
-    _Graphics::BindArray(cubeVAO);
+    Graphics::BindArray(cubeVAO);
 
     // position attribute
-    _Graphics::VertexAttirbutePointer(0, 3, 6 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 6 * sizeof(float), (void*)0);
     // normal attribute
-    _Graphics::VertexAttirbutePointer(1, 3, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(1, 3, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
 
     // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
     unsigned int lightCubeVAO;
-    _Graphics::GenerateVertexArrays(lightCubeVAO);
-    _Graphics::BindArray(lightCubeVAO);
+    Graphics::GenerateVertexArrays(lightCubeVAO);
+    Graphics::BindArray(lightCubeVAO);
 
-    _Graphics::BindBuffer(_Graphics::BufferType::ARRAY, VBO);
+    Graphics::BindBuffer(Graphics::BufferType::ARRAY, VBO);
     // note that we update the lamp's position attribute's stride to reflect the updated buffer data
-    _Graphics::VertexAttirbutePointer(0, 3, 6 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 6 * sizeof(float), (void*)0);
 
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // per-frame time logic
         // --------------------
-        float currentFrame = _Graphics::GetTime();
+        float currentFrame = Graphics::GetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
@@ -726,7 +726,7 @@ bool GraphicsTest::IntroToLighting()
 
         // render
         // ------
-        _Graphics::Clear(0.1f, 0.1f, 0.1f, 1.0f);
+        Graphics::Clear(0.1f, 0.1f, 0.1f, 1.0f);
 
         // be sure to activate shader when setting uniforms/drawing objects
         Shader::Use(lightingShader.ID);
@@ -746,8 +746,8 @@ bool GraphicsTest::IntroToLighting()
         Shader::setMat4(lightingShader.ID, "model", model);
 
         // render the cube
-        _Graphics::BindArray(cubeVAO);
-        _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
+        Graphics::BindArray(cubeVAO);
+        Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
 
 
         // also draw the lamp object
@@ -759,25 +759,25 @@ bool GraphicsTest::IntroToLighting()
         model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
         Shader::setMat4(lightCubeShader.ID, "model", model);
 
-        _Graphics::BindArray(lightCubeVAO);
-        _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
+        Graphics::BindArray(lightCubeVAO);
+        Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    _Graphics::DeleteArrays(cubeVAO, 1);
-    _Graphics::DeleteArrays(lightCubeVAO, 1);
-    _Graphics::DeleteBuffers(VBO, 1);
+    Graphics::DeleteArrays(cubeVAO, 1);
+    Graphics::DeleteArrays(lightCubeVAO, 1);
+    Graphics::DeleteBuffers(VBO, 1);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
@@ -796,27 +796,27 @@ bool GraphicsTest::Lighting()
 
     // glfw: initialize and configure
     // ------------------------------
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Light scene");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetWindowUserPointer(window, this);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
-    _Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
-    _Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Light scene");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetWindowUserPointer(window, this);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
+    Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
 
     // tell GLFW to capture our mouse
-    _Graphics::CaptureMouse(window);
+    Graphics::CaptureMouse(window);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // configure global opengl state
     // -----------------------------
-    _Graphics::Enable(_Graphics::Capability::DEPTH);
+    Graphics::Enable(Graphics::Capability::DEPTH);
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -891,24 +891,24 @@ bool GraphicsTest::Lighting()
     };
     // first, configure the cube's VAO (and VBO)
     unsigned int VBO, cubeVAO;
-    _Graphics::GenerateVertexArrays(cubeVAO);
-    _Graphics::GenerateBuffer(VBO);
+    Graphics::GenerateVertexArrays(cubeVAO);
+    Graphics::GenerateBuffer(VBO);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
-    _Graphics::BindArray(cubeVAO);
-    _Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
-    _Graphics::VertexAttirbutePointer(1, 3, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    _Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    Graphics::BindArray(cubeVAO);
+    Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(1, 3, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
     // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
     unsigned int lightCubeVAO;
-    _Graphics::GenerateVertexArrays(lightCubeVAO);
-    _Graphics::BindArray(lightCubeVAO);
+    Graphics::GenerateVertexArrays(lightCubeVAO);
+    Graphics::BindArray(lightCubeVAO);
 
-    _Graphics::BindBuffer(_Graphics::BufferType::ARRAY, VBO);
+    Graphics::BindBuffer(Graphics::BufferType::ARRAY, VBO);
     // note that we update the lamp's position attribute's stride to reflect the updated buffer data
-    _Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
 
     // load textures (we now use a utility function to keep the code more organized)
     // -----------------------------------------------------------------------------
@@ -924,11 +924,11 @@ bool GraphicsTest::Lighting()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // per-frame time logic
         // --------------------
-        float currentFrame = _Graphics::GetTime();
+        float currentFrame = Graphics::GetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
@@ -938,7 +938,7 @@ bool GraphicsTest::Lighting()
 
         // render
         // ------
-        _Graphics::Clear(0.1f, 0.1f, 0.1f, 1.0f);
+        Graphics::Clear(0.1f, 0.1f, 0.1f, 1.0f);
 
         // be sure to activate shader when setting uniforms/drawing objects
         Shader::Use(lightingShader.ID);
@@ -1011,12 +1011,12 @@ bool GraphicsTest::Lighting()
         Shader::setMat4(lightingShader.ID, "model", model);
 
         // bind diffuse map
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ZERO, diffuseMap.ID);
+        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, diffuseMap.ID);
         // bind specular map
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ONE, specularMap.ID);
+        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, specularMap.ID);
 
         // render containers
-        _Graphics::BindArray(cubeVAO);
+        Graphics::BindArray(cubeVAO);
         for (unsigned int i = 0; i < 10; i++)
         {
             // calculate the model matrix for each object and pass it to shader before drawing
@@ -1026,7 +1026,7 @@ bool GraphicsTest::Lighting()
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             Shader::setMat4(lightingShader.ID, "model", model);
 
-            _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
+            Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
         }
 
         // also draw the lamp object(s)
@@ -1035,7 +1035,7 @@ bool GraphicsTest::Lighting()
         Shader::setMat4(lightingShader.ID, "view", view);
 
         // we now draw as many light bulbs as we have point lights.
-        _Graphics::BindArray(lightCubeVAO);
+        Graphics::BindArray(lightCubeVAO);
         for (unsigned int i = 0; i < 4; i++)
         {
             model = glm::mat4(1.0f);
@@ -1043,25 +1043,25 @@ bool GraphicsTest::Lighting()
             model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
             Shader::setMat4(lightingShader.ID, "model", model);
 
-            _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
+            Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
         }
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    _Graphics::DeleteArrays(cubeVAO, 1);
-    _Graphics::DeleteArrays(lightCubeVAO, 1);
-    _Graphics::DeleteBuffers(VBO, 1);
+    Graphics::DeleteArrays(cubeVAO, 1);
+    Graphics::DeleteArrays(lightCubeVAO, 1);
+    Graphics::DeleteBuffers(VBO, 1);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
@@ -1070,30 +1070,30 @@ bool GraphicsTest::ModelOne()
 {
     // glfw: initialize and configure
     // ------------------------------
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Model One");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetWindowUserPointer(window, this);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    _Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
-    _Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Model One");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetWindowUserPointer(window, this);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    Graphics::SetCursorCallback(window, GraphicsTest::MouseCallback);
+    Graphics::SetScrollCallback(window, GraphicsTest::ScrollCallback);
 
     // tell GLFW to capture our mouse
-    _Graphics::CaptureMouse(window);
+    Graphics::CaptureMouse(window);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
     Texture::FlipVertically();
 
     // configure global opengl state
     // -----------------------------
-    _Graphics::Enable(_Graphics::Capability::DEPTH);
+    Graphics::Enable(Graphics::Capability::DEPTH);
 
     // build and compile shaders
     // -------------------------
@@ -1109,11 +1109,11 @@ bool GraphicsTest::ModelOne()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // per-frame time logic
         // --------------------
-        float currentFrame = _Graphics::GetTime();
+        float currentFrame = Graphics::GetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
@@ -1123,7 +1123,7 @@ bool GraphicsTest::ModelOne()
 
         // render
         // ------
-        _Graphics::Clear(0.05f, 0.05f, 0.05f, 1.0f);
+        Graphics::Clear(0.05f, 0.05f, 0.05f, 1.0f);
 
         // don't forget to enable shader before setting uniforms
         Shader::Use(ourShader.ID);
@@ -1144,13 +1144,13 @@ bool GraphicsTest::ModelOne()
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }

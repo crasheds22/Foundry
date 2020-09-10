@@ -3,7 +3,7 @@
 void ProcessInput(GLFWwindow* window, Component::com_Camera* camera = nullptr, float dt = 0.0f)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        _Graphics::SetWindowShouldClose(window);
+        Graphics::SetWindowShouldClose(window);
 
     if (camera)
     {
@@ -59,17 +59,17 @@ bool ComponentTest::Test()
 
 bool ComponentTest::ShaderComponent()
 {
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Using shaders");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Using shaders");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // build and compile our shader program
     // ------------------------------------
@@ -85,17 +85,17 @@ bool ComponentTest::ShaderComponent()
     };
 
     unsigned int VBO, VAO;
-    _Graphics::GenerateVertexArrays(VAO);
-    _Graphics::GenerateBuffer(VBO);
+    Graphics::GenerateVertexArrays(VAO);
+    Graphics::GenerateBuffer(VBO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    _Graphics::BindArray(VAO);
+    Graphics::BindArray(VAO);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
     // position attribute
-    _Graphics::VertexAttirbutePointer(0, 3, 6 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 6 * sizeof(float), (void*)0);
     // color attribute
-    _Graphics::VertexAttirbutePointer(1, 3, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(1, 3, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
@@ -104,7 +104,7 @@ bool ComponentTest::ShaderComponent()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // input
         // -----
@@ -112,27 +112,27 @@ bool ComponentTest::ShaderComponent()
 
         // render
         // ------
-        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // render the triangle
         ourShader.Use();
-        _Graphics::BindArray(VAO);
-        _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 3);
+        Graphics::BindArray(VAO);
+        Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 3);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    _Graphics::DeleteArrays(VAO, 1);
-    _Graphics::DeleteBuffers(VBO, 1);
+    Graphics::DeleteArrays(VAO, 1);
+    Graphics::DeleteBuffers(VBO, 1);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
@@ -141,17 +141,17 @@ bool ComponentTest::TextureComponent()
 {
     // glfw: initialize and configure
     // ------------------------------
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Textures");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Textures");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -171,22 +171,22 @@ bool ComponentTest::TextureComponent()
         1, 2, 3  // second triangle
     };
     unsigned int VBO, VAO, EBO;
-    _Graphics::GenerateVertexArrays(VAO);
-    _Graphics::GenerateBuffer(VBO);
-    _Graphics::GenerateBuffer(EBO);
+    Graphics::GenerateVertexArrays(VAO);
+    Graphics::GenerateBuffer(VBO);
+    Graphics::GenerateBuffer(EBO);
 
-    _Graphics::BindArray(VAO);
+    Graphics::BindArray(VAO);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ELEMENT, EBO, sizeof(indices), indices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ELEMENT, EBO, sizeof(indices), indices);
 
     // position attribute
-    _Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 8 * sizeof(float), (void*)0);
     // color attribute
-    _Graphics::VertexAttirbutePointer(1, 3, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(1, 3, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     // texture coord attribute
-    _Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
     Texture::FlipVertically();
     Component::com_Texture texture1("../Data/Textures/container.jpg");
@@ -200,7 +200,7 @@ bool ComponentTest::TextureComponent()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // input
         // -----
@@ -208,32 +208,32 @@ bool ComponentTest::TextureComponent()
 
         // render
         // ------
-        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ZERO, texture1.ID());
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ONE, texture2.ID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.ID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID());
 
         // render container
         ourShader.Use();
-        _Graphics::BindArray(VAO);
-        _Graphics::DrawElements(_Graphics::Shape::TRIANGLES, 6, _Graphics::DataType::UNSIGNED_INT, 0);
+        Graphics::BindArray(VAO);
+        Graphics::DrawElements(Graphics::Shape::TRIANGLES, 6, Graphics::DataType::UNSIGNED_INT, 0);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    _Graphics::DeleteArrays(VAO, 1);
-    _Graphics::DeleteBuffers(VBO, 1);
-    _Graphics::DeleteBuffers(EBO, 1);
+    Graphics::DeleteArrays(VAO, 1);
+    Graphics::DeleteBuffers(VBO, 1);
+    Graphics::DeleteBuffers(EBO, 1);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
@@ -250,30 +250,30 @@ bool ComponentTest::ModelComponent()
 
     // glfw: initialize and configure
     // ------------------------------
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Model One");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetWindowUserPointer(window, this);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    _Graphics::SetCursorCallback(window, MouseCallback);
-    _Graphics::SetScrollCallback(window, ScrollCallback);
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Model One");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetWindowUserPointer(window, this);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    Graphics::SetCursorCallback(window, MouseCallback);
+    Graphics::SetScrollCallback(window, ScrollCallback);
 
     // tell GLFW to capture our mouse
-    _Graphics::CaptureMouse(window);
+    Graphics::CaptureMouse(window);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
     Texture::FlipVertically();
 
     // configure global opengl state
     // -----------------------------
-    _Graphics::Enable(_Graphics::Capability::DEPTH);
+    Graphics::Enable(Graphics::Capability::DEPTH);
 
     // build and compile shaders
     // -------------------------
@@ -289,11 +289,11 @@ bool ComponentTest::ModelComponent()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // per-frame time logic
         // --------------------
-        float currentFrame = _Graphics::GetTime();
+        float currentFrame = Graphics::GetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
@@ -303,7 +303,7 @@ bool ComponentTest::ModelComponent()
 
         // render
         // ------
-        _Graphics::Clear(0.05f, 0.05f, 0.05f, 1.0f);
+        Graphics::Clear(0.05f, 0.05f, 0.05f, 1.0f);
 
         // don't forget to enable shader before setting uniforms
         ourShader.Use();
@@ -324,13 +324,13 @@ bool ComponentTest::ModelComponent()
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return true;
 }
@@ -347,27 +347,27 @@ bool ComponentTest::CameraComponent()
 
     // glfw: initialize and configure
     // ------------------------------
-    _Graphics::InitializeGLFW();
+    Graphics::InitializeGLFW();
 
     // glfw window creation
     // --------------------
-    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Camera and Cubes");
-    _Graphics::MakeWindowCurrent(window);
-    _Graphics::SetWindowUserPointer(window, this);
-    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    _Graphics::SetCursorCallback(window, MouseCallback);
-    _Graphics::SetScrollCallback(window, ScrollCallback);
+    GLFWwindow* window = Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Camera and Cubes");
+    Graphics::MakeWindowCurrent(window);
+    Graphics::SetWindowUserPointer(window, this);
+    Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    Graphics::SetCursorCallback(window, MouseCallback);
+    Graphics::SetScrollCallback(window, ScrollCallback);
 
     // tell GLFW to capture our mouse
-    _Graphics::CaptureMouse(window);
+    Graphics::CaptureMouse(window);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    _Graphics::InitializeGLAD();
+    Graphics::InitializeGLAD();
 
     // configure global opengl state
     // -----------------------------
-    _Graphics::Enable(_Graphics::Capability::DEPTH);
+    Graphics::Enable(Graphics::Capability::DEPTH);
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -433,17 +433,17 @@ bool ComponentTest::CameraComponent()
     };
 
     unsigned int VBO, VAO;
-    _Graphics::GenerateVertexArrays(VAO);
-    _Graphics::GenerateBuffer(VBO);
+    Graphics::GenerateVertexArrays(VAO);
+    Graphics::GenerateBuffer(VBO);
 
-    _Graphics::BindArray(VAO);
+    Graphics::BindArray(VAO);
 
-    _Graphics::BindBufferAndData(_Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
+    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
 
     // position attribute
-    _Graphics::VertexAttirbutePointer(0, 3, 5 * sizeof(float), (void*)0);
+    Graphics::VertexAttirbutePointer(0, 3, 5 * sizeof(float), (void*)0);
     // texture coord attribute
-    _Graphics::VertexAttirbutePointer(1, 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    Graphics::VertexAttirbutePointer(1, 2, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
 
     // load and create a texture 
@@ -461,11 +461,11 @@ bool ComponentTest::CameraComponent()
 
     // render loop
     // -----------
-    while (!_Graphics::ShouldWindowClose(window))
+    while (!Graphics::ShouldWindowClose(window))
     {
         // per-frame time logic
         // --------------------
-        float currentFrame = _Graphics::GetTime();
+        float currentFrame = Graphics::GetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
@@ -475,11 +475,11 @@ bool ComponentTest::CameraComponent()
 
         // render
         // ------
-        _Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        Graphics::Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ZERO, texture1.ID());
-        _Graphics::BindTextureOnUnit(_Graphics::Unit::ONE, texture2.ID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.ID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID());
 
         // activate shader
         ourShader.Use();
@@ -493,7 +493,7 @@ bool ComponentTest::CameraComponent()
         ourShader.setMat4("view", view);
 
         // render boxes
-        _Graphics::BindArray(VAO);
+        Graphics::BindArray(VAO);
         for (unsigned int i = 0; i < 10; i++)
         {
             // calculate the model matrix for each object and pass it to shader before drawing
@@ -503,23 +503,23 @@ bool ComponentTest::CameraComponent()
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             ourShader.setMat4("model", model);
 
-            _Graphics::DrawArrays(_Graphics::Shape::TRIANGLES, 0, 36);
+            Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
         }
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        _Graphics::SwapBuffers(window);
-        _Graphics::PollForEvents();
+        Graphics::SwapBuffers(window);
+        Graphics::PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    _Graphics::DeleteArrays(VAO, 1);
-    _Graphics::DeleteBuffers(VBO, 1);
+    Graphics::DeleteArrays(VAO, 1);
+    Graphics::DeleteBuffers(VBO, 1);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    _Graphics::Terminate();
+    Graphics::Terminate();
 
     return false;
 }

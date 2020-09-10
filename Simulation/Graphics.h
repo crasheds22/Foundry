@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-class _Graphics
+class Graphics
 {
 public:
 	enum class BufferType { ELEMENT, ARRAY };
@@ -77,9 +77,9 @@ public:
 	static float AspectRatio();
 
 private:
-	_Graphics() { };
-	_Graphics(const _Graphics& G) { };
-	~_Graphics() { };
+	Graphics() { };
+	Graphics(const Graphics& G) { };
+	~Graphics() { };
 
 	static GLenum Deserialise(BufferType type);
 	static GLenum Deserialise(Shape type);
