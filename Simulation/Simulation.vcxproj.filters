@@ -8,20 +8,8 @@
     <Filter Include="Components">
       <UniqueIdentifier>{84103801-0982-4222-bfe6-f0994a8070cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Header">
-      <UniqueIdentifier>{649d6c12-3c3f-4aab-a35d-e09e6a98a451}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Source">
-      <UniqueIdentifier>{e94527e4-275b-41e7-93f4-29a076e2c80d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{ef6ff988-59a5-4f64-b4a1-428bbd292750}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Systems\Header">
-      <UniqueIdentifier>{4e920cd1-48b5-47d8-9148-2162cd162935}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Systems\Source">
-      <UniqueIdentifier>{701324a9-9043-4996-b80f-4d2746329369}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -29,16 +17,31 @@
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Props.h" />
     <ClInclude Include="Physics.h" />
-    <ClInclude Include="com_Collider.h" />
-    <ClInclude Include="com_Transform.h" />
-    <ClInclude Include="com_Camera.h" />
-    <ClInclude Include="com_Model.h" />
-    <ClInclude Include="com_Player.h" />
-    <ClInclude Include="com_Shader.h" />
-    <ClInclude Include="com_Texture.h" />
-    <ClInclude Include="sys_Render.h" />
-    <ClInclude Include="sys_CollisionDetection.h" />
     <ClInclude Include="CollisionAlgo.h" />
+    <ClInclude Include="com_Camera.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Collider.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Model.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Player.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Shader.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Texture.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Transform.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sys_Render.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -46,15 +49,30 @@
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Props.cpp" />
     <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="com_Collider.cpp" />
-    <ClCompile Include="com_Transform.cpp" />
-    <ClCompile Include="com_Camera.cpp" />
-    <ClCompile Include="com_Model.cpp" />
-    <ClCompile Include="com_Player.cpp" />
-    <ClCompile Include="com_Shader.cpp" />
-    <ClCompile Include="com_Texture.cpp" />
-    <ClCompile Include="sys_Render.cpp" />
-    <ClCompile Include="sys_CollisionDetection.cpp" />
     <ClCompile Include="CollisionAlgo.cpp" />
+    <ClCompile Include="com_Camera.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Collider.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Model.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Player.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Shader.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Texture.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Transform.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sys_Render.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -148,7 +148,6 @@
     <ClInclude Include="com_Player.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Props.h" />
-    <ClInclude Include="sys_CollisionDetection.h" />
     <ClInclude Include="com_Model.h" />
     <ClInclude Include="sys_Render.h" />
     <ClInclude Include="com_Shader.h" />
@@ -164,7 +163,6 @@
     <ClCompile Include="com_Player.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Props.cpp" />
-    <ClCompile Include="sys_CollisionDetection.cpp" />
     <ClCompile Include="com_Model.cpp" />
     <ClCompile Include="sys_Render.cpp" />
     <ClCompile Include="com_Shader.cpp" />
