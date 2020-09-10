@@ -2,78 +2,78 @@
 
 namespace Component
 {
-	Camera::Camera(glm::vec3 pos, glm::vec3 wup, float yaw, float pitch)
+	com_Camera::com_Camera(glm::vec3 pos, glm::vec3 wup, float yaw, float pitch)
 		: mPosition(pos), mWorldUp(wup), mYaw(yaw), mPitch(pitch), mFront(glm::vec3(0.0f, 0.0f, -1.0f)), mZoom(45.0f)
 	{
 		UpdateCameraVectors();
 	}
 
-	Camera::Camera(const Camera& c)
+	com_Camera::com_Camera(const com_Camera& c)
 		: mPosition(c.mPosition), mFront(c.mFront), mRight(c.mRight), mUp(c.mUp), mYaw(c.mYaw), mPitch(c.mPitch), mRoll(c.mRoll), mZoom(c.mZoom), mWorldUp(glm::vec3(0.0f, 1.0f, 0.0f))
 	{
 		UpdateCameraVectors();
 	}
 
-	Camera::~Camera()
+	com_Camera::~com_Camera()
 	{
 	}
 
-	glm::vec3 Camera::Position() const
+	glm::vec3 com_Camera::Position() const
 	{
 		return mPosition;
 	}
 	
-	glm::vec3 Camera::Front() const
+	glm::vec3 com_Camera::Front() const
 	{
 		return mFront;
 	}
 	
-	glm::vec3 Camera::Right() const
+	glm::vec3 com_Camera::Right() const
 	{
 		return mRight;
 	}
 	
-	glm::vec3 Camera::Up() const
+	glm::vec3 com_Camera::Up() const
 	{
 		return mUp;
 	}
 	
-	glm::vec3 Camera::WorldUp() const
+	glm::vec3 com_Camera::WorldUp() const
 	{
 		return mWorldUp;
 	}
 	
-	float Camera::Yaw() const
+	float com_Camera::Yaw() const
 	{
 		return mYaw;
 	}
 	
-	float Camera::Pitch() const
+	float com_Camera::Pitch() const
 	{
 		return mPitch;
 	}
 	
-	float Camera::Roll() const
+	float com_Camera::Roll() const
 	{
 		return mRoll;
 	}
 	
-	float Camera::Zoom() const
+	float com_Camera::Zoom() const
 	{
 		return mZoom;
 	}
 	
-	glm::mat4 Camera::ViewMatrix() const
+	glm::mat4 com_Camera::ViewMatrix() const
 	{
 		return glm::lookAt(mPosition, mPosition + mFront, mUp);
 	}
 	
-	void Camera::MoveCamera(Direction direction, float velocity)
+	void com_Camera::MoveCamera(Direction direction, float velocity)
 	{
 		mPosition += DirectionMapper[direction] * velocity;
 	}
 	
-	void Camera::RotateCamera(float xOffset, float yOffset, float zOffset, bool constrainPitch)
+	void com_Camera::RotateCamera(float xOffset, float yOffset, float zOffset, bool constrainPitch)
 	{
 		mYaw += xOffset;
 		mPitch += yOffset;
@@ -91,7 +91,7 @@ namespace Component
 		UpdateCameraVectors();
 	}
 	
-	void Camera::Zoom(float yOffset)
+	void com_Camera::Zoom(float yOffset)
 	{
 		mZoom -= yOffset;
 
@@ -102,7 +102,7 @@ namespace Component
 			mZoom = 45.0f;
 	}
 	
-	void Camera::UpdateCameraVectors()
+	void com_Camera::UpdateCameraVectors()
 	{
 		glm::vec3 front;
 		front.x = cos(glm::radians(mYaw)) * cos(glm::radians(mPitch));
@@ -116,7 +116,7 @@ namespace Component
 		UpdateMapper();
 	}
 
-	void Camera::UpdateMapper()
+	void com_Camera::UpdateMapper()
 	{
 		DirectionMapper = {
 			{ Direction::FORWARD, mFront },
