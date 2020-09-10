@@ -207,17 +207,17 @@ float Graphics::GetTime()
     return glfwGetTime();
 }
 
-double Graphics::ScreenWidth()
+double Graphics::ScreenWidth() const
 {
     return mScreenWidth;
 }
 
-double Graphics::ScreenHeight()
+double Graphics::ScreenHeight() const
 {
     return mScreenHeight;
 }
 
-float Graphics::AspectRatio()
+float Graphics::AspectRatio() const
 {
     return mScreenWidth / mScreenHeight;
 }

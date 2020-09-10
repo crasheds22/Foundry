@@ -160,6 +160,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="SystemManager.h" />
+    <ClInclude Include="SystemTest.h" />
     <ClInclude Include="sys_Render.h" />
     <ClInclude Include="com_Shader.h" />
     <ClInclude Include="Stage.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="Props.cpp" />
     <ClCompile Include="com_Model.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SystemTest.cpp" />
     <ClCompile Include="sys_Render.cpp" />
     <ClCompile Include="com_Shader.cpp" />
     <ClCompile Include="main.cpp" />

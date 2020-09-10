@@ -19,6 +19,7 @@ public:
 
 	enum class Capability { DEPTH };
 
+	Graphics() {};
 	Graphics(int width, int height, std::string title);
 	~Graphics();
 
@@ -75,10 +76,10 @@ public:
 
 	static float GetTime();
 
-	double ScreenWidth();
-	double ScreenHeight();
+	double ScreenWidth() const;
+	double ScreenHeight() const;
 
-	float AspectRatio();
+	float AspectRatio() const;
 
 private:
 	void InitializeGLFW();

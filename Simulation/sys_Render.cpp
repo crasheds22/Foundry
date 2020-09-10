@@ -7,16 +7,13 @@
 #include "Coordinator.h"
 extern ECS::Coordinator gCoordinator;
 
-#include "Graphics.h"
-extern Graphics gGraphics;
-
 namespace System
 {
     void sys_Render::Init()
     {
     }
 
-    void sys_Render::Update(Component::com_Camera& camera)
+    void sys_Render::Update(const Component::com_Camera& camera, const Graphics& graphics)
     {
         for (const auto& entity : mEntities)
         {
@@ -26,7 +23,7 @@ namespace System
 
             eShader.Use();
 
-            glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom()), gGraphics.AspectRatio(), 0.1f, 100.0f);
+            glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom()), graphics.AspectRatio(), 0.1f, 100.0f);
             eShader.setMat4("projection", projection);
 
             glm::mat4 view = camera.ViewMatrix();
@@ -35,6 +32,10 @@ namespace System
             glm::mat4 model(1.0f);
             model = glm::translate(model, eTransform.Position());
             
+            model = glm::rotate(model, eTransform.Rotation().x, glm::vec3(1, 0, 0));
+            model = glm::rotate(model, eTransform.Rotation().y, glm::vec3(0, 1, 0));
+            model = glm::rotate(model, eTransform.Rotation().z, glm::vec3(0, 0, 1));
+
             model = glm::scale(model, eTransform.Scale());
             eShader.setMat4("model", model);
 
