@@ -8,6 +8,7 @@
 #include "com_Shader.h"
 #include "com_Texture.h"
 #include "com_Camera.h"
+#include "com_Model.h"
 
 class ComponentTest
 	: public UnitTest

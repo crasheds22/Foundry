@@ -240,7 +240,99 @@ bool ComponentTest::TextureComponent()
 
 bool ComponentTest::ModelComponent()
 {
-    return false;
+    camera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
+    deltaTime = 0.0f;
+    lastFrame = 0.0f;
+    lastX = 800.0f / 2.0f;
+    lastY = 500.0f / 2.0f;
+    FirstMouse = true;
+
+    // glfw: initialize and configure
+    // ------------------------------
+    _Graphics::InitializeGLFW();
+
+    // glfw window creation
+    // --------------------
+    GLFWwindow* window = _Graphics::CreateWindow(SCR_WIDTH, SCR_HEIGHT, "Model One");
+    _Graphics::MakeWindowCurrent(window);
+    _Graphics::SetWindowUserPointer(window, this);
+    _Graphics::SetResizeCallback(window, [](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    _Graphics::SetCursorCallback(window, MouseCallback);
+    _Graphics::SetScrollCallback(window, ScrollCallback);
+
+    // tell GLFW to capture our mouse
+    _Graphics::CaptureMouse(window);
+
+    // glad: load all OpenGL function pointers
+    // ---------------------------------------
+    _Graphics::InitializeGLAD();
+
+    // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+    Texture::FlipVertically();
+
+    // configure global opengl state
+    // -----------------------------
+    _Graphics::Enable(_Graphics::Capability::DEPTH);
+
+    // build and compile shaders
+    // -------------------------
+    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+
+    // load models
+    // -----------
+    Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
+
+
+    // draw in wireframe
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // render loop
+    // -----------
+    while (!_Graphics::ShouldWindowClose(window))
+    {
+        // per-frame time logic
+        // --------------------
+        float currentFrame = _Graphics::GetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        // input
+        // -----
+        ProcessInput(window, &camera, deltaTime);
+
+        // render
+        // ------
+        _Graphics::Clear(0.05f, 0.05f, 0.05f, 1.0f);
+
+        // don't forget to enable shader before setting uniforms
+        ourShader.Use();
+
+        // view/projection transformations
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = camera.ViewMatrix();
+        ourShader.setMat4("projection", projection);
+        ourShader.setMat4("view", view);
+
+        // render the loaded model
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+        ourShader.setMat4("model", model);
+
+        ourModel.Draw(ourShader.ID());
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        _Graphics::SwapBuffers(window);
+        _Graphics::PollForEvents();
+    }
+
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    // ------------------------------------------------------------------
+    _Graphics::Terminate();
+
+    return true;
 }
 
 bool ComponentTest::CameraComponent()
