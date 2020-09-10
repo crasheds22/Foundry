@@ -63,6 +63,7 @@ bool GraphicsTest::Test()
     allPassed = IntroToLighting();
     allPassed = Lighting();
     allPassed = ModelOne();
+    allPassed = RobertsonModel();
 
     return allPassed;
 }
@@ -1041,6 +1042,87 @@ bool GraphicsTest::ModelOne()
     // load models
     // -----------
     ModelTest ourModel("../Data/Models/Backpack/backpack.obj");
+
+
+    // draw in wireframe
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // render loop
+    // -----------
+    while (!graphics.ShouldWindowClose())
+    {
+        // per-frame time logic
+        // --------------------
+        float currentFrame = Graphics::GetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        // input
+        // -----
+        ProcessInput(graphics.Window(), &camera, deltaTime);
+
+        // render
+        // ------
+        graphics.Clear(0.05f, 0.05f, 0.05f, 1.0f);
+
+        // don't forget to enable shader before setting uniforms
+        Shader::Use(ourShader.ID);
+
+        // view/projection transformations
+        glm::mat4 projection = glm::perspective(glm::radians(camera.GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = camera.ViewMatrix();
+        Shader::setMat4(ourShader.ID, "projection", projection);
+        Shader::setMat4(ourShader.ID, "view", view);
+
+        // render the loaded model
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+        Shader::setMat4(ourShader.ID, "model", model);
+        ourModel.Draw(ourShader.ID);
+
+
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        graphics.SwapBuffers();
+        graphics.PollForEvents();
+    }
+
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    // ------------------------------------------------------------------
+    graphics.Terminate();
+
+    return true;
+}
+
+bool GraphicsTest::RobertsonModel()
+{
+    Graphics graphics= Graphics(SCR_WIDTH, SCR_HEIGHT, "Model One");
+    graphics.MakeWindowCurrent();
+    Graphics::SetWindowUserPointer(graphics.Window(), this);
+    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    graphics.SetCursorCallback(GraphicsTest::MouseCallback);
+    graphics.SetScrollCallback(GraphicsTest::ScrollCallback);
+
+    // tell GLFW to capture our mouse
+    graphics.CaptureMouse();
+
+    graphics.InitializeGLAD();
+
+    // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+    Texture::FlipVertically();
+
+    // configure global opengl state
+    // -----------------------------
+    Graphics::Enable(Graphics::Capability::DEPTH);
+
+    // build and compile shaders
+    // -------------------------
+    ShaderTest ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+
+    // load models
+    // -----------
+    ModelTest ourModel("../Data/Models/Robertson/RobertsonBuilding.obj");
 
 
     // draw in wireframe

@@ -138,6 +138,7 @@ private:
     bool IntroToLighting();
     bool Lighting();
     bool ModelOne();
+    bool RobertsonModel();
 
 };
 

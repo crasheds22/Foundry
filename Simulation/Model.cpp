@@ -104,6 +104,7 @@ std::vector<Mesh> Model::New(const std::string path)
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes)
 {
+	std::cout << node->mName.C_Str() << std::endl;
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
