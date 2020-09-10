@@ -63,6 +63,9 @@
     <ClInclude Include="UnitTest.h">
       <Filter>Testing</Filter>
     </ClInclude>
+    <ClInclude Include="ColliderTest.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -103,6 +106,9 @@
       <Filter>Testing</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsTest.cpp">
+      <Filter>Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderTest.cpp">
       <Filter>Testing</Filter>
     </ClCompile>
   </ItemGroup>
