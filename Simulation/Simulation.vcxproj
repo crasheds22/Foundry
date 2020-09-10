@@ -143,9 +143,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CollisionAlgo.h" />
+    <ClInclude Include="ComponentTest.h" />
     <ClInclude Include="com_Camera.h" />
     <ClInclude Include="com_Collider.h" />
     <ClInclude Include="com_Player.h" />
+    <ClInclude Include="GraphicsTest.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Props.h" />
     <ClInclude Include="com_Model.h" />
@@ -153,14 +155,18 @@
     <ClInclude Include="com_Shader.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="com_Texture.h" />
+    <ClInclude Include="TestBattery.h" />
     <ClInclude Include="Theatre.h" />
     <ClInclude Include="com_Transform.h" />
+    <ClInclude Include="UnitTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CollisionAlgo.cpp" />
+    <ClCompile Include="ComponentTest.cpp" />
     <ClCompile Include="com_Camera.cpp" />
     <ClCompile Include="com_Collider.cpp" />
     <ClCompile Include="com_Player.cpp" />
+    <ClCompile Include="GraphicsTest.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Props.cpp" />
     <ClCompile Include="com_Model.cpp" />

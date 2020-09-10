@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "GraphicsTest.h"
+#include "ComponentTest.h"
 
 class TestBattery
 {
@@ -20,7 +21,8 @@ private:
 TestBattery::TestBattery()
 {
 	//Create new tests here, add to TestList
-	TestList.push_front(new GraphicsTest());
+	TestList.push_back(new GraphicsTest());
+	TestList.push_back(new ComponentTest());
 }
 
 TestBattery::~TestBattery()

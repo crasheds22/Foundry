@@ -1,23 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{84103801-0982-4222-bfe6-f0994a8070cb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{ef6ff988-59a5-4f64-b4a1-428bbd292750}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{3e43ff57-1287-411a-8dcb-71291744db4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{54d205a3-aaf9-4663-bcd6-3a9de1960581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Testing">
+      <UniqueIdentifier>{7d89dee7-7b7b-44bd-a4b3-07534ff7ea4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Theatre.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Props.h" />
-    <ClInclude Include="Physics.h" />
-    <ClInclude Include="CollisionAlgo.h" />
     <ClInclude Include="com_Camera.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -42,14 +45,30 @@
     <ClInclude Include="sys_Render.h">
       <Filter>Systems</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionAlgo.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTest.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsTest.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="TestBattery.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTest.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Theatre.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Props.cpp" />
-    <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="CollisionAlgo.cpp" />
     <ClCompile Include="com_Camera.cpp">
       <Filter>Components</Filter>
     </ClCompile>
@@ -73,6 +92,18 @@
     </ClCompile>
     <ClCompile Include="sys_Render.cpp">
       <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionAlgo.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTest.cpp">
+      <Filter>Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsTest.cpp">
+      <Filter>Testing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
