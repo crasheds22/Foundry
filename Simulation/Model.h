@@ -51,12 +51,7 @@ private:
 class Model
 {
 public:
-	static Model& Instance()
-	{
-		static Model mInstance;
-
-		return mInstance;
-	}
+	static Model& Instance();
 
 	Model(const Model& m) = delete;
 	void operator=(const Model& m) = delete;
