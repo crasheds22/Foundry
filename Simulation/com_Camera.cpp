@@ -14,10 +14,6 @@ namespace Component
 		UpdateCameraVectors();
 	}
 
-	com_Camera::~com_Camera()
-	{
-	}
-
 	glm::vec3 com_Camera::Position() const
 	{
 		return mPosition;
@@ -56,6 +52,11 @@ namespace Component
 	float com_Camera::Roll() const
 	{
 		return mRoll;
+	}
+
+	glm::vec3 com_Camera::Rotations() const
+	{
+		return glm::vec3(mPitch, mYaw, mRoll);
 	}
 	
 	float com_Camera::Zoom() const
