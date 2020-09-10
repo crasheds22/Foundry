@@ -51,14 +51,26 @@ private:
 class Model
 {
 public:
-	static std::vector<Mesh> New(const std::string path);
+	static Model& Instance()
+	{
+		static Model mInstance;
+
+		return mInstance;
+	}
+
+	Model(const Model& m) = delete;
+	void operator=(const Model& m) = delete;
+
+	std::vector<Mesh> New(const std::string path);
 
 private:
-	static std::vector<ModelTexture> mTexturesLoaded;
-	static std::string mDirectory;
+	Model() {};
+
+	std::vector<ModelTexture> mTexturesLoaded;
+	std::string mDirectory;
 	
-	static void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
-	static Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	static std::vector<ModelTexture> LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
+	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
+	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	std::vector<ModelTexture> LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
 };
 

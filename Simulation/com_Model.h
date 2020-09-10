@@ -17,6 +17,6 @@ namespace Component
 		void Draw(unsigned int shaderID);
 
 	private:
-		std::vector<Mesh> mMeshes{};
+		std::vector<Mesh> mMeshes;
 	};
 }

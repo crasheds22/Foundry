@@ -2,7 +2,7 @@
 
 namespace Component
 {
-	com_Model::com_Model(std::string path) : mMeshes(Model::New(path))
+	com_Model::com_Model(std::string path) : mMeshes(Model::Instance().New(path))
 	{
 	}
 

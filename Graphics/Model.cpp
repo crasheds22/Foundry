@@ -80,9 +80,6 @@ void Mesh::SetUpMesh()
 	glBindVertexArray(0);
 }
 
-std::vector<ModelTexture> Model::mTexturesLoaded;
-std::string Model::mDirectory;
-
 std::vector<Mesh> Model::New(const std::string path)
 {
 	std::vector<Mesh> meshes;

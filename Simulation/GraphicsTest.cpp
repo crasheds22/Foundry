@@ -39,7 +39,7 @@ public:
 class ModelTest
 {
 public:
-    ModelTest(const char* path) : mMeshes(Model::New(path)) { };
+    ModelTest(const char* path) : mMeshes(Model::Instance().New(path)) { };
 
     void Draw(unsigned int shaderID)
     {
