@@ -21,7 +21,7 @@ private:
 TestBattery::TestBattery()
 {
 	//Create new tests here, add to TestList
-	TestList.push_back(new GraphicsTest());
+	//TestList.push_back(new GraphicsTest());
 	TestList.push_back(new ComponentTest());
 }
 

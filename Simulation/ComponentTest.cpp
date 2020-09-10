@@ -63,6 +63,8 @@ bool ComponentTest::ShaderComponent()
     graphics.MakeWindowCurrent();
     graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
+    graphics.InitializeGLAD();
+
     // build and compile our shader program
     // ------------------------------------
     Component::com_Shader ourShader("../Data/Shaders/3.3.shader.vs", "../Data/Shaders/3.3.shader.fs"); // you can name your shader files however you like
@@ -134,6 +136,8 @@ bool ComponentTest::TextureComponent()
     Graphics graphics = Graphics(SCR_WIDTH, SCR_HEIGHT, "Textures");
     graphics.MakeWindowCurrent();
     graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+
+    graphics.InitializeGLAD();
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -240,6 +244,8 @@ bool ComponentTest::ModelComponent()
     // tell GLFW to capture our mouse
     graphics.CaptureMouse();
 
+    graphics.InitializeGLAD();
+
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
     Texture::FlipVertically();
 
@@ -326,6 +332,8 @@ bool ComponentTest::CameraComponent()
 
     // tell GLFW to capture our mouse
     graphics.CaptureMouse();
+
+    graphics.InitializeGLAD();
 
     // configure global opengl state
     // -----------------------------
