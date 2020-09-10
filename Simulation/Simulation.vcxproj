@@ -151,10 +151,13 @@
     <ClInclude Include="com_Player.h" />
     <ClInclude Include="Coordinator.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphicsTest.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Props.h" />
     <ClInclude Include="com_Model.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="sys_Render.h" />
@@ -162,6 +165,7 @@
     <ClInclude Include="Stage.h" />
     <ClInclude Include="com_Texture.h" />
     <ClInclude Include="TestBattery.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Theatre.h" />
     <ClInclude Include="com_Transform.h" />
     <ClInclude Include="Types.h" />
@@ -173,15 +177,19 @@
     <ClCompile Include="com_Camera.cpp" />
     <ClCompile Include="com_Collider.cpp" />
     <ClCompile Include="com_Player.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GraphicsTest.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Props.cpp" />
     <ClCompile Include="com_Model.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="sys_Render.cpp" />
     <ClCompile Include="com_Shader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="com_Texture.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Theatre.cpp" />
     <ClCompile Include="com_Transform.cpp" />
   </ItemGroup>
