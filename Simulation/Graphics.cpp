@@ -1,7 +1,30 @@
 #include "Graphics.h"
 
-double Graphics::mScreenHeight = 0;
-double Graphics::mScreenWidth = 0;
+Graphics::Graphics(int width, int height, std::string title)
+{
+    InitializeGLFW();
+
+    mWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    if (mWindow == NULL)
+    {
+        glfwTerminate();
+        std::cerr << "Failed to create GLFW window" << std::endl;
+        std::exit(1);
+    }
+
+    mScreenHeight = height;
+    mScreenWidth = width;
+}
+
+Graphics::~Graphics()
+{
+    Terminate();
+}
+
+GLFWwindow* Graphics::Window() const
+{
+    return mWindow;
+}
 
 void Graphics::InitializeGLFW()
 {
@@ -20,78 +43,49 @@ void Graphics::InitializeGLAD()
     }
 }
 
-GLFWwindow* Graphics::CreateWindow(int width, int height, std::string title)
+void Graphics::MakeWindowCurrent()
 {
-    GLFWwindow* window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-    if (window == NULL)
-    {
-        glfwTerminate();
-        std::cerr << "Failed to create GLFW window" << std::endl;
-        std::exit(1);
-    }
-
-    mScreenHeight = height;
-    mScreenWidth = width;
-    return window;
+    glfwMakeContextCurrent(mWindow);
 }
 
-GLFWwindow* Graphics::CreateWindow(std::string title)
+void Graphics::SetResizeCallback(void(*resize)(GLFWwindow*, int, int))
 {
-    GLFWmonitor* primary = glfwGetPrimaryMonitor();
-    const GLFWvidmode* mode = glfwGetVideoMode(primary);
-
-    GLFWwindow* window = glfwCreateWindow(mode->width, mode->height, title.c_str(), primary, NULL);
-    if (window == NULL)
-    {
-        glfwTerminate();
-        std::cerr << "Failed to create a window" << std::endl;
-        std::exit(0);
-    }
-
-    mScreenHeight = mode->height;
-    mScreenWidth = mode->width;
-
-    return window;
+    glfwSetFramebufferSizeCallback(mWindow, resize);
 }
 
-void Graphics::MakeWindowCurrent(GLFWwindow* window)
+void Graphics::SetMouseButtonCallback(void(*mouseBtn)(GLFWwindow*, int, int, int))
 {
-    glfwMakeContextCurrent(window);
+    glfwSetMouseButtonCallback(mWindow, mouseBtn);
 }
 
-void Graphics::SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*, int, int))
+void Graphics::SetCursorCallback(void(*cursor)(GLFWwindow*, double, double))
 {
-    glfwSetFramebufferSizeCallback(window, resize);
+    glfwSetCursorPosCallback(mWindow, cursor);
 }
 
-void Graphics::SetMouseButtonCallback(GLFWwindow* window, void(*mouseBtn)(GLFWwindow*, int, int, int))
+void Graphics::SetScrollCallback(void(*scroll)(GLFWwindow*, double, double))
 {
-    glfwSetMouseButtonCallback(window, mouseBtn);
+    glfwSetScrollCallback(mWindow, scroll);
 }
 
-void Graphics::SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double))
+void Graphics::SetKeyboardCallback(void(*keys)(GLFWwindow*, int, int, int, int))
 {
-    glfwSetCursorPosCallback(window, cursor);
+    glfwSetKeyCallback(mWindow, keys);
 }
 
-void Graphics::SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double))
+void Graphics::CaptureMouse()
 {
-    glfwSetScrollCallback(window, scroll);
+    glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-void Graphics::SetKeyboardCallback(GLFWwindow* window, void(*keys)(GLFWwindow*, int, int, int, int))
+bool Graphics::ShouldWindowClose()
 {
-    glfwSetKeyCallback(window, keys);
+    return glfwWindowShouldClose(mWindow);
 }
 
-void Graphics::CaptureMouse(GLFWwindow* window)
+void Graphics::SetWindowShouldClose()
 {
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-}
-
-bool Graphics::ShouldWindowClose(GLFWwindow* window)
-{
-    return glfwWindowShouldClose(window);
+    glfwSetWindowShouldClose(mWindow, true);
 }
 
 void Graphics::SetWindowShouldClose(GLFWwindow* window)
@@ -105,9 +99,9 @@ void Graphics::Clear(float r, float b, float g, float a)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Graphics::SwapBuffers(GLFWwindow* window)
+void Graphics::SwapBuffers()
 {
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(mWindow);
 }
 
 void Graphics::PollForEvents()
@@ -227,9 +221,6 @@ float Graphics::AspectRatio()
 {
     return mScreenWidth / mScreenHeight;
 }
-
-
-
 
 GLenum Graphics::Deserialise(BufferType type)
 {

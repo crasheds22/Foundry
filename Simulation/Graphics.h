@@ -19,29 +19,33 @@ public:
 
 	enum class Capability { DEPTH };
 
-	static void InitializeGLFW();
-	static void InitializeGLAD();
-	static GLFWwindow* CreateWindow(int width, int height, std::string title);
-	static GLFWwindow* CreateWindow(std::string title);
-	static void MakeWindowCurrent(GLFWwindow* window);
+	Graphics(int width, int height, std::string title);
+	~Graphics();
 
-	static void SetResizeCallback(GLFWwindow* window, void(*resize)(GLFWwindow*, int, int));
-	static void SetMouseButtonCallback(GLFWwindow* window, void(*mouseBtn)(GLFWwindow*, int, int, int));
-	static void SetCursorCallback(GLFWwindow* window, void(*cursor)(GLFWwindow*, double, double));
-	static void SetScrollCallback(GLFWwindow* window, void(*scroll)(GLFWwindow*, double, double));
-	static void SetKeyboardCallback(GLFWwindow* window, void(*keys)(GLFWwindow*, int, int, int, int));
+	void InitializeGLAD();
 
-	static void CaptureMouse(GLFWwindow* window);
+	GLFWwindow* Window() const;
 
-	static bool ShouldWindowClose(GLFWwindow* window);
+	void MakeWindowCurrent();
+
+	void SetResizeCallback(void(*resize)(GLFWwindow*, int, int));
+	void SetMouseButtonCallback(void(*mouseBtn)(GLFWwindow*, int, int, int));
+	void SetCursorCallback(void(*cursor)(GLFWwindow*, double, double));
+	void SetScrollCallback(void(*scroll)(GLFWwindow*, double, double));
+	void SetKeyboardCallback(void(*keys)(GLFWwindow*, int, int, int, int));
+
+	void CaptureMouse();
+
+	bool ShouldWindowClose();
+	void SetWindowShouldClose();
 	static void SetWindowShouldClose(GLFWwindow* window);
 
-	static void Clear(float r = 0.0f, float b = 0.0f, float g = 0.0f, float a = 0.0f);
+	void Clear(float r = 0.0f, float b = 0.0f, float g = 0.0f, float a = 0.0f);
 
-	static void SwapBuffers(GLFWwindow* window);
-	static void PollForEvents();
+	void SwapBuffers();
+	void PollForEvents();
 
-	static void Terminate();
+	void Terminate();
 
 	static void GenerateVertexArrays(unsigned int& ID, int n = 1);
 	static void GenerateBuffer(unsigned int& ID, int n = 1);
@@ -71,15 +75,13 @@ public:
 
 	static float GetTime();
 
-	static double ScreenWidth();
-	static double ScreenHeight();
+	double ScreenWidth();
+	double ScreenHeight();
 
-	static float AspectRatio();
+	float AspectRatio();
 
 private:
-	Graphics() { };
-	Graphics(const Graphics& G) { };
-	~Graphics() { };
+	void InitializeGLFW();
 
 	static GLenum Deserialise(BufferType type);
 	static GLenum Deserialise(Shape type);
@@ -87,6 +89,8 @@ private:
 	static GLenum Deserialise(Unit unit);
 	static GLenum Deserialise(Capability cap);
 
-	static double mScreenWidth;
-	static double mScreenHeight;
+	double mScreenWidth;
+	double mScreenHeight;
+
+	GLFWwindow* mWindow;
 };

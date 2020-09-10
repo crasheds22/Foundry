@@ -177,6 +177,7 @@
     <ClCompile Include="com_Camera.cpp" />
     <ClCompile Include="com_Collider.cpp" />
     <ClCompile Include="com_Player.cpp" />
+    <ClCompile Include="glad.c" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GraphicsTest.cpp" />
     <ClCompile Include="Model.cpp" />
