@@ -3,8 +3,10 @@
 #include "UnitTest.h"
 
 #include "../Graphics/Graphics.h"
+#include "../Graphics/Texture.h"
 
-#include "../Simulation/com_Shader.h"
+#include "com_Shader.h"
+#include "com_Texture.h"
 
 class ComponentTest
 	: public UnitTest

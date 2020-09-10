@@ -4,8 +4,6 @@
 
 int main()
 {
-	std::cout << "Nothing here bruv" << std::endl;
-
 	if (true)
 	{
 		TestBattery tests;
