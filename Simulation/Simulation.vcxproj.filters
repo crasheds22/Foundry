@@ -31,16 +31,14 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="com_Collider.h" />
     <ClInclude Include="com_Transform.h" />
-    <ClInclude Include="com_Box.h" />
     <ClInclude Include="com_Camera.h" />
     <ClInclude Include="com_Model.h" />
-    <ClInclude Include="com_Plane.h" />
     <ClInclude Include="com_Player.h" />
     <ClInclude Include="com_Shader.h" />
-    <ClInclude Include="com_Sphere.h" />
     <ClInclude Include="com_Texture.h" />
     <ClInclude Include="sys_Render.h" />
     <ClInclude Include="sys_CollisionDetection.h" />
+    <ClInclude Include="CollisionAlgo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -50,15 +48,13 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="com_Collider.cpp" />
     <ClCompile Include="com_Transform.cpp" />
-    <ClCompile Include="com_Box.cpp" />
     <ClCompile Include="com_Camera.cpp" />
     <ClCompile Include="com_Model.cpp" />
-    <ClCompile Include="com_Plane.cpp" />
     <ClCompile Include="com_Player.cpp" />
     <ClCompile Include="com_Shader.cpp" />
-    <ClCompile Include="com_Sphere.cpp" />
     <ClCompile Include="com_Texture.cpp" />
     <ClCompile Include="sys_Render.cpp" />
     <ClCompile Include="sys_CollisionDetection.cpp" />
+    <ClCompile Include="CollisionAlgo.cpp" />
   </ItemGroup>
 </Project>
