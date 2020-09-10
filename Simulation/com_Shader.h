@@ -15,7 +15,6 @@ namespace Component
 	{
 	public:
 		Shader() {};
-		Shader(const Shader& s) {};
 		Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 		~Shader();
 

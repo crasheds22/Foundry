@@ -16,10 +16,6 @@ namespace Component
 		}
 	}
 
-	Model::~Model()
-	{
-	}
-
 	void Model::Draw(unsigned int shaderID)
 	{
 		for (auto& mesh : mMeshes)

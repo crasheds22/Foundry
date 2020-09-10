@@ -16,11 +16,6 @@ namespace Component
 		mID = StaticTexture::New(path);
 	}
 
-	Texture::~Texture()
-	{
-
-	}
-
 	unsigned int Texture::ID() const
 	{
 		return mID;

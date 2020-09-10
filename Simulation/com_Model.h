@@ -13,7 +13,6 @@ namespace Component
 		Model() {};
 		Model(std::string path);
 		Model(const Model& m);
-		~Model();
 
 		void Draw(unsigned int shaderID);
 
