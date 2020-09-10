@@ -51,6 +51,7 @@ namespace Component
 	class com_Collider
 	{
 	public:
+		com_Collider() {};
 
 		virtual CollisionPoint TestCollision(
 			const com_Transform* transformA,
