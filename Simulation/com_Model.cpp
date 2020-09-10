@@ -1,14 +1,12 @@
 #include "com_Model.h"
 
-using StaticModel = Model;
-
 namespace Component
 {
-	Model::Model(std::string path) : mMeshes(StaticModel::New(path))
+	com_Model::com_Model(std::string path) : mMeshes(Model::New(path))
 	{
 	}
 
-	Model::Model(const Model& m)
+	com_Model::com_Model(const com_Model& m)
 	{
 		for (const auto& mesh : m.mMeshes)
 		{
@@ -16,7 +14,7 @@ namespace Component
 		}
 	}
 
-	void Model::Draw(unsigned int shaderID)
+	void com_Model::Draw(unsigned int shaderID)
 	{
 		for (auto& mesh : mMeshes)
 			mesh.Draw(shaderID);

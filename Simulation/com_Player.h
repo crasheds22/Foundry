@@ -2,12 +2,12 @@
 
 namespace Component
 {
-	class Player
+	class com_Player
 	{
 	public:
-		Player();
-		Player(const Player& p);
-		~Player();
+		com_Player();
+		com_Player(const com_Player& p);
+		~com_Player();
 
 	private:
 

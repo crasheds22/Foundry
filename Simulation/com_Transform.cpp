@@ -10,10 +10,6 @@ namespace Component
 	{
 	}
 	
-	com_Transform::~com_Transform()
-	{
-	}
-	
 	glm::vec3 com_Transform::Position() const
 	{
 		return mPosition;

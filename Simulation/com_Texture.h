@@ -4,12 +4,12 @@
 
 namespace Component
 {
-	class Texture
+	class com_Texture
 	{
 	public:
-		Texture() {};
-		Texture(std::string path);
-		Texture(const char* path);
+		com_Texture() {};
+		com_Texture(std::string path);
+		com_Texture(const char* path);
 
 		unsigned int ID() const;
 

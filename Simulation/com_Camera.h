@@ -9,13 +9,13 @@ namespace Component
 {
 	enum class Direction { FORWARD, BACKWARD, LEFT, RIGHT, UP, DOWN };
 
-	class Camera
+	class com_Camera
 	{
 	public:
-		Camera() {};
-		Camera(glm::vec3 pos, glm::vec3 wup = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f);
-		Camera(const Camera& c);
-		~Camera();
+		com_Camera() {};
+		com_Camera(glm::vec3 pos, glm::vec3 wup = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f);
+		com_Camera(const com_Camera& c);
+		~com_Camera();
 
 		glm::vec3 Position() const;
 		glm::vec3 Front() const;

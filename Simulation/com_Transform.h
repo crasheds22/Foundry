@@ -10,7 +10,6 @@ namespace Component
 		com_Transform() {};
 		com_Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale);
 		com_Transform(const com_Transform& t);
-		~com_Transform();
 
 		glm::vec3 Position() const;
 		void Position(glm::vec3 position);

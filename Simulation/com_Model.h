@@ -7,12 +7,12 @@
 
 namespace Component
 {
-	class Model
+	class com_Model
 	{
 	public:
-		Model() {};
-		Model(std::string path);
-		Model(const Model& m);
+		com_Model() {};
+		com_Model(std::string path);
+		com_Model(const com_Model& m);
 
 		void Draw(unsigned int shaderID);
 
