@@ -1,5 +1,7 @@
 #include "com_Collider.h"
 
+#include "CollisionAlgo.h"
+
 CollisionPoint::CollisionPoint(glm::vec3 a, glm::vec3 b, bool hasCollided)
 	: mA(a), mB(b), mNormal(glm::normalize(mB - mA)), mDepth(glm::length(glm::normalize(mB - mA))), mHasCollision(false)
 {

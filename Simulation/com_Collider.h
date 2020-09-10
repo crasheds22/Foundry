@@ -3,7 +3,6 @@
 #include <glm/glm.hpp>
 
 #include "Physics.h"
-#include "CollisionAlgo.h"
 
 #include "com_Transform.h"
 
@@ -45,10 +44,13 @@ private:
 
 namespace Component
 {
+	class com_Box;
+	class com_Sphere;
+	class com_Plane;
+
 	class com_Collider
 	{
 	public:
-		com_Collider() {};
 
 		virtual CollisionPoint TestCollision(
 			const com_Transform* transformA,
