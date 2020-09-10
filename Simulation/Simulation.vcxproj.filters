@@ -16,6 +16,12 @@
     <Filter Include="Testing">
       <UniqueIdentifier>{7d89dee7-7b7b-44bd-a4b3-07534ff7ea4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{4de6a57e-996c-4e76-9d40-cd8d98e23549}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS">
+      <UniqueIdentifier>{930313ae-4c05-4c90-aefc-c82edd22267f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Theatre.h" />
@@ -62,6 +68,27 @@
     </ClInclude>
     <ClInclude Include="UnitTest.h">
       <Filter>Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentArray.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Coordinator.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>ECS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

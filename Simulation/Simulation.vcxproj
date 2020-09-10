@@ -143,14 +143,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CollisionAlgo.h" />
+    <ClInclude Include="ComponentArray.h" />
+    <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="ComponentTest.h" />
     <ClInclude Include="com_Camera.h" />
     <ClInclude Include="com_Collider.h" />
     <ClInclude Include="com_Player.h" />
+    <ClInclude Include="Coordinator.h" />
+    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GraphicsTest.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Props.h" />
     <ClInclude Include="com_Model.h" />
+    <ClInclude Include="System.h" />
+    <ClInclude Include="SystemManager.h" />
     <ClInclude Include="sys_Render.h" />
     <ClInclude Include="com_Shader.h" />
     <ClInclude Include="Stage.h" />
@@ -158,6 +164,7 @@
     <ClInclude Include="TestBattery.h" />
     <ClInclude Include="Theatre.h" />
     <ClInclude Include="com_Transform.h" />
+    <ClInclude Include="Types.h" />
     <ClInclude Include="UnitTest.h" />
   </ItemGroup>
   <ItemGroup>
