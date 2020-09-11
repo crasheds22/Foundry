@@ -6,6 +6,7 @@
 #include "GraphicsTest.h"
 #include "ComponentTest.h"
 #include "SystemTest.h"
+#include "ColliderTest.h"
 
 class TestBattery
 {
@@ -25,6 +26,7 @@ TestBattery::TestBattery()
 	TestList.push_back(new GraphicsTest());
 	TestList.push_back(new ComponentTest());
 	//TestList.push_back(new SystemTest());
+	TestList.push_back(new ColliderTest());
 }
 
 TestBattery::~TestBattery()

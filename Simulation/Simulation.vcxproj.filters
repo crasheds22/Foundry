@@ -165,5 +165,8 @@
     <ClCompile Include="SystemTest.cpp">
       <Filter>Testing</Filter>
     </ClCompile>
+    <ClCompile Include="ColliderTest.cpp">
+      <Filter>Testing</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

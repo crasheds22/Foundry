@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ColliderTest.h" />
     <ClInclude Include="CollisionAlgo.h" />
     <ClInclude Include="ComponentArray.h" />
     <ClInclude Include="ComponentManager.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="UnitTest.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ColliderTest.cpp" />
     <ClCompile Include="CollisionAlgo.cpp" />
     <ClCompile Include="ComponentTest.cpp" />
     <ClCompile Include="com_Camera.cpp" />
