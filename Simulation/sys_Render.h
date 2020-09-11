@@ -13,7 +13,7 @@ namespace System
 	public:
 		void Init();
 
-		void Update(const Component::com_Camera* camera, const Graphics& graphics);
+		void Update(const Component::com_Camera* camera, const Graphics* graphics);
 
 	private:
 

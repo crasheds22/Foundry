@@ -66,9 +66,9 @@ namespace ECS
 		}
 
 	private:
-		std::unordered_map<const char*, ComponentType> mComponentTypes;
-		std::unordered_map<const char*, std::shared_ptr<IComponentArray>> mComponentArrays;
-		ComponentType mNextComponentType;
+		std::unordered_map<const char*, ComponentType> mComponentTypes{};
+		std::unordered_map<const char*, std::shared_ptr<IComponentArray>> mComponentArrays{};
+		ComponentType mNextComponentType{};
 
 		template <typename TComponent>
 		std::shared_ptr<ComponentArray<TComponent>> GetComponentArray()

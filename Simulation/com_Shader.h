@@ -18,7 +18,6 @@ namespace Component
 	public:
 		com_Shader() {};
 		com_Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
-		~com_Shader();
 
 		unsigned int ID() const;
 

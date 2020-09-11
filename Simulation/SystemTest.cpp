@@ -66,23 +66,44 @@ bool SystemTest::RenderSystem()
 {
     camera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
-    Graphics gGraphics = Graphics(800.0f, 500.0f, "Model System");
-    gGraphics.MakeWindowCurrent();
-    Graphics::SetWindowUserPointer(gGraphics.Window(), this);
-    gGraphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    gGraphics.SetCursorCallback(SystemTest::MouseCallback);
-    gGraphics.SetScrollCallback(SystemTest::ScrollCallback);
+    deltaTime = 0.0f;
+    lastFrame = 0.0f;
+    lastX = 800.0f / 2.0f;
+    lastY = 500.0f / 2.0f;
+    FirstMouse = true;
 
-    gGraphics.CaptureMouse();
+    Graphics graphics = Graphics(800, 500, "Model One");
+    graphics.MakeWindowCurrent();
+    Graphics::SetWindowUserPointer(graphics.Window(), this);
+    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    graphics.SetCursorCallback(MouseCallback);
+    graphics.SetScrollCallback(ScrollCallback);
 
-    gGraphics.InitializeGLAD();
+    // tell GLFW to capture our mouse
+    graphics.CaptureMouse();
 
+    graphics.InitializeGLAD();
+
+    // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
     Texture::FlipVertically();
 
+    // configure global opengl state
+    // -----------------------------
     Graphics::Enable(Graphics::Capability::DEPTH);
+
+    // build and compile shaders
+    // -------------------------
+    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+
+    // load models
+    // -----------
+    Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
+
+    Component::com_Transform ourTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
     gCoordinator.Init();
 
+    gCoordinator.RegisterComponent<Component::com_Camera>();
     gCoordinator.RegisterComponent<Component::com_Model>();
     gCoordinator.RegisterComponent<Component::com_Shader>();
     gCoordinator.RegisterComponent<Component::com_Transform>();
@@ -97,27 +118,35 @@ bool SystemTest::RenderSystem()
     }
 
     auto backpack = gCoordinator.CreateEntity();
-    gCoordinator.AddComponent(backpack, Component::com_Model("../Data/Models/Backpack/backpack.obj"));
-    gCoordinator.AddComponent(backpack, Component::com_Shader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs"));
-    gCoordinator.AddComponent(backpack, Component::com_Transform(glm::vec3(0), glm::vec3(0), glm::vec3(1)));
+    gCoordinator.AddComponent<Component::com_Model>(backpack, ourModel);
+    gCoordinator.AddComponent<Component::com_Shader>(backpack, ourShader);
+    gCoordinator.AddComponent<Component::com_Transform>(backpack, ourTransform);
 
-    while (!gGraphics.ShouldWindowClose())
+    // render loop
+    // -----------
+    while (!graphics.ShouldWindowClose())
     {
+        // per-frame time logic
+        // --------------------
         float currentFrame = Graphics::GetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        ProcessInput(gGraphics.Window(), &camera, deltaTime);
+        // input
+        // -----
+        ProcessInput(graphics.Window(), &camera, deltaTime);
 
-        gGraphics.Clear(0.05f, 0.05f, 0.05f, 1.0f);
+        RenderSystem->Update(&camera, &graphics);
 
-        RenderSystem->Update(&camera, gGraphics);
-
-        gGraphics.SwapBuffers();
-        gGraphics.PollForEvents();
+        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+        // -------------------------------------------------------------------------------
+        graphics.SwapBuffers();
+        graphics.PollForEvents();
     }
 
-    gGraphics.Terminate();
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    // ------------------------------------------------------------------
+    graphics.Terminate();
 
     return true;
 }

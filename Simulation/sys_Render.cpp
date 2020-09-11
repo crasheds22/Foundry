@@ -13,7 +13,7 @@ namespace System
     {
     }
 
-    void sys_Render::Update(const Component::com_Camera* camera, const Graphics& graphics)
+    void sys_Render::Update(const Component::com_Camera* camera, const Graphics* graphics)
     {
         for (const auto& entity : mEntities)
         {
@@ -23,7 +23,7 @@ namespace System
 
             eShader.Use();
 
-            glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom()), graphics.AspectRatio(), 0.1f, 100.0f);
+            glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom()), graphics->AspectRatio(), 0.1f, 100.0f);
             eShader.setMat4("projection", projection);
 
             glm::mat4 view = camera->ViewMatrix();

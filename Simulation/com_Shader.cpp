@@ -7,11 +7,6 @@ namespace Component
 		mID = Shader::New(vertexPath, fragmentPath, geometryPath);
 	}
 
-	com_Shader::~com_Shader()
-	{
-		Shader::DeleteShader(mID);
-	}
-
 	unsigned int com_Shader::ID() const
 	{
 		return mID;
