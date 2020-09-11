@@ -2,6 +2,7 @@
 
 #include "UnitTest.h"
 
+#include <iostream>
 #include <glm/vec3.hpp>
 #include "com_Collider.h"
 
