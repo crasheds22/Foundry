@@ -2,6 +2,7 @@
 
 #include "UnitTest.h"
 
+#include <glm/vec3.hpp>
 #include "com_Collider.h"
 
 class ColliderTest : public UnitTest {
@@ -15,5 +16,4 @@ private:
 	bool BoxSphere();
 	bool BoxPlane();
 	bool SpherePlane();
-
 };
