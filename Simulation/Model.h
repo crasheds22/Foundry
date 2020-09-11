@@ -51,16 +51,13 @@ private:
 class Model
 {
 public:
-	static Model& Instance();
+	Model() {};
+	Model(const std::string path);
 
-	Model(const Model& m) = delete;
-	void operator=(const Model& m) = delete;
-
-	std::vector<Mesh> New(const std::string path);
+	void Draw(unsigned int shaderID);
 
 private:
-	Model() {};
-
+	std::vector<Mesh> mMeshes;
 	std::vector<ModelTexture> mTexturesLoaded;
 	std::string mDirectory;
 	

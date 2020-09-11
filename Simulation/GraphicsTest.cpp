@@ -39,16 +39,15 @@ public:
 class ModelTest
 {
 public:
-    ModelTest(const char* path) : mMeshes(Model::Instance().New(path)) { };
+    ModelTest(const char* path) : mMeshes(Model(path)) { };
 
     void Draw(unsigned int shaderID)
     {
-        for (auto& mesh : mMeshes)
-            mesh.Draw(shaderID);
+        mMeshes.Draw(shaderID);
     }
 
 private:
-    std::vector<Mesh> mMeshes;
+    Model mMeshes;
 };
 
 bool GraphicsTest::Test()

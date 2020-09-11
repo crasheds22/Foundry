@@ -12,11 +12,10 @@ namespace Component
 	public:
 		com_Model() {};
 		com_Model(std::string path);
-		com_Model(const com_Model& m);
 
-		void Draw(unsigned int shaderID) const;
+		void Draw(unsigned int shaderID);
 
 	private:
-		std::vector<Mesh> mMeshes;
+		Model mModel;
 	};
 }
