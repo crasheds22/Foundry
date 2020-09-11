@@ -50,11 +50,7 @@ void SystemTest::ScrollCallback(GLFWwindow* window, double xOff, double yOff)
 
 SystemTest::SystemTest() : UnitTest("Systems test")
 {
-    gCoordinator.Init();
-
-    gCoordinator.RegisterComponent<Component::com_Model>();
-    gCoordinator.RegisterComponent<Component::com_Shader>();
-    gCoordinator.RegisterComponent<Component::com_Transform>();
+    
 }
 
 bool SystemTest::Test()
@@ -68,7 +64,9 @@ bool SystemTest::Test()
 
 bool SystemTest::RenderSystem()
 {
-    Graphics gGraphics = Graphics(800.0f, 500.0f, "Model One");
+    camera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
+    Graphics gGraphics = Graphics(800.0f, 500.0f, "Model System");
     gGraphics.MakeWindowCurrent();
     Graphics::SetWindowUserPointer(gGraphics.Window(), this);
     gGraphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
@@ -83,6 +81,12 @@ bool SystemTest::RenderSystem()
 
     Graphics::Enable(Graphics::Capability::DEPTH);
 
+    gCoordinator.Init();
+
+    gCoordinator.RegisterComponent<Component::com_Model>();
+    gCoordinator.RegisterComponent<Component::com_Shader>();
+    gCoordinator.RegisterComponent<Component::com_Transform>();
+
     auto RenderSystem = gCoordinator.RegisterSystem<System::sys_Render>();
     {
         ECS::Signature sig;
@@ -92,16 +96,10 @@ bool SystemTest::RenderSystem()
         gCoordinator.SetSystemSignature<System::sys_Render>(sig);
     }
 
-    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
-    Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
-    Component::com_Transform transform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
-
     auto backpack = gCoordinator.CreateEntity();
-    gCoordinator.AddComponent(backpack, ourModel);
-    gCoordinator.AddComponent(backpack, ourShader);
-    gCoordinator.AddComponent(backpack, transform);
-
-    camera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+    gCoordinator.AddComponent(backpack, Component::com_Model("../Data/Models/Backpack/backpack.obj"));
+    gCoordinator.AddComponent(backpack, Component::com_Shader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs"));
+    gCoordinator.AddComponent(backpack, Component::com_Transform(glm::vec3(0), glm::vec3(0), glm::vec3(1)));
 
     while (!gGraphics.ShouldWindowClose())
     {
@@ -113,7 +111,7 @@ bool SystemTest::RenderSystem()
 
         gGraphics.Clear(0.05f, 0.05f, 0.05f, 1.0f);
 
-        RenderSystem->Update(camera, gGraphics);
+        RenderSystem->Update(&camera, gGraphics);
 
         gGraphics.SwapBuffers();
         gGraphics.PollForEvents();

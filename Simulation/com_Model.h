@@ -14,7 +14,7 @@ namespace Component
 		com_Model(std::string path);
 		com_Model(const com_Model& m);
 
-		void Draw(unsigned int shaderID);
+		void Draw(unsigned int shaderID) const;
 
 	private:
 		std::vector<Mesh> mMeshes;

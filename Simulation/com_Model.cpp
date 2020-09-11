@@ -14,9 +14,9 @@ namespace Component
 		}
 	}
 
-	void com_Model::Draw(unsigned int shaderID)
+	void com_Model::Draw(unsigned int shaderID) const
 	{
-		for (auto& mesh : mMeshes)
+		for (auto mesh : mMeshes)
 			mesh.Draw(shaderID);
 	}
 }
