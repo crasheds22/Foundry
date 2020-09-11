@@ -69,4 +69,3 @@ float Physics::CalculateAngularFinalVelocitySquared(float ivelocity, float accel
 {
 	return (ivelocity * ivelocity) + (acceleration * displacement * 2.0f);
 }
-

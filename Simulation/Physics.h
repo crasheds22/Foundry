@@ -1,5 +1,9 @@
 #pragma once
+
+#include "Types.h"
+
 #include <glm/glm.hpp>
+#include <glm/geometric.hpp>
 
 class Physics
 {
@@ -19,7 +23,5 @@ public:
 	static float CalculateAngularDisplacementA(float ivelocity, float acceleration, float time);
 	static float CalculateAngularFinalVelocity(float ivelocity, float acceleration, float time);
 	static float CalculateAngularFinalVelocitySquared(float ivelocity, float acceleration, float displacement);
-
-private:
-	Physics() { };
 };
+

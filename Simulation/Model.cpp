@@ -80,13 +80,8 @@ void Mesh::SetUpMesh()
 	glBindVertexArray(0);
 }
 
-std::vector<ModelTexture> Model::mTexturesLoaded;
-std::string Model::mDirectory;
-
-std::vector<Mesh> Model::New(const std::string path)
+Model::Model(const std::string path)
 {
-	std::vector<Mesh> meshes;
-
 	// read file via ASSIMP
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -100,9 +95,15 @@ std::vector<Mesh> Model::New(const std::string path)
 	mDirectory = path.substr(0, path.find_last_of('/'));
 
 	// process ASSIMP's root node recursively
-	ProcessNode(scene->mRootNode, scene, meshes);
+	ProcessNode(scene->mRootNode, scene, mMeshes);
+}
 
-	return meshes;
+void Model::Draw(unsigned int shaderID)
+{
+	for (auto& mesh : mMeshes)
+	{
+		mesh.Draw(shaderID);
+	}
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes)

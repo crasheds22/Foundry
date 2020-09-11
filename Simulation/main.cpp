@@ -1,14 +1,18 @@
 #include <iostream>
 
-#include "Theatre.h"
+#include "TestBattery.h"
 
 int main()
 {
-	std::cout << "Nothing here bruv" << std::endl;
-
-	Theatre venue;
-
-	venue.PlayShows();
+	if (true)
+	{
+		TestBattery tests;
+		tests.RunTests();
+	}
+	else
+	{
+		std::cout << "unreachable" << std::endl;
+	}
 
 	return 0;
 }

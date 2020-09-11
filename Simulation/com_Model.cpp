@@ -1,28 +1,13 @@
 #include "com_Model.h"
 
-using StaticModel = Model;
-
 namespace Component
 {
-	Model::Model(std::string path) : mMeshes(StaticModel::New(path))
+	com_Model::com_Model(std::string path) : mModel(Model(path))
 	{
 	}
 
-	Model::Model(const Model& m)
+	void com_Model::Draw(unsigned int shaderID)
 	{
-		for (const auto& mesh : m.mMeshes)
-		{
-			mMeshes.push_back(mesh);
-		}
-	}
-
-	Model::~Model()
-	{
-	}
-
-	void Model::Draw(unsigned int shaderID)
-	{
-		for (auto& mesh : mMeshes)
-			mesh.Draw(shaderID);
+		mModel.Draw(shaderID);
 	}
 }

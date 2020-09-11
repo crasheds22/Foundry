@@ -1,13 +1,19 @@
 #include "com_Player.h"
 
-Component::Player::Player()
+namespace Component
 {
-}
+	com_Player::com_Player(float move, float rotate) 
+		: mMoveSpeed(move), mRotateSpeed(rotate)
+	{
+	}
 
-Component::Player::Player(const Player& p)
-{
-}
+	float com_Player::MoveSpeed() const
+	{
+		return mMoveSpeed;
+	}
 
-Component::Player::~Player()
-{
+	float com_Player::RotateSpeed() const
+	{
+		return mRotateSpeed;
+	}
 }

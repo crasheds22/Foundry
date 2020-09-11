@@ -4,16 +4,13 @@
 #include <map>
 #include <functional>
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../Graphics/Shader.h"
-#include "../Graphics/Texture.h"
-#include "../Graphics/Graphics.h"
-#include "../Graphics/Model.h"
+#include "Shader.h"
+#include "Texture.h"
+#include "Graphics.h"
+#include "Model.h"
 
 enum class Camera_Movement { FORWARD, BACKWARD, RIGHT, LEFT };
 
@@ -141,6 +138,7 @@ private:
     bool IntroToLighting();
     bool Lighting();
     bool ModelOne();
+    bool RobertsonModel();
 
 };
 

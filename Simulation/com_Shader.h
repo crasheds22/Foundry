@@ -9,15 +9,15 @@
 
 #include <string>
 
+#include "Shader.h"
+
 namespace Component
 {
-	class Shader
+	class com_Shader
 	{
 	public:
-		Shader() {};
-		Shader(const Shader& s) {};
-		Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
-		~Shader();
+		com_Shader() {};
+		com_Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 
 		unsigned int ID() const;
 

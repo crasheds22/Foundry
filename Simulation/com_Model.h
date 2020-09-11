@@ -3,21 +3,19 @@
 #include <string>
 #include <vector>
 
-#include "../Graphics/Model.h"
+#include "Model.h"
 
 namespace Component
 {
-	class Model
+	class com_Model
 	{
 	public:
-		Model() {};
-		Model(std::string path);
-		Model(const Model& m);
-		~Model();
+		com_Model() {};
+		com_Model(std::string path);
 
 		void Draw(unsigned int shaderID);
 
 	private:
-		std::vector<Mesh> mMeshes{};
+		Model mModel;
 	};
 }

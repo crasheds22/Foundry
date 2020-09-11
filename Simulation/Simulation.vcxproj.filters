@@ -1,110 +1,169 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{84103801-0982-4222-bfe6-f0994a8070cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Header">
-      <UniqueIdentifier>{649d6c12-3c3f-4aab-a35d-e09e6a98a451}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Source">
-      <UniqueIdentifier>{e94527e4-275b-41e7-93f4-29a076e2c80d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Systems">
       <UniqueIdentifier>{ef6ff988-59a5-4f64-b4a1-428bbd292750}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Systems\Header">
-      <UniqueIdentifier>{4e920cd1-48b5-47d8-9148-2162cd162935}</UniqueIdentifier>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{3e43ff57-1287-411a-8dcb-71291744db4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Systems\Source">
-      <UniqueIdentifier>{701324a9-9043-4996-b80f-4d2746329369}</UniqueIdentifier>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{54d205a3-aaf9-4663-bcd6-3a9de1960581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Testing">
+      <UniqueIdentifier>{7d89dee7-7b7b-44bd-a4b3-07534ff7ea4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{4de6a57e-996c-4e76-9d40-cd8d98e23549}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS">
+      <UniqueIdentifier>{930313ae-4c05-4c90-aefc-c82edd22267f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Theatre.h" />
     <ClInclude Include="Stage.h" />
-    <ClInclude Include="com_Box.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="com_Camera.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="com_Model.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="com_Shader.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="com_Sphere.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="com_Texture.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="com_Transform.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="sys_CollisionDetection.h">
-      <Filter>Systems\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="sys_Render.h">
-      <Filter>Systems\Header</Filter>
-    </ClInclude>
     <ClInclude Include="Props.h" />
-    <ClInclude Include="com_Player.h">
-      <Filter>Components\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="com_Plane.h">
-      <Filter>Components\Header</Filter>
+    <ClInclude Include="com_Camera.h">
+      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="com_Collider.h">
-      <Filter>Components\Header</Filter>
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Model.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Player.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Shader.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Texture.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="com_Transform.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sys_Render.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionAlgo.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTest.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsTest.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="TestBattery.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitTest.h">
+      <Filter>Testing</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentArray.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Coordinator.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemTest.h">
+      <Filter>Testing</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Theatre.cpp" />
     <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="com_Box.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="com_Camera.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="com_Model.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="com_Shader.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="com_Sphere.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="com_Texture.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="com_Transform.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="sys_CollisionDetection.cpp">
-      <Filter>Systems\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="sys_Render.cpp">
-      <Filter>Systems\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Props.cpp" />
-    <ClCompile Include="com_Player.cpp">
-      <Filter>Components\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="com_Plane.cpp">
-      <Filter>Components\Source</Filter>
+    <ClCompile Include="com_Camera.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="com_Collider.cpp">
-      <Filter>Components\Source</Filter>
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Model.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Player.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Shader.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Texture.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="com_Transform.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="sys_Render.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionAlgo.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTest.cpp">
+      <Filter>Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsTest.cpp">
+      <Filter>Testing</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemTest.cpp">
+      <Filter>Testing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,25 +1,19 @@
 #pragma once
 
-#include "../ECS_core/System.h"
+#include "System.h"
 
-#include "../Graphics/Graphics.h"
+#include "com_Camera.h"
 
-#include "Props.h"
-
-#include "com_Model.h"
-#include "com_Shader.h"
-#include "com_Transform.h"
-
-#include <glm/glm.hpp>
+#include "Graphics.h"
 
 namespace System
 {
-	class Render : public ECS::System
+	class sys_Render : public ECS::System
 	{
 	public:
-		Render();
+		void Init();
 
-		void Update();
+		void Update(const Component::com_Camera* camera, const Graphics* graphics);
 
 	private:
 

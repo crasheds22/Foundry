@@ -1,27 +1,19 @@
 #include "com_Texture.h"
 
-#include "../Graphics/Texture.h"
-using StaticTexture = Texture;
-
 namespace Component
 {
-	Texture::Texture(std::string path)
-		: Texture(path.c_str())
+	com_Texture::com_Texture(std::string path)
+		: com_Texture(path.c_str())
 	{
 
 	}
 
-	Texture::Texture(const char* path)
+	com_Texture::com_Texture(const char* path)
 	{
-		mID = StaticTexture::New(path);
+		mID = Texture::New(path);
 	}
 
-	Texture::~Texture()
-	{
-
-	}
-
-	unsigned int Texture::ID() const
+	unsigned int com_Texture::ID() const
 	{
 		return mID;
 	}

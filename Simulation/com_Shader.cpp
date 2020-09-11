@@ -1,84 +1,76 @@
 #include "com_Shader.h"
 
-#include "../Graphics/Shader.h"
-using StaticShader = Shader;
-
 namespace Component
 {
-	Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
+	com_Shader::com_Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 	{
-		mID = StaticShader::New(vertexPath, fragmentPath, geometryPath);
+		mID = Shader::New(vertexPath, fragmentPath, geometryPath);
 	}
 
-	Shader::~Shader()
-	{
-		StaticShader::DeleteShader(mID);
-	}
-
-	unsigned int Shader::ID() const
+	unsigned int com_Shader::ID() const
 	{
 		return mID;
 	}
 
-	void Shader::Use()
+	void com_Shader::Use()
 	{
-		StaticShader::Use(mID);
+		Shader::Use(mID);
 	}
 
-	void Shader::setBool(const std::string& name, bool value)
+	void com_Shader::setBool(const std::string& name, bool value)
 	{
-		StaticShader::setBool(mID, name, value);
+		Shader::setBool(mID, name, value);
 	}
 
-	void Shader::setInt(const std::string& name, int value)
+	void com_Shader::setInt(const std::string& name, int value)
 	{
-		StaticShader::setInt(mID, name, value);
+		Shader::setInt(mID, name, value);
 	}
 
-	void Shader::setFloat(const std::string& name, float value)
+	void com_Shader::setFloat(const std::string& name, float value)
 	{
-		StaticShader::setFloat(mID, name, value);
+		Shader::setFloat(mID, name, value);
 	}
 
-	void Shader::setVec2(const std::string& name, const glm::vec2& value)
+	void com_Shader::setVec2(const std::string& name, const glm::vec2& value)
 	{
-		StaticShader::setVec2(mID, name, value);
+		Shader::setVec2(mID, name, value);
 	}
-	void Shader::setVec2(const std::string& name, float x, float y)
+	void com_Shader::setVec2(const std::string& name, float x, float y)
 	{
-		StaticShader::setVec2(mID, name, x, y);
-	}
-
-	void Shader::setVec3(const std::string& name, const glm::vec3& value)
-	{
-		StaticShader::setVec3(mID, name, value);
-	}
-	void Shader::setVec3(const std::string& name, float x, float y, float z)
-	{
-		StaticShader::setVec3(mID, name, x, y, z);
+		Shader::setVec2(mID, name, x, y);
 	}
 
-	void Shader::setVec4(const std::string& name, const glm::vec4& value)
+	void com_Shader::setVec3(const std::string& name, const glm::vec3& value)
 	{
-		StaticShader::setVec4(mID, name, value);
+		Shader::setVec3(mID, name, value);
 	}
-	void Shader::setVec4(const std::string& name, float x, float y, float z, float w)
+	void com_Shader::setVec3(const std::string& name, float x, float y, float z)
 	{
-		StaticShader::setVec4(mID, name, x, y, z, w);
-	}
-
-	void Shader::setMat2(const std::string& name, const glm::mat2& mat)
-	{
-		StaticShader::setMat2(mID, name, mat);
+		Shader::setVec3(mID, name, x, y, z);
 	}
 
-	void Shader::setMat3(const std::string& name, const glm::mat3& mat)
+	void com_Shader::setVec4(const std::string& name, const glm::vec4& value)
 	{
-		StaticShader::setMat3(mID, name, mat);
+		Shader::setVec4(mID, name, value);
+	}
+	void com_Shader::setVec4(const std::string& name, float x, float y, float z, float w)
+	{
+		Shader::setVec4(mID, name, x, y, z, w);
 	}
 
-	void Shader::setMat4(const std::string& name, const glm::mat4& mat)
+	void com_Shader::setMat2(const std::string& name, const glm::mat2& mat)
 	{
-		StaticShader::setMat4(mID, name, mat);
+		Shader::setMat2(mID, name, mat);
+	}
+
+	void com_Shader::setMat3(const std::string& name, const glm::mat3& mat)
+	{
+		Shader::setMat3(mID, name, mat);
+	}
+
+	void com_Shader::setMat4(const std::string& name, const glm::mat4& mat)
+	{
+		Shader::setMat4(mID, name, mat);
 	}
 }

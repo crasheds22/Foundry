@@ -2,16 +2,16 @@
 
 #include <string>
 
+#include "Texture.h"
+
 namespace Component
 {
-	class Texture
+	class com_Texture
 	{
 	public:
-		Texture() {};
-		Texture(const Texture& t) {};
-		Texture(std::string path);
-		Texture(const char* path);
-		~Texture();
+		com_Texture() {};
+		com_Texture(std::string path);
+		com_Texture(const char* path);
 
 		unsigned int ID() const;
 
