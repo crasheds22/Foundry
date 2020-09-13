@@ -1,6 +1,6 @@
 #include "SystemTest.h"
 
-#include "Coordinator.h"
+#include "ECS/Coordinator.h"
 ECS::Coordinator gCoordinator;
 
 void SystemTest::ProcessInput(GLFWwindow* window, Component::com_Camera* camera = nullptr, float dt = 0.0f)

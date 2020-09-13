@@ -2,13 +2,13 @@
 
 #include "UnitTest.h"
 
-#include "Graphics.h"
+#include "Graphics/Graphics.h"
 
-#include "sys_Render.h"
-#include "com_Model.h"
-#include "com_Shader.h"
-#include "com_Transform.h"
-#include "com_Camera.h"
+#include "Systems/sys_Render.h"
+#include "Components/com_Model.h"
+#include "Components/com_Transform.h"
+#include "Components/com_Shader.h"
+#include "Components/com_Camera.h"
 
 class SystemTest
 	: public UnitTest

@@ -118,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,61 +143,61 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ColliderTest.h" />
-    <ClInclude Include="CollisionAlgo.h" />
-    <ClInclude Include="ComponentArray.h" />
-    <ClInclude Include="ComponentManager.h" />
-    <ClInclude Include="ComponentTest.h" />
-    <ClInclude Include="com_Camera.h" />
-    <ClInclude Include="com_Collider.h" />
-    <ClInclude Include="com_Player.h" />
-    <ClInclude Include="Coordinator.h" />
-    <ClInclude Include="EntityManager.h" />
-    <ClInclude Include="Graphics.h" />
-    <ClInclude Include="GraphicsTest.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="Physics.h" />
-    <ClInclude Include="Props.h" />
-    <ClInclude Include="com_Model.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="System.h" />
-    <ClInclude Include="SystemManager.h" />
-    <ClInclude Include="SystemTest.h" />
-    <ClInclude Include="sys_Render.h" />
-    <ClInclude Include="com_Shader.h" />
-    <ClInclude Include="Stage.h" />
-    <ClInclude Include="com_Texture.h" />
-    <ClInclude Include="TestBattery.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Theatre.h" />
-    <ClInclude Include="com_Transform.h" />
-    <ClInclude Include="Types.h" />
-    <ClInclude Include="UnitTest.h" />
+    <ClInclude Include="Headers\Algorithms\CollisionAlgo.h" />
+    <ClInclude Include="Headers\Algorithms\Physics.h" />
+    <ClInclude Include="Headers\Components\com_Camera.h" />
+    <ClInclude Include="Headers\Components\com_Collider.h" />
+    <ClInclude Include="Headers\Components\com_Model.h" />
+    <ClInclude Include="Headers\Components\com_Player.h" />
+    <ClInclude Include="Headers\Components\com_Shader.h" />
+    <ClInclude Include="Headers\Components\com_Texture.h" />
+    <ClInclude Include="Headers\Components\com_Transform.h" />
+    <ClInclude Include="Headers\ECS\ComponentArray.h" />
+    <ClInclude Include="Headers\ECS\ComponentManager.h" />
+    <ClInclude Include="Headers\ECS\Coordinator.h" />
+    <ClInclude Include="Headers\ECS\EntityManager.h" />
+    <ClInclude Include="Headers\ECS\System.h" />
+    <ClInclude Include="Headers\ECS\SystemManager.h" />
+    <ClInclude Include="Headers\ECS\Types.h" />
+    <ClInclude Include="Headers\Graphics\Graphics.h" />
+    <ClInclude Include="Headers\Graphics\Model.h" />
+    <ClInclude Include="Headers\Graphics\Shader.h" />
+    <ClInclude Include="Headers\Graphics\Texture.h" />
+    <ClInclude Include="Headers\Props.h" />
+    <ClInclude Include="Headers\Stage.h" />
+    <ClInclude Include="Headers\Systems\sys_Render.h" />
+    <ClInclude Include="Headers\Theatre.h" />
+    <ClInclude Include="Tests\ColliderTest.h" />
+    <ClInclude Include="Tests\ComponentTest.h" />
+    <ClInclude Include="Tests\GraphicsTest.h" />
+    <ClInclude Include="Tests\SystemTest.h" />
+    <ClInclude Include="Tests\TestBattery.h" />
+    <ClInclude Include="Tests\UnitTest.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ColliderTest.cpp" />
-    <ClCompile Include="CollisionAlgo.cpp" />
-    <ClCompile Include="ComponentTest.cpp" />
-    <ClCompile Include="com_Camera.cpp" />
-    <ClCompile Include="com_Collider.cpp" />
-    <ClCompile Include="com_Player.cpp" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="GraphicsTest.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="Props.cpp" />
-    <ClCompile Include="com_Model.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="SystemTest.cpp" />
-    <ClCompile Include="sys_Render.cpp" />
-    <ClCompile Include="com_Shader.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="com_Texture.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Theatre.cpp" />
-    <ClCompile Include="com_Transform.cpp" />
+    <ClCompile Include="Source\Algorithm\CollisionAlgo.cpp" />
+    <ClCompile Include="Source\Algorithm\Physics.cpp" />
+    <ClCompile Include="Source\Components\com_Camera.cpp" />
+    <ClCompile Include="Source\Components\com_Collider.cpp" />
+    <ClCompile Include="Source\Components\com_Model.cpp" />
+    <ClCompile Include="Source\Components\com_Player.cpp" />
+    <ClCompile Include="Source\Components\com_Shader.cpp" />
+    <ClCompile Include="Source\Components\com_Texture.cpp" />
+    <ClCompile Include="Source\Components\com_Transform.cpp" />
+    <ClCompile Include="Source\Graphics\Graphics.cpp" />
+    <ClCompile Include="Source\Graphics\Model.cpp" />
+    <ClCompile Include="Source\Graphics\Shader.cpp" />
+    <ClCompile Include="Source\Graphics\Texture.cpp" />
+    <ClCompile Include="Source\Props.cpp" />
+    <ClCompile Include="Source\Stage.cpp" />
+    <ClCompile Include="Source\Systems\sys_Render.cpp" />
+    <ClCompile Include="Source\Theatre.cpp" />
+    <ClCompile Include="Tests\ColliderTest.cpp" />
+    <ClCompile Include="Tests\ComponentTest.cpp" />
+    <ClCompile Include="Tests\GraphicsTest.cpp" />
+    <ClCompile Include="Tests\SystemTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

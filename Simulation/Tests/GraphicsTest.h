@@ -7,10 +7,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Shader.h"
-#include "Texture.h"
-#include "Graphics.h"
-#include "Model.h"
+#include "Graphics/Shader.h"
+#include "Graphics/Texture.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/Model.h"
 
 enum class Camera_Movement { FORWARD, BACKWARD, RIGHT, LEFT };
 

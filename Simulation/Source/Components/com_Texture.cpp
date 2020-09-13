@@ -1,4 +1,4 @@
-#include "com_Texture.h"
+#include "Components/com_Texture.h"
 
 namespace Component
 {

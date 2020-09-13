@@ -1,4 +1,4 @@
-#include "Model.h"
+#include "Graphics/Model.h"
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<ModelTexture> textures)
 {

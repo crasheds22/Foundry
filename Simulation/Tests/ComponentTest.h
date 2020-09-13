@@ -2,13 +2,13 @@
 
 #include "UnitTest.h"
 
-#include "Graphics.h"
-#include "Texture.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/Texture.h"
 
-#include "com_Shader.h"
-#include "com_Texture.h"
-#include "com_Camera.h"
-#include "com_Model.h"
+#include "Components/com_Shader.h"
+#include "Components/com_Texture.h"
+#include "Components/com_Camera.h"
+#include "Components/com_Model.h"
 
 class ComponentTest
 	: public UnitTest

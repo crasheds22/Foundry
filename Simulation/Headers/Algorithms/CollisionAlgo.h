@@ -1,11 +1,9 @@
 #pragma once
 
-#include "Types.h"
-
 #include <glm/glm.hpp>
 #include <glm/geometric.hpp>
 
-#include "com_Collider.h"
+#include "Components/com_Collider.h"
 
 class CollisionAlgo
 {

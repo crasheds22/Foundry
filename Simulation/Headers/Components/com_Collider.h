@@ -2,9 +2,11 @@
 
 #include <glm/glm.hpp>
 
-#include "Physics.h"
+#include "ECS/Types.h"
 
-#include "com_Transform.h"
+#include "Algorithms/Physics.h"
+
+#include "Components/com_Transform.h"
 
 class CollisionPoint
 {

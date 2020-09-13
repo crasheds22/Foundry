@@ -1,4 +1,4 @@
-#include "CollisionAlgo.h"
+#include "Algorithms/CollisionAlgo.h"
 
 CollisionPoint CollisionAlgo::FindSphereSphere(const Component::com_Sphere* sA, const Component::com_Transform* tA, const Component::com_Sphere* sB, const Component::com_Transform* tB)
 {

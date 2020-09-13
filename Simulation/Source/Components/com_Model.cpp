@@ -1,4 +1,4 @@
-#include "com_Model.h"
+#include "Components/com_Model.h"
 
 namespace Component
 {

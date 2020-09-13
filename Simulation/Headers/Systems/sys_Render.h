@@ -1,10 +1,10 @@
 #pragma once
 
-#include "System.h"
+#include "ECS/System.h"
 
-#include "com_Camera.h"
+#include "Components/com_Camera.h"
 
-#include "Graphics.h"
+#include "Graphics/Graphics.h"
 
 namespace System
 {

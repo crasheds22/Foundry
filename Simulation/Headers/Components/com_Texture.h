@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Texture.h"
+#include "Graphics/Texture.h"
 
 namespace Component
 {

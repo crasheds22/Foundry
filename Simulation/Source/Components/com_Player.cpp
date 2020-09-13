@@ -1,4 +1,4 @@
-#include "com_Player.h"
+#include "Components/com_Player.h"
 
 namespace Component
 {

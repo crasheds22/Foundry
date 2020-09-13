@@ -1,4 +1,4 @@
-#include "Shader.h"
+#include "Graphics/Shader.h"
 
 unsigned int Shader::New(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 {

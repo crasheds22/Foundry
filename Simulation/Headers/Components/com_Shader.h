@@ -9,7 +9,7 @@
 
 #include <string>
 
-#include "Shader.h"
+#include "Graphics/Shader.h"
 
 namespace Component
 {
