@@ -5,10 +5,6 @@ namespace Component
 	com_Transform::com_Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale) : mPosition(pos), mRotation(rot), mScale(scale)
 	{
 	}
-
-	com_Transform::com_Transform(const com_Transform& t) : mPosition(t.mPosition), mRotation(t.mRotation), mScale(t.mScale)
-	{
-	}
 	
 	glm::vec3 com_Transform::Position() const
 	{
