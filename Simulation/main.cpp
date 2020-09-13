@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "TestBattery.h"
+#include "Tests/TestBattery.h"
 
 int main()
 {

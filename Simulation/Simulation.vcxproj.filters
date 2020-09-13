@@ -34,7 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="glad.c" />
     <ClCompile Include="Tests\ColliderTest.cpp" />
     <ClCompile Include="Tests\ComponentTest.cpp" />
     <ClCompile Include="Tests\GraphicsTest.cpp" />
@@ -56,5 +55,6 @@
     <ClCompile Include="Source\Props.cpp" />
     <ClCompile Include="Source\Stage.cpp" />
     <ClCompile Include="Source\Theatre.cpp" />
+    <ClCompile Include="glad.c" />
   </ItemGroup>
 </Project>
