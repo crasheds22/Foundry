@@ -136,6 +136,8 @@ bool SystemTest::RenderSystem()
         // -----
         ProcessInput(graphics.Window(), &camera, deltaTime);
 
+        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+
         RenderSystem->Update(&camera, &graphics);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
