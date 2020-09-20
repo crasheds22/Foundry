@@ -54,14 +54,14 @@ void SystemTest::MouseCallback(GLFWwindow* window, double xPos, double yPos)
     This->camera.RotateCamera(xOff * SENSITIVITY, yOff * SENSITIVITY);
 }
 
-void SystemTest::ProcessInput(Graphics* context, float dt)
+void SystemTest::ProcessInput(Graphics* context)
 {
     if (ref)
     {
         if (ref->Pressed(Actions::Global::QUIT))
             context->SetWindowShouldClose();
 
-        float v = dt * SPEED;
+        float v = ref->DeltaTime() * SPEED;
 
         if (ref->Pressed(Actions::Move::FORWARD))
             camera.MoveCamera(Component::Direction::FORWARD, v);
@@ -244,14 +244,12 @@ bool SystemTest::ControlSystem()
 
     while (!graphics.ShouldWindowClose())
     {
-        float currentFrame = Graphics::GetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+        ref->UpdateDT();
 
         ref->UpdateKeys();
         ref->UpdateMouse();
 
-        ProcessInput(&graphics, deltaTime);
+        ProcessInput(&graphics);
         ProcessMouse();
 
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);

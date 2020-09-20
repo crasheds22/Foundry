@@ -36,7 +36,7 @@ public:
 
 	static void ScrollCallback(GLFWwindow* window, double xOff, double yOff);
 	static void MouseCallback(GLFWwindow* window, double xPos, double yPos);
-	void ProcessInput(Graphics* context, float dt);
+	void ProcessInput(Graphics* context);
 	static void ProcessInput(GLFWwindow* window, Component::com_Camera* camera, float dt);
 
 	void ProcessMouse();
