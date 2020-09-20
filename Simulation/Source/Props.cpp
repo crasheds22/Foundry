@@ -130,4 +130,7 @@ Props::Props()
     {
         { Actions::Global::QUIT, GLFW_KEY_ESCAPE }
     };
+
+    mMousePos = { 0.0, 0.0 };
+    mMouseLastPos = { 0.0, 0.0 };
 }
