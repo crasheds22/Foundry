@@ -46,6 +46,16 @@ void Props::UpdateMouse()
     }
 }
 
+void Props::UpdateDT()
+{
+    if (mContext)
+    {
+        float currentFrame = mContext->GetTime();
+        mDeltaTime = mLastFrame - currentFrame;
+        mLastFrame = currentFrame;
+    }
+}
+
 bool Props::Pressed(Actions::Move action)
 {
     return mKeys[mMoveActionMap[action]];
@@ -107,6 +117,11 @@ std::pair<double, double> Props::ThisMouse()
 std::pair<double, double> Props::LastMouse()
 {
     return mMouseLastPos;
+}
+
+float Props::DeltaTime() const
+{
+    return mDeltaTime;
 }
 
 Props::Props()

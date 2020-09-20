@@ -18,6 +18,7 @@ public:
 
 	void UpdateKeys();
 	void UpdateMouse();
+	void UpdateDT();
 
 	bool Pressed(Actions::Move action);
 	bool Pressed(Actions::User action);
@@ -35,6 +36,7 @@ public:
 	std::pair<double, double> ThisMouse();
 	std::pair<double, double> LastMouse();
 
+	float DeltaTime() const;
 
 private:
 	Props();
@@ -53,5 +55,8 @@ private:
 	std::pair<double, double> mMouseLastPos;
 
 	Graphics* mContext;
+
+	float mDeltaTime;
+	float mLastFrame;
 };
 
