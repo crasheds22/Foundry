@@ -14,6 +14,11 @@ namespace Component
 		UpdateCameraVectors();
 	}
 
+	void com_Camera::Position(const glm::vec3 position)
+	{
+		mPosition = position;
+	}
+
 	glm::vec3 com_Camera::Position() const
 	{
 		return mPosition;

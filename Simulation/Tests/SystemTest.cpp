@@ -3,6 +3,9 @@
 #include "ECS/Coordinator.h"
 ECS::Coordinator gCoordinator;
 
+float SPEED = 2.5f;
+float SENSITIVITY = 0.1f;
+
 void SystemTest::ProcessInput(GLFWwindow* window, Component::com_Camera* camera = nullptr, float dt = 0.0f)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -10,15 +13,25 @@ void SystemTest::ProcessInput(GLFWwindow* window, Component::com_Camera* camera 
 
     if (camera)
     {
+        float v = dt * SPEED;
+
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            camera->MoveCamera(Component::Direction::FORWARD, dt);
+            camera->MoveCamera(Component::Direction::FORWARD, v);
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-            camera->MoveCamera(Component::Direction::LEFT, dt);
+            camera->MoveCamera(Component::Direction::LEFT, v);
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-            camera->MoveCamera(Component::Direction::BACKWARD, dt);
+            camera->MoveCamera(Component::Direction::BACKWARD, v);
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-            camera->MoveCamera(Component::Direction::RIGHT, dt);
+            camera->MoveCamera(Component::Direction::RIGHT, v);
     }
+}
+
+void SystemTest::ProcessMouse()
+{
+    double xOff = ref->MouseOffset().first;
+    double yOff = ref->MouseOffset().second;
+
+    camera.RotateCamera(xOff * SENSITIVITY, yOff * SENSITIVITY);
 }
 
 void SystemTest::MouseCallback(GLFWwindow* window, double xPos, double yPos)
@@ -38,7 +51,27 @@ void SystemTest::MouseCallback(GLFWwindow* window, double xPos, double yPos)
     This->lastX = xPos;
     This->lastY = yPos;
 
-    This->camera.RotateCamera(xOff, yOff);
+    This->camera.RotateCamera(xOff * SENSITIVITY, yOff * SENSITIVITY);
+}
+
+void SystemTest::ProcessInput(Graphics* context)
+{
+    if (ref)
+    {
+        if (ref->Pressed(Actions::Global::QUIT))
+            context->SetWindowShouldClose();
+
+        float v = ref->DeltaTime() * SPEED;
+
+        if (ref->Pressed(Actions::Move::FORWARD))
+            camera.MoveCamera(Component::Direction::FORWARD, v);
+        if (ref->Pressed(Actions::Move::BACKWARD))
+            camera.MoveCamera(Component::Direction::BACKWARD, v);
+        if (ref->Pressed(Actions::Move::LEFT))
+            camera.MoveCamera(Component::Direction::LEFT, v);
+        if (ref->Pressed(Actions::Move::RIGHT))
+            camera.MoveCamera(Component::Direction::RIGHT, v);
+    }
 }
 
 void SystemTest::ScrollCallback(GLFWwindow* window, double xOff, double yOff)
@@ -57,7 +90,9 @@ bool SystemTest::Test()
 {
     bool allPassed = false;
 
-    allPassed = RenderSystem();
+    //allPassed = RenderSystem();
+
+    allPassed = ControlSystem();
 
     return allPassed;
 }
@@ -148,6 +183,99 @@ bool SystemTest::RenderSystem()
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
+    graphics.Terminate();
+
+    return true;
+}
+
+bool SystemTest::ControlSystem()
+{
+    deltaTime = 0.0f;
+    lastFrame = 0.0f;
+    lastX = 800.0f / 2.0f;
+    lastY = 500.0f / 2.0f;
+    FirstMouse = true;
+
+    Graphics graphics = Graphics(800, 500, "Model One");
+    graphics.MakeWindowCurrent();
+    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+
+    graphics.CaptureMouse();
+    graphics.StickyKeys();
+
+    graphics.InitializeGLAD();
+
+    Texture::FlipVertically();
+
+    Graphics::Enable(Graphics::Capability::DEPTH);
+
+    ref = &Props::Instance();
+    ref->SetContext(&graphics);
+
+    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
+    Component::com_Transform camTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+
+    Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 3.0f));
+    Component::com_Player ourPlayer(2.5f, 0.1f);
+    Component::com_Transform plaTransform(ourCamera.Position(), glm::vec3(0), glm::vec3(1));
+
+    gCoordinator.Init();
+
+    gCoordinator.RegisterComponent<Component::com_Camera>();
+    gCoordinator.RegisterComponent<Component::com_Model>();
+    gCoordinator.RegisterComponent<Component::com_Shader>();
+    gCoordinator.RegisterComponent<Component::com_Transform>();
+    gCoordinator.RegisterComponent<Component::com_Player>();
+
+    auto RenderSystem = gCoordinator.RegisterSystem<System::sys_Render>();
+    {
+        ECS::Signature sig;
+        sig.set(gCoordinator.GetComponentType<Component::com_Model>());
+        sig.set(gCoordinator.GetComponentType<Component::com_Shader>());
+        sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
+        gCoordinator.SetSystemSignature<System::sys_Render>(sig);
+    }
+    RenderSystem->Init();
+
+    auto PlayerControlSystem = gCoordinator.RegisterSystem<System::sys_PlayerControl>();
+    {
+        ECS::Signature sig;
+        sig.set(gCoordinator.GetComponentType<Component::com_Player>());
+        sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
+        gCoordinator.SetSystemSignature<System::sys_PlayerControl>(sig);
+    }
+    PlayerControlSystem->Init();
+
+    auto backpack = gCoordinator.CreateEntity();
+    gCoordinator.AddComponent<Component::com_Model>(backpack, ourModel);
+    gCoordinator.AddComponent<Component::com_Shader>(backpack, ourShader);
+    gCoordinator.AddComponent<Component::com_Transform>(backpack, camTransform);
+
+    auto player = gCoordinator.CreateEntity();
+    gCoordinator.AddComponent<Component::com_Player>(player, ourPlayer);
+    gCoordinator.AddComponent<Component::com_Transform>(player, plaTransform);
+
+    while (!graphics.ShouldWindowClose())
+    {
+        ref->UpdateDT();
+
+        ref->UpdateKeys();
+        ref->UpdateMouse();
+
+        if (ref->Pressed(Actions::Global::QUIT))
+            graphics.SetWindowShouldClose();
+
+        PlayerControlSystem->Update(&ourCamera);
+
+        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+
+        RenderSystem->Update(&ourCamera, &graphics);
+
+        graphics.SwapBuffers();
+        graphics.PollForEvents();
+    }
+
     graphics.Terminate();
 
     return true;

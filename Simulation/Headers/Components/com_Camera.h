@@ -16,6 +16,8 @@ namespace Component
 		com_Camera(glm::vec3 pos, glm::vec3 wup = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = -90.0f, float pitch = 0.0f);
 		com_Camera(const com_Camera& c);
 
+		void Position(const glm::vec3 position);
+
 		glm::vec3 Position() const;
 		glm::vec3 Front() const;
 		glm::vec3 Right() const;
