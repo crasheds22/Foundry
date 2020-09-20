@@ -8,6 +8,7 @@
 #include "Actions.h"
 
 #include "Systems/sys_Render.h"
+#include "Systems/sys_PlayerControl.h"
 
 #include "Components/com_Model.h"
 #include "Components/com_Transform.h"

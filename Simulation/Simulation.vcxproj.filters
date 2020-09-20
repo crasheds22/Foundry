@@ -32,7 +32,7 @@
     <ClInclude Include="Headers\Stage.h" />
     <ClInclude Include="Headers\Theatre.h" />
     <ClInclude Include="Headers\Actions.h" />
-    <ClInclude Include="sys_PlayerControl.h" />
+    <ClInclude Include="Headers\Systems\sys_PlayerControl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -58,6 +58,6 @@
     <ClCompile Include="Source\Stage.cpp" />
     <ClCompile Include="Source\Theatre.cpp" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="sys_PlayerControl.cpp" />
+    <ClCompile Include="Source\Systems\sys_PlayerControl.cpp" />
   </ItemGroup>
 </Project>

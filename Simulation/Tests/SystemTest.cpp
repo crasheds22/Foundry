@@ -190,8 +190,6 @@ bool SystemTest::RenderSystem()
 
 bool SystemTest::ControlSystem()
 {
-    camera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
-
     deltaTime = 0.0f;
     lastFrame = 0.0f;
     lastX = 800.0f / 2.0f;
@@ -221,6 +219,8 @@ bool SystemTest::ControlSystem()
     Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
     Component::com_Transform ourTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
+    Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, -3.0f));
+
     gCoordinator.Init();
 
     gCoordinator.RegisterComponent<Component::com_Camera>();
@@ -237,10 +237,20 @@ bool SystemTest::ControlSystem()
         gCoordinator.SetSystemSignature<System::sys_Render>(sig);
     }
 
+    auto PlayerControlSystem = gCoordinator.RegisterSystem<System::sys_PlayerControl>();
+    {
+        ECS::Signature sig;
+        sig.set(gCoordinator.GetComponentType<Component::com_Camera>());
+        gCoordinator.SetSystemSignature<System::sys_PlayerControl>(sig);
+    }
+
     auto backpack = gCoordinator.CreateEntity();
     gCoordinator.AddComponent<Component::com_Model>(backpack, ourModel);
     gCoordinator.AddComponent<Component::com_Shader>(backpack, ourShader);
     gCoordinator.AddComponent<Component::com_Transform>(backpack, ourTransform);
+
+    auto player = gCoordinator.CreateEntity();
+    gCoordinator.AddComponent<Component::com_Camera>(player , ourCamera);
 
     while (!graphics.ShouldWindowClose())
     {
@@ -249,12 +259,14 @@ bool SystemTest::ControlSystem()
         ref->UpdateKeys();
         ref->UpdateMouse();
 
-        ProcessInput(&graphics);
-        ProcessMouse();
+        if (ref->Pressed(Actions::Global::QUIT))
+            graphics.SetWindowShouldClose();
+
+        PlayerControlSystem->Update();
 
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-        RenderSystem->Update(&camera, &graphics);
+        RenderSystem->Update(&ourCamera, &graphics);
 
         graphics.SwapBuffers();
         graphics.PollForEvents();
