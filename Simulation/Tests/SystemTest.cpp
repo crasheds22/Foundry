@@ -199,8 +199,8 @@ bool SystemTest::ControlSystem()
     FirstMouse = true;
 
     Graphics graphics = Graphics(800, 500, "Model One");
-    //graphics.MakeWindowCurrent();
-    Graphics::SetWindowUserPointer(graphics.Window(), this);
+    graphics.MakeWindowCurrent();
+    //Graphics::SetWindowUserPointer(graphics.Window(), this);
     graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
     //graphics.SetCursorCallback(MouseCallback);
     //graphics.SetScrollCallback(ScrollCallback);
