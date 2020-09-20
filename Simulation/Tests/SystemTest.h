@@ -4,7 +4,11 @@
 
 #include "Graphics/Graphics.h"
 
+#include "Props.h"
+#include "Actions.h"
+
 #include "Systems/sys_Render.h"
+
 #include "Components/com_Model.h"
 #include "Components/com_Transform.h"
 #include "Components/com_Shader.h"
@@ -28,9 +32,14 @@ public:
 
 	Component::com_Camera camera;
 
+	Props* ref = nullptr;
+
 	static void ScrollCallback(GLFWwindow* window, double xOff, double yOff);
 	static void MouseCallback(GLFWwindow* window, double xPos, double yPos);
+	void ProcessInput(Graphics* context, float dt);
 	static void ProcessInput(GLFWwindow* window, Component::com_Camera* camera, float dt);
+
+	void ProcessMouse();
 
 private:
 	bool RenderSystem();

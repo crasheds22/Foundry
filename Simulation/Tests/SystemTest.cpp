@@ -26,6 +26,14 @@ void SystemTest::ProcessInput(GLFWwindow* window, Component::com_Camera* camera 
     }
 }
 
+void SystemTest::ProcessMouse()
+{
+    double xOff = ref->MouseOffset().first;
+    double yOff = ref->MouseOffset().second;
+
+    camera.RotateCamera(xOff * SENSITIVITY, yOff * SENSITIVITY);
+}
+
 void SystemTest::MouseCallback(GLFWwindow* window, double xPos, double yPos)
 {
     SystemTest* This = (SystemTest*)glfwGetWindowUserPointer(window);
@@ -44,6 +52,26 @@ void SystemTest::MouseCallback(GLFWwindow* window, double xPos, double yPos)
     This->lastY = yPos;
 
     This->camera.RotateCamera(xOff * SENSITIVITY, yOff * SENSITIVITY);
+}
+
+void SystemTest::ProcessInput(Graphics* context, float dt)
+{
+    if (ref)
+    {
+        if (ref->Pressed(Actions::Global::QUIT))
+            context->SetWindowShouldClose();
+
+        float v = dt * SPEED;
+
+        if (ref->Pressed(Actions::Move::FORWARD))
+            camera.MoveCamera(Component::Direction::FORWARD, v);
+        if (ref->Pressed(Actions::Move::BACKWARD))
+            camera.MoveCamera(Component::Direction::BACKWARD, v);
+        if (ref->Pressed(Actions::Move::LEFT))
+            camera.MoveCamera(Component::Direction::LEFT, v);
+        if (ref->Pressed(Actions::Move::RIGHT))
+            camera.MoveCamera(Component::Direction::RIGHT, v);
+    }
 }
 
 void SystemTest::ScrollCallback(GLFWwindow* window, double xOff, double yOff)
@@ -171,32 +199,26 @@ bool SystemTest::ControlSystem()
     FirstMouse = true;
 
     Graphics graphics = Graphics(800, 500, "Model One");
-    graphics.MakeWindowCurrent();
+    //graphics.MakeWindowCurrent();
     Graphics::SetWindowUserPointer(graphics.Window(), this);
     graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    graphics.SetCursorCallback(MouseCallback);
-    graphics.SetScrollCallback(ScrollCallback);
+    //graphics.SetCursorCallback(MouseCallback);
+    //graphics.SetScrollCallback(ScrollCallback);
 
-    // tell GLFW to capture our mouse
     graphics.CaptureMouse();
+    graphics.StickyKeys();
 
     graphics.InitializeGLAD();
 
-    // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
     Texture::FlipVertically();
 
-    // configure global opengl state
-    // -----------------------------
     Graphics::Enable(Graphics::Capability::DEPTH);
 
-    // build and compile shaders
-    // -------------------------
+    ref = &Props::Instance();
+    ref->SetContext(&graphics);
+
     Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
-
-    // load models
-    // -----------
     Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
-
     Component::com_Transform ourTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
     gCoordinator.Init();
@@ -220,32 +242,26 @@ bool SystemTest::ControlSystem()
     gCoordinator.AddComponent<Component::com_Shader>(backpack, ourShader);
     gCoordinator.AddComponent<Component::com_Transform>(backpack, ourTransform);
 
-    // render loop
-    // -----------
     while (!graphics.ShouldWindowClose())
     {
-        // per-frame time logic
-        // --------------------
         float currentFrame = Graphics::GetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        // input
-        // -----
-        ProcessInput(graphics.Window(), &camera, deltaTime);
+        ref->UpdateKeys();
+        ref->UpdateMouse();
+
+        ProcessInput(&graphics, deltaTime);
+        ProcessMouse();
 
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         RenderSystem->Update(&camera, &graphics);
 
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
         graphics.SwapBuffers();
         graphics.PollForEvents();
     }
 
-    // glfw: terminate, clearing all previously allocated GLFW resources.
-    // ------------------------------------------------------------------
     graphics.Terminate();
 
     return true;
