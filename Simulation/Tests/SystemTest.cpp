@@ -214,9 +214,11 @@ bool SystemTest::ControlSystem()
 
     Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
     Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
-    Component::com_Transform ourTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+    Component::com_Transform camTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
     Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 3.0f));
+    Component::com_Player ourPlayer(2.5f, 0.1f);
+    Component::com_Transform plaTransform(ourCamera.Position(), glm::vec3(0), glm::vec3(1));
 
     gCoordinator.Init();
 
@@ -224,6 +226,7 @@ bool SystemTest::ControlSystem()
     gCoordinator.RegisterComponent<Component::com_Model>();
     gCoordinator.RegisterComponent<Component::com_Shader>();
     gCoordinator.RegisterComponent<Component::com_Transform>();
+    gCoordinator.RegisterComponent<Component::com_Player>();
 
     auto RenderSystem = gCoordinator.RegisterSystem<System::sys_Render>();
     {
@@ -238,7 +241,8 @@ bool SystemTest::ControlSystem()
     auto PlayerControlSystem = gCoordinator.RegisterSystem<System::sys_PlayerControl>();
     {
         ECS::Signature sig;
-        sig.set(gCoordinator.GetComponentType<Component::com_Camera>());
+        sig.set(gCoordinator.GetComponentType<Component::com_Player>());
+        sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
         gCoordinator.SetSystemSignature<System::sys_PlayerControl>(sig);
     }
     PlayerControlSystem->Init();
@@ -246,10 +250,11 @@ bool SystemTest::ControlSystem()
     auto backpack = gCoordinator.CreateEntity();
     gCoordinator.AddComponent<Component::com_Model>(backpack, ourModel);
     gCoordinator.AddComponent<Component::com_Shader>(backpack, ourShader);
-    gCoordinator.AddComponent<Component::com_Transform>(backpack, ourTransform);
+    gCoordinator.AddComponent<Component::com_Transform>(backpack, camTransform);
 
     auto player = gCoordinator.CreateEntity();
-    gCoordinator.AddComponent<Component::com_Camera>(player , ourCamera);
+    gCoordinator.AddComponent<Component::com_Player>(player, ourPlayer);
+    gCoordinator.AddComponent<Component::com_Transform>(player, plaTransform);
 
     while (!graphics.ShouldWindowClose())
     {

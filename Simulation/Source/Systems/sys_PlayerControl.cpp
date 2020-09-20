@@ -15,11 +15,13 @@ namespace System
 
 	void sys_PlayerControl::Update(Component::com_Camera* camera)
 	{
-		//for (auto entity : mEntities)
-		//{
+		for (auto entity : mEntities)
+		{
 			//auto* camera = &gCoordinator.GetComponent<Component::com_Camera>(entity);
+			auto& player = gCoordinator.GetComponent<Component::com_Player>(entity);
+			auto& transform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
-			float v = ref->DeltaTime() * 2.5f;
+			float v = ref->DeltaTime() * player.MoveSpeed();
 
 			if (ref->Pressed(Actions::Move::FORWARD))
 				camera->MoveCamera(Component::Direction::FORWARD, v);
@@ -30,10 +32,13 @@ namespace System
 			if (ref->Pressed(Actions::Move::RIGHT))
 				camera->MoveCamera(Component::Direction::RIGHT, v);
 
-			double xOff = ref->MouseOffset().first;
-			double yOff = ref->MouseOffset().second;
+			double xOff = ref->MouseOffset().first * player.RotateSpeed();
+			double yOff = ref->MouseOffset().second * player.RotateSpeed();
 
-			camera->RotateCamera(xOff * 0.1f, yOff * 0.1f);
-		//}
+			camera->RotateCamera(xOff, yOff);
+
+			transform.Position(camera->Position());
+			transform.Rotation(camera->Rotations());
+		}
 	}
 }

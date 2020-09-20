@@ -14,6 +14,7 @@
 #include "Components/com_Transform.h"
 #include "Components/com_Shader.h"
 #include "Components/com_Camera.h"
+#include "Components/com_Player.h"
 
 class SystemTest
 	: public UnitTest
