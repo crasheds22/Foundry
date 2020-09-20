@@ -34,6 +34,7 @@ public:
 
 private:
 	bool RenderSystem();
+	bool ControlSystem();
 
 };
 
