@@ -51,7 +51,7 @@ void Props::UpdateDT()
     if (mContext)
     {
         float currentFrame = mContext->GetTime();
-        mDeltaTime = mLastFrame - currentFrame;
+        mDeltaTime = currentFrame - mLastFrame;
         mLastFrame = currentFrame;
     }
 }
@@ -148,4 +148,16 @@ Props::Props()
 
     mMousePos = { 0.0, 0.0 };
     mMouseLastPos = { 0.0, 0.0 };
+
+    mKeys =
+    {
+        { GLFW_KEY_A, false },
+        { GLFW_KEY_D, false },
+        { GLFW_KEY_E, false },
+        { GLFW_KEY_S, false },
+        { GLFW_KEY_W, false },
+        { GLFW_KEY_ESCAPE, false }
+    };
+
+    mKeysLast = mKeys;
 }

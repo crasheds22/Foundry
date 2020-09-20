@@ -198,10 +198,7 @@ bool SystemTest::ControlSystem()
 
     Graphics graphics = Graphics(800, 500, "Model One");
     graphics.MakeWindowCurrent();
-    //Graphics::SetWindowUserPointer(graphics.Window(), this);
     graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    //graphics.SetCursorCallback(MouseCallback);
-    //graphics.SetScrollCallback(ScrollCallback);
 
     graphics.CaptureMouse();
     graphics.StickyKeys();
@@ -219,7 +216,7 @@ bool SystemTest::ControlSystem()
     Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
     Component::com_Transform ourTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
-    Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, -3.0f));
+    Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 3.0f));
 
     gCoordinator.Init();
 
@@ -236,6 +233,7 @@ bool SystemTest::ControlSystem()
         sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
         gCoordinator.SetSystemSignature<System::sys_Render>(sig);
     }
+    RenderSystem->Init();
 
     auto PlayerControlSystem = gCoordinator.RegisterSystem<System::sys_PlayerControl>();
     {
@@ -263,7 +261,7 @@ bool SystemTest::ControlSystem()
         if (ref->Pressed(Actions::Global::QUIT))
             graphics.SetWindowShouldClose();
 
-        PlayerControlSystem->Update();
+        PlayerControlSystem->Update(&ourCamera);
 
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 

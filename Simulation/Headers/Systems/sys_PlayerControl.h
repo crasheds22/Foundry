@@ -4,6 +4,8 @@
 
 #include "Props.h"
 
+#include "Components/com_Camera.h"
+
 namespace System
 {
 	class sys_PlayerControl
@@ -12,7 +14,7 @@ namespace System
 	public:
 		void Init();
 
-		void Update();
+		void Update(Component::com_Camera* camera);
 
 	private:
 		Props* ref = nullptr;
