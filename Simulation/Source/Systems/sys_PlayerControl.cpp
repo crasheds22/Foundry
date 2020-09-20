@@ -17,27 +17,26 @@ namespace System
 	{
 		for (auto entity : mEntities)
 		{
-			//auto* camera = &gCoordinator.GetComponent<Component::com_Camera>(entity);
 			auto& player = gCoordinator.GetComponent<Component::com_Player>(entity);
 			auto& transform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
 			float v = ref->DeltaTime() * player.MoveSpeed();
 
-			if (ref->Pressed(Actions::Move::FORWARD))
-				camera->MoveCamera(Component::Direction::FORWARD, v);
-			if (ref->Pressed(Actions::Move::BACKWARD))
-				camera->MoveCamera(Component::Direction::BACKWARD, v);
-			if (ref->Pressed(Actions::Move::LEFT))
-				camera->MoveCamera(Component::Direction::LEFT, v);
-			if (ref->Pressed(Actions::Move::RIGHT))
-				camera->MoveCamera(Component::Direction::RIGHT, v);
+			int RL = ref->Pressed(Actions::Move::RIGHT) - ref->Pressed(Actions::Move::LEFT);
+			int FB = ref->Pressed(Actions::Move::FORWARD) - ref->Pressed(Actions::Move::BACKWARD);
+
+			glm::vec3 direction = ((camera->Front() * (float)FB) + (camera->Right() * (float)RL)) * v;
+
+			direction.y = 0.0f;
+
+			transform.Position(transform.Position() + direction);
 
 			double xOff = ref->MouseOffset().first * player.RotateSpeed();
 			double yOff = ref->MouseOffset().second * player.RotateSpeed();
 
 			camera->RotateCamera(xOff, yOff);
 
-			transform.Position(camera->Position());
+			camera->Position(transform.Position());
 			transform.Rotation(camera->Rotations());
 		}
 	}
