@@ -3,6 +3,9 @@
 #include "ECS/Coordinator.h"
 ECS::Coordinator gCoordinator;
 
+float SPEED = 2.5f;
+float SENSITIVITY = 0.1f;
+
 void SystemTest::ProcessInput(GLFWwindow* window, Component::com_Camera* camera = nullptr, float dt = 0.0f)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -10,14 +13,16 @@ void SystemTest::ProcessInput(GLFWwindow* window, Component::com_Camera* camera 
 
     if (camera)
     {
+        float v = dt * SPEED;
+
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            camera->MoveCamera(Component::Direction::FORWARD, dt);
+            camera->MoveCamera(Component::Direction::FORWARD, v);
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-            camera->MoveCamera(Component::Direction::LEFT, dt);
+            camera->MoveCamera(Component::Direction::LEFT, v);
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-            camera->MoveCamera(Component::Direction::BACKWARD, dt);
+            camera->MoveCamera(Component::Direction::BACKWARD, v);
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-            camera->MoveCamera(Component::Direction::RIGHT, dt);
+            camera->MoveCamera(Component::Direction::RIGHT, v);
     }
 }
 
@@ -38,7 +43,7 @@ void SystemTest::MouseCallback(GLFWwindow* window, double xPos, double yPos)
     This->lastX = xPos;
     This->lastY = yPos;
 
-    This->camera.RotateCamera(xOff, yOff);
+    This->camera.RotateCamera(xOff * SENSITIVITY, yOff * SENSITIVITY);
 }
 
 void SystemTest::ScrollCallback(GLFWwindow* window, double xOff, double yOff)
