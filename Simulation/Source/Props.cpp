@@ -1,3 +1,115 @@
 #include "Props.h"
 
+Props& Props::Instance()
+{
+    static Props mInstance;
 
+    return mInstance;
+}
+
+void Props::SetContext(Graphics* context)
+{
+    mContext = context;
+}
+
+void Props::UpdateKeys()
+{
+    if (mContext)
+    {
+
+    }
+}
+
+void Props::UpdateMouse()
+{
+    if (mContext)
+    {
+
+    }
+}
+
+bool Props::Pressed(Actions::Move action)
+{
+    return mKeys[mMoveActionMap[action]];
+}
+
+bool Props::Pressed(Actions::User action)
+{
+    return mKeys[mUserActionMap[action]];
+}
+
+bool Props::Pressed(Actions::Global action)
+{
+    return mKeys[mGlobalActionMap[action]];
+}
+
+bool Props::Released(Actions::Move action)
+{
+    return !mKeys[mMoveActionMap[action]];
+}
+
+bool Props::Released(Actions::User action)
+{
+    return !mKeys[mUserActionMap[action]];
+}
+
+bool Props::Released(Actions::Global action)
+{
+    return !mKeys[mGlobalActionMap[action]];
+}
+
+bool Props::JustReleased(Actions::Move action)
+{
+    return mKeys[mMoveActionMap[action]] != mKeysLast[mMoveActionMap[action]];
+}
+
+bool Props::JustReleased(Actions::User action)
+{
+    return mKeys[mUserActionMap[action]] != mKeysLast[mUserActionMap[action]];
+}
+
+bool Props::JustReleased(Actions::Global action)
+{
+    return mKeys[mGlobalActionMap[action]] != mKeysLast[mGlobalActionMap[action]];
+}
+
+std::pair<double, double> Props::MouseOffset()
+{
+    double xOff = mMousePos.first - mMouseLastPos.first;
+    double yOff = mMouseLastPos.second - mMousePos.second;
+
+    return std::pair<double, double>(xOff, yOff);
+}
+
+std::pair<double, double> Props::ThisMouse()
+{
+    return mMousePos;
+}
+
+std::pair<double, double> Props::LastMouse()
+{
+    return mMouseLastPos;
+}
+
+Props::Props()
+{
+    mContext = nullptr;
+
+    mMoveActionMap =
+    {
+        { Actions::Move::FORWARD, GLFW_KEY_W },
+        { Actions::Move::BACKWARD, GLFW_KEY_S },
+        { Actions::Move::LEFT, GLFW_KEY_A },
+        { Actions::Move::RIGHT, GLFW_KEY_D }
+    };
+
+    mUserActionMap =
+    {
+        { Actions::User::USE, GLFW_KEY_E }
+    };
+
+    mGlobalActionMap =
+    {
+        { Actions::Global::QUIT, GLFW_KEY_ESCAPE }
+    };
+}
