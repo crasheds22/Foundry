@@ -243,6 +243,7 @@ bool SystemTest::ControlSystem()
         sig.set(gCoordinator.GetComponentType<Component::com_Camera>());
         gCoordinator.SetSystemSignature<System::sys_PlayerControl>(sig);
     }
+    PlayerControlSystem->Init();
 
     auto backpack = gCoordinator.CreateEntity();
     gCoordinator.AddComponent<Component::com_Model>(backpack, ourModel);

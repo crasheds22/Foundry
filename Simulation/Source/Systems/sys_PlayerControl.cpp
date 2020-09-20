@@ -11,16 +11,14 @@ namespace System
 {
 	void sys_PlayerControl::Init()
 	{
-
+		ref = &Props::Instance();
 	}
 
 	void sys_PlayerControl::Update()
 	{
 		for (auto entity : mEntities)
 		{
-			auto camera = gCoordinator.GetComponent<Component::com_Camera>(entity);
-
-			Props* ref = &Props::Instance();
+			auto& camera = gCoordinator.GetComponent<Component::com_Camera>(entity);
 
 			float v = ref->DeltaTime() * 2.5f;
 

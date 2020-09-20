@@ -15,6 +15,6 @@ namespace System
 		void Update();
 
 	private:
-
-};
+		Props* ref = nullptr;
+	};
 }
