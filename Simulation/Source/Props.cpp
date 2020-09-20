@@ -16,7 +16,20 @@ void Props::UpdateKeys()
 {
     if (mContext)
     {
+        for (auto key : mKeys)
+            mKeysLast[key.first] = key.second;
 
+            //Movement
+        for (auto action : mMoveActionMap)
+            mKeys[action.second] = mContext->KeyPressed(action.second);
+
+            //Global actions
+        for (auto action : mGlobalActionMap)
+            mKeys[action.second] = mContext->KeyPressed(action.second);
+
+            //User actions
+        for (auto action : mUserActionMap)
+            mKeys[action.second] = mContext->KeyPressed(action.second);
     }
 }
 
@@ -24,7 +37,12 @@ void Props::UpdateMouse()
 {
     if (mContext)
     {
+        mMouseLastPos = mMousePos;
 
+        double X, Y;
+        mContext->MousePos(X, Y);
+
+        mMousePos = std::pair<double, double>(X, Y);
     }
 }
 

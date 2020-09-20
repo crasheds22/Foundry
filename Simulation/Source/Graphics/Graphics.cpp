@@ -73,6 +73,11 @@ void Graphics::SetKeyboardCallback(void(*keys)(GLFWwindow*, int, int, int, int))
     glfwSetKeyCallback(mWindow, keys);
 }
 
+void Graphics::StickyKeys()
+{
+    glfwSetInputMode(mWindow, GLFW_STICKY_KEYS, GLFW_TRUE);
+}
+
 void Graphics::CaptureMouse()
 {
     glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -107,6 +112,16 @@ void Graphics::SwapBuffers()
 void Graphics::PollForEvents()
 {
     glfwPollEvents();
+}
+
+bool Graphics::KeyPressed(int key)
+{
+    return glfwGetKey(mWindow, key) == GLFW_PRESS;
+}
+
+void Graphics::MousePos(double& x, double& y)
+{
+    glfwGetCursorPos(mWindow, &x, &y);
 }
 
 void Graphics::Terminate()
