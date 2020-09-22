@@ -34,6 +34,7 @@
     <ClInclude Include="Headers\Actions.h" />
     <ClInclude Include="Headers\Systems\sys_PlayerControl.h" />
     <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
+    <ClInclude Include="Headers\AI\Belief.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -60,5 +61,6 @@
     <ClCompile Include="Source\Theatre.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Source\Systems\sys_PlayerControl.cpp" />
+    <ClCompile Include="Source\AI\Belief.cpp" />
   </ItemGroup>
 </Project>
