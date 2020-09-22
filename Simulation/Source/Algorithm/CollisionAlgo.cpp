@@ -24,7 +24,28 @@ CollisionPoint CollisionAlgo::FindSphereSphere(const Component::com_Sphere* sA, 
 
 CollisionPoint CollisionAlgo::FindSphereBox(const Component::com_Sphere* sA, const Component::com_Transform* tA, const Component::com_Box* bB, const Component::com_Transform* tB)
 {
-	return CollisionPoint(glm::vec3(0), glm::vec3(0), false);
+	glm::vec3 A = sA->Center() + tA->Position();
+	float Ar = sA->Radius() * tA->Scale().length();
+	
+	glm::vec3 Bmin = bB->Min() + tB->Position();
+	glm::vec3 Bmax = bB->Max() + tB->Position();
+	glm::vec3 Bcenter = { (Bmin.x + Bmax.x) / 2, (Bmin.y + Bmax.y) / 2, (Bmin.z + Bmax.z) / 2 };
+
+	glm::vec3 B = ClampAABB(A, Bmax, Bmin);
+
+	float distance = (B.x - A.x) * (B.x - A.x) +
+				     (B.y - A.y) * (B.y - A.y) +
+					 (B.z - A.z) * (B.z - A.z);
+
+	glm::vec3 AtoB = Bcenter - A;
+
+	A += glm::normalize(AtoB) * Ar;
+
+	if (!distance < Ar * Ar) {
+		return CollisionPoint(A, B, false);
+	}
+
+	return CollisionPoint(A, B, true);
 }
 
 CollisionPoint CollisionAlgo::FindSpherePlane(const Component::com_Sphere* sA, const Component::com_Transform* tA, const Component::com_Plane* pB, const Component::com_Transform* tB)
@@ -50,14 +71,14 @@ CollisionPoint CollisionAlgo::FindSpherePlane(const Component::com_Sphere* sA, c
 
 CollisionPoint CollisionAlgo::FindBoxBox(const Component::com_Box* bA, const Component::com_Transform* tA, const Component::com_Box* bB, const Component::com_Transform* tB)
 {
-	glm::vec3 Amin = bA->Min() * tA->Scale() + tA->Position();
-	glm::vec3 Amax = bA->Max() * tA->Scale() + tA->Position();
+	glm::vec3 Amin = bA->Min() + tA->Position();
+	glm::vec3 Amax = bA->Max() + tA->Position();
 
-	glm::vec3 Bmin = bB->Min() * tB->Scale() + tB->Position();
-	glm::vec3 Bmax = bB->Max() * tB->Scale() + tB->Position();
+	glm::vec3 Bmin = bB->Min() + tB->Position();
+	glm::vec3 Bmax = bB->Max() + tB->Position();
 
 	glm::vec3 Acenter = { (Amin.x + Amax.x) / 2, (Amin.y + Amax.y) / 2, (Amin.z + Amax.z) / 2 };
-	glm::vec3 Bcenter = { (Amin.x + Amax.x) / 2, (Amin.y + Amax.y) / 2, (Amin.z + Amax.z) / 2 };
+	glm::vec3 Bcenter = { (Bmin.x + Bmax.x) / 2, (Bmin.y + Bmax.y) / 2, (Bmin.z + Bmax.z) / 2 };
 
 	glm::vec3 A = ClampAABB(Bcenter, Amax, Amin);
 	glm::vec3 B = ClampAABB(Acenter, Bmax, Bmin);
