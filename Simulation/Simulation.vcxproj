@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Actions.h" />
+    <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
     <ClInclude Include="Headers\Algorithms\CollisionAlgo.h" />
     <ClInclude Include="Headers\Algorithms\Physics.h" />
     <ClInclude Include="Headers\Components\com_Camera.h" />
