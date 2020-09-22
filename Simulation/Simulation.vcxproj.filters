@@ -33,6 +33,7 @@
     <ClInclude Include="Headers\Theatre.h" />
     <ClInclude Include="Headers\Actions.h" />
     <ClInclude Include="Headers\Systems\sys_PlayerControl.h" />
+    <ClInclude Include="Headers\Resource\Manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

@@ -177,6 +177,7 @@
     <ClInclude Include="Headers\Graphics\Shader.h" />
     <ClInclude Include="Headers\Graphics\Texture.h" />
     <ClInclude Include="Headers\Props.h" />
+    <ClInclude Include="Headers\Resource\Manager.h" />
     <ClInclude Include="Headers\Stage.h" />
     <ClInclude Include="Headers\Systems\sys_Render.h" />
     <ClInclude Include="Headers\Theatre.h" />
