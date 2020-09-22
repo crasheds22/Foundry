@@ -35,6 +35,7 @@
     <ClInclude Include="Headers\Systems\sys_PlayerControl.h" />
     <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
     <ClInclude Include="Headers\Resource\Manager.h" />
+    <ClInclude Include="Headers\Resource\ResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -61,5 +62,6 @@
     <ClCompile Include="Source\Theatre.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Source\Systems\sys_PlayerControl.cpp" />
+    <ClCompile Include="Source\Resource\ResourceManager.cpp" />
   </ItemGroup>
 </Project>

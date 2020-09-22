@@ -15,19 +15,9 @@ namespace Resource
 			DeleteAll();
 		}
 
-		void Create(std::string name, T(create*)(std::string))
+		void Create(std::string name, T& obj)
 		{
-			if (create)
-			{
-				mItems[name] = create();
-			}
-		}
-		void Create(std::string name, T(create*)(std::string, std::string, std::string))
-		{
-			if (create)
-			{
-				mItems[name] = create();
-			}
+			mItems[name] = obj;
 		}
 
 		T* Retrieve(std::string name)
