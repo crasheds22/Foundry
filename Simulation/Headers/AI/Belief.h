@@ -11,6 +11,8 @@ namespace AI
 	{
 	public:
 		void Insert(Affordance::Action action, Affordance::Quality quality, int value);
+
+		int Get(Affordance::Action action, Affordance::Quality quality);
 	private:
 		std::map<Affordance::Action, std::map<Affordance::Quality, int>> actionEval{};
 	};
