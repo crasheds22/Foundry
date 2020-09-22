@@ -28,5 +28,8 @@ public:
 	static CollisionPoint FindPlanePlane(
 		const Component::com_Plane* pA, const Component::com_Transform* tA,
 		const Component::com_Plane* pB, const Component::com_Transform* tB);
+	
+private:
+	static glm::vec3 ClampAABB(glm::vec3 point, glm::vec3 max, glm::vec3 min);
 };
 

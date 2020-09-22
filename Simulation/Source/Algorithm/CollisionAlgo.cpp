@@ -59,19 +59,9 @@ CollisionPoint CollisionAlgo::FindBoxBox(const Component::com_Box* bA, const Com
 	glm::vec3 Acenter = { (Amin.x + Amax.x) / 2, (Amin.y + Amax.y) / 2, (Amin.z + Amax.z) / 2 };
 	glm::vec3 Bcenter = { (Amin.x + Amax.x) / 2, (Amin.y + Amax.y) / 2, (Amin.z + Amax.z) / 2 };
 
-	glm::vec3 A = Acenter;
-	glm::vec3 B = Bcenter;
-	if (A.x > Bmax.x) {
-		A.x = Bmax.x;
-	}
-	else if (A.x < Bmin.x) {
-		A.x = Bmin.x;
-	}
-	else {
-		//Nothing
-	}
-	//REDO FOR EVERY POINT IN A AND IN B
-
+	glm::vec3 A = ClampAABB(Bcenter, Amax, Amin);
+	glm::vec3 B = ClampAABB(Acenter, Bmax, Bmin);
+	
 	if (
 		!(Amin.x <= Bmax.x && Amax.x >= Bmin.x) &&
 		(Amin.y <= Bmax.y && Amax.y >= Bmin.y) &&
@@ -79,7 +69,6 @@ CollisionPoint CollisionAlgo::FindBoxBox(const Component::com_Box* bA, const Com
 		) {
 		return CollisionPoint(A, B, false);
 	}
-
 
 	return CollisionPoint(A, B, true);
 }
@@ -92,4 +81,47 @@ CollisionPoint CollisionAlgo::FindBoxPlane(const Component::com_Box* bA, const C
 CollisionPoint CollisionAlgo::FindPlanePlane(const Component::com_Plane* pA, const Component::com_Transform* tA, const Component::com_Plane* pB, const Component::com_Transform* tB)
 {
 	return CollisionPoint(glm::vec3(0), glm::vec3(0), false);
+}
+
+glm::vec3 CollisionAlgo::ClampAABB(glm::vec3 point, glm::vec3 max, glm::vec3 min)
+{
+	glm::vec3 result;
+
+	//x coordinate clamping=============================
+
+	if (point.x > max.x) {
+		result.x = max.x;
+	}
+	else if (point.x < min.x) {
+		result.x = min.x;
+	}
+	else {
+		result.x = point.x;
+	}
+
+	//y coordinate clamping=============================
+
+	if (point.y > max.y) {
+		result.y = max.y;
+	}
+	else if (point.y < min.y) {
+		result.y = min.y;
+	}
+	else {
+		result.y = point.y;
+	}
+
+	//z coordinate clamping=============================
+
+	if (point.z > max.z) {
+		result.z = max.z;
+	}
+	else if (point.z < min.z) {
+		result.z = min.z;
+	}
+	else {
+		result.z = point.z;
+	}
+
+	return result;
 }
