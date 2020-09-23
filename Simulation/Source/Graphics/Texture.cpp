@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-unsigned int Texture::New(const char* path)
+unsigned int TextureLoader::New(const char* path)
 {
     // load and create a texture 
     // -------------------------
@@ -46,7 +46,7 @@ unsigned int Texture::New(const char* path)
     return texID;
 }
 
-void Texture::FlipVertically()
+void TextureLoader::FlipVertically()
 {
     stbi_set_flip_vertically_on_load(true);
 }

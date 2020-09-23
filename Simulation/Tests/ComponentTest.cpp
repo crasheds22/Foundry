@@ -174,7 +174,7 @@ bool ComponentTest::TextureComponent()
     // texture coord attribute
     Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
     Component::com_Texture texture1("../Data/Textures/container.jpg");
     Component::com_Texture texture2("../Data/Textures/awesomeface.png");
 
@@ -247,7 +247,7 @@ bool ComponentTest::ModelComponent()
     graphics.InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
 
     // configure global opengl state
     // -----------------------------
@@ -418,7 +418,7 @@ bool ComponentTest::CameraComponent()
 
     // load and create a texture 
     // -------------------------
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
     Component::com_Texture texture1("../Data/Textures/container.jpg");
     Component::com_Texture texture2("../Data/Textures/awesomeface.png");
 

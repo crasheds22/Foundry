@@ -120,7 +120,7 @@ bool SystemTest::RenderSystem()
     graphics.InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
 
     // configure global opengl state
     // -----------------------------
@@ -205,7 +205,7 @@ bool SystemTest::ControlSystem()
 
     graphics.InitializeGLAD();
 
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
 
     Graphics::Enable(Graphics::Capability::DEPTH);
 

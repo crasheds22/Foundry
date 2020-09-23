@@ -10,7 +10,7 @@ namespace Component
 
 	com_Texture::com_Texture(const char* path)
 	{
-		mID = Texture::New(path);
+		mID = TextureLoader::New(path);
 	}
 
 	unsigned int com_Texture::ID() const

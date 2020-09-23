@@ -33,7 +33,7 @@ class TextureTest
 public:
     unsigned int ID;
 
-    TextureTest(const char* path) : ID(Texture::New(path)) { }
+    TextureTest(const char* path) : ID(TextureLoader::New(path)) { }
 };
 
 class ModelTest
@@ -332,7 +332,7 @@ bool GraphicsTest::Textures()
     // texture coord attribute
     Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
     TextureTest texture1("../Data/Textures/container.jpg");
     TextureTest texture2("../Data/Textures/awesomeface.png");
 
@@ -486,7 +486,7 @@ bool GraphicsTest::CameraAndCubes()
 
     // load and create a texture 
     // -------------------------
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
     TextureTest texture1("../Data/Textures/container.jpg");
     TextureTest texture2("../Data/Textures/awesomeface.png");
 
@@ -1028,7 +1028,7 @@ bool GraphicsTest::ModelOne()
     graphics.InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
 
     // configure global opengl state
     // -----------------------------
@@ -1109,7 +1109,7 @@ bool GraphicsTest::RobertsonModel()
     graphics.InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
 
     // configure global opengl state
     // -----------------------------

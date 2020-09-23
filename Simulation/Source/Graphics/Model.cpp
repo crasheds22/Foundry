@@ -229,7 +229,7 @@ std::vector<ModelTexture> Model::LoadMaterialTextures(aiMaterial* material, aiTe
 		{   // if texture hasn't been loaded already, load it
 			ModelTexture texture;
 			std::string filePath = mDirectory + "/" + str.C_Str();
-			texture.ID = Texture::New(filePath.c_str());
+			texture.ID = TextureLoader::New(filePath.c_str());
 			texture.Type = typeName;
 			texture.Path = str.C_Str();
 			textures.push_back(texture);

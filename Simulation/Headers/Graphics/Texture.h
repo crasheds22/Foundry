@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-class Texture
+class TextureLoader
 {
 public:
 	static unsigned int New(const char* path);
