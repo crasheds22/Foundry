@@ -96,6 +96,17 @@ CollisionPoint CollisionAlgo::FindBoxBox(const Component::com_Box* bA, const Com
 
 CollisionPoint CollisionAlgo::FindBoxPlane(const Component::com_Box* bA, const Component::com_Transform* tA, const Component::com_Plane* pB, const Component::com_Transform* tB)
 {
+	glm::vec3 Amin = bA->Min() + tA->Position();
+	glm::vec3 Amax = bA->Max() + tA->Position();
+	glm::vec3 Acenter = { (Amin.x + Amax.x) / 2, (Amin.y + Amax.y) / 2, (Amin.z + Amax.z) / 2 };
+
+	glm::vec3 N = pB->P() * tB->Rotation();
+	N = glm::normalize(N);
+
+	glm::vec3 P = N * pB->D() + tB->Position();
+
+	//Actually do this please
+
 	return CollisionPoint(glm::vec3(0), glm::vec3(0), false);
 }
 
