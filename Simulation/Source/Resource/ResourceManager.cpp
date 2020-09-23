@@ -16,9 +16,9 @@ namespace Resource
         mModelManager.Create(name, temp);
     }
 
-    void ResourceManager::CreateTexture(std::string name, std::string filepath)
+    void ResourceManager::CreateTexture(std::string name, std::string filepath, TextureType type)
     {
-        unsigned int tex = TextureLoader::New(filepath.c_str());
+        Texture tex(name, filepath.c_str(), type);
 
         mTextureManager.Create(name, tex);
     }
@@ -35,7 +35,7 @@ namespace Resource
         return mModelManager.Retrieve(name);
     }
 
-    unsigned int* ResourceManager::RetrieveTexture(std::string name)
+    Texture* ResourceManager::RetrieveTexture(std::string name)
     {
         return mTextureManager.Retrieve(name);
     }
