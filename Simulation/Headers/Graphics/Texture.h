@@ -10,8 +10,6 @@ public:
 	static void FlipVertically();
 
 private:
-	Texture() { };
-	Texture(const Texture& T) { };
-	~Texture() { };
+
 };
 
