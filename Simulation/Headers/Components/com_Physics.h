@@ -14,15 +14,7 @@ namespace Component
 	{
 	public:
 		com_Physics() {};
-		com_Physics( 
-			float mass, float invmass, float res,
-			glm::vec3 com, glm::mat4 inertia,
-			glm::vec3 vel = glm::vec3(0, 0, 0),
-			glm::vec3 acc = glm::vec3(0, 0, 0),
-			glm::vec3 rotvel = glm::vec3(0, 0, 0),
-			glm::vec3 rotacc = glm::vec3(0, 0, 0));
-
-		com_Physics(const com_Physics& p);
+		com_Physics(float mass, float invmass, float res, glm::vec3 com, glm::mat4 inertia);
 
 		glm::vec3 Velocity() const;
 		glm::vec3 Acceleration() const;
