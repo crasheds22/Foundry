@@ -1,5 +1,27 @@
 #include "Algorithms/Physics.h"
 
+float Physics::CalculateRestitution(float res)
+{
+	return -(1 + res);
+}
+
+float Physics::CalculateVelocityDifference(glm::vec3 normal, glm::vec3 vA, glm::vec3 vB)
+{
+	return glm::dot(glm::normalize(normal), (vA - vB));
+}
+
+float Physics::CalculateAngleAround(glm::vec3 rotvel, float radius, glm::vec3 normal)
+{
+	return glm::dot(rotvel, (radius * glm::normalize(normal)));
+}
+
+float Physics::CalculateBeast(float radius, glm::vec3 normal, glm::mat4 inertia)
+{
+	//return glm::transpose(radius * glm::normalize(normal)) * glm::inverse(inertia) * (radius * glm::normalize(normal));
+	//Need to figure out how transpose works.
+	return 0.0f;
+}
+
 float Physics::CalculateLinearForce(float mass, float acceleration)
 {
 	return mass * acceleration;
