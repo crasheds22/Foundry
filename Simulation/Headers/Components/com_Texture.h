@@ -12,6 +12,7 @@ namespace Component
 	public:
 		com_Texture() { mTexture = nullptr; }
 		com_Texture(std::string name);
+		com_Texture(std::string name, std::string filepath);
 		~com_Texture() { mTexture = nullptr; }
 
 		unsigned int ID() const;
