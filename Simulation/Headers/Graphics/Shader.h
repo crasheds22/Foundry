@@ -51,8 +51,9 @@ private:
 class Shader
 {
 public:
-    Shader(const char* vertex, const char* frag, const char* geo = nullptr);
+    Shader(const std::string name, const char* vertex, const char* frag, const char* geo = nullptr);
 
+    std::string Name() const;
     unsigned int ID() const;
 
     void Use();
@@ -82,5 +83,6 @@ public:
 
 private:
     unsigned int mID;
+    std::string mName;
 };
   

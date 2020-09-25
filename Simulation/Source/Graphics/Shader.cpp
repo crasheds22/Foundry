@@ -178,9 +178,15 @@ void ShaderLoader::checkCompileErrors(unsigned int shader, std::string type)
     }
 }
 
-Shader::Shader(const char* vertex, const char* frag, const char* geo)
+Shader::Shader(const std::string name, const char* vertex, const char* frag, const char* geo)
 {
+    mName = name;
     mID = ShaderLoader::New(vertex, frag, geo);
+}
+
+std::string Shader::Name() const
+{
+    return mName;
 }
 
 unsigned int Shader::ID() const
