@@ -1,7 +1,9 @@
 #pragma once
 #include "UnitTest.h"
 
-#include "Resource/ResourceManager.h"    
+#include "Graphics/Graphics.h"
+#include "Resource/ResourceManager.h"
+
 
 class ResourceManagerTest :
     public UnitTest
