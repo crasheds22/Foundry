@@ -3,19 +3,21 @@
 #include <string>
 
 #include "Graphics/Texture.h"
+#include "Resource/ResourceManager.h"
 
 namespace Component
 {
 	class com_Texture
 	{
 	public:
-		com_Texture() {};
-		com_Texture(std::string path);
-		com_Texture(const char* path);
+		com_Texture() { mTexture = nullptr; }
+		com_Texture(std::string name);
+		~com_Texture() { mTexture = nullptr; }
 
 		unsigned int ID() const;
+		std::string Name() const;
 
 	private:
-		unsigned int mID{};
+		Texture* mTexture;
 	};
 }

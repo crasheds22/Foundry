@@ -175,8 +175,11 @@ bool ComponentTest::TextureComponent()
     Graphics::VertexAttirbutePointer(2, 2, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
     TextureLoader::FlipVertically();
-    Component::com_Texture texture1("../Data/Textures/container.jpg");
-    Component::com_Texture texture2("../Data/Textures/awesomeface.png");
+    ResMgr->CreateTexture("container", "../Data/Textures/container.jpg");
+    ResMgr->CreateTexture("awesomeface", "../Data/Textures/awesomeface.png");
+
+    Component::com_Texture texture1("container");
+    Component::com_Texture texture2("awesomeface");
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
@@ -419,8 +422,11 @@ bool ComponentTest::CameraComponent()
     // load and create a texture 
     // -------------------------
     TextureLoader::FlipVertically();
-    Component::com_Texture texture1("../Data/Textures/container.jpg");
-    Component::com_Texture texture2("../Data/Textures/awesomeface.png");
+    ResMgr->CreateTexture("container", "../Data/Textures/container.jpg");
+    ResMgr->CreateTexture("awesomeface", "../Data/Textures/awesomeface.png");
+
+    Component::com_Texture texture1("container");
+    Component::com_Texture texture2("awesomeface");
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 #include "UnitTest.h"
 
 #include "Graphics/Graphics.h"
-#include "Graphics/Texture.h"
+#include "Resource/ResourceManager.h"
 
 #include "Components/com_Shader.h"
 #include "Components/com_Texture.h"
@@ -30,6 +30,8 @@ public:
 	float lastY = 0.0f;
 
 	Component::com_Camera camera;
+
+	Resource::ResourceManager* ResMgr = &Resource::ResourceManager::Instance();
 
 private:
 	bool ShaderComponent();
