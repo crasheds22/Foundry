@@ -25,7 +25,7 @@ namespace Resource
 
     void ResourceManager::CreateShader(std::string name, std::string vertex, std::string frag, std::string geo)
     {
-        unsigned int sha = Shader::New(vertex.c_str(), frag.c_str(), geo.length() > 0 ? geo.c_str() : nullptr);
+        unsigned int sha = ShaderLoader::New(vertex.c_str(), frag.c_str(), geo.length() > 0 ? geo.c_str() : nullptr);
 
         mShaderManager.Create(name, sha);
     }

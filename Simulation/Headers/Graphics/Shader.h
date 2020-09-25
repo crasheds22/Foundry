@@ -14,7 +14,7 @@
 #include <sstream>
 #include <iostream>
 
-class Shader
+class ShaderLoader
 {
 public:
     static unsigned int New(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
@@ -45,9 +45,9 @@ public:
     static void DeleteShader(unsigned int ID);
 
 private:
-	Shader() { };
-    Shader(const Shader& S) { };
-    ~Shader() { };
+	ShaderLoader() { };
+    ShaderLoader(const ShaderLoader& S) { };
+    ~ShaderLoader() { };
 
     static void checkCompileErrors(unsigned int shader, std::string type);
 };
