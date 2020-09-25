@@ -2,75 +2,82 @@
 
 namespace Component
 {
-	com_Shader::com_Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
+	com_Shader::com_Shader(std::string name, const char* vertexPath, const char* fragmentPath, const char* geometryPath)
 	{
-		mID = ShaderLoader::New(vertexPath, fragmentPath, geometryPath);
+		Resource::ResourceManager::Instance().CreateShader(name, vertexPath, fragmentPath, geometryPath ? geometryPath : "");
+
+		mShader = Resource::ResourceManager::Instance().RetrieveShader(name);
+	}
+
+	com_Shader::com_Shader(std::string name)
+	{
+		mShader = Resource::ResourceManager::Instance().RetrieveShader(name);
 	}
 
 	unsigned int com_Shader::ID() const
 	{
-		return mID;
+		return mShader->ID();
 	}
 
 	void com_Shader::Use()
 	{
-		ShaderLoader::Use(mID);
+		mShader->Use();
 	}
 
 	void com_Shader::setBool(const std::string& name, bool value)
 	{
-		ShaderLoader::setBool(mID, name, value);
+		mShader->setBool(name, value);
 	}
 
 	void com_Shader::setInt(const std::string& name, int value)
 	{
-		ShaderLoader::setInt(mID, name, value);
+		mShader->setInt( name, value);
 	}
 
 	void com_Shader::setFloat(const std::string& name, float value)
 	{
-		ShaderLoader::setFloat(mID, name, value);
+		mShader->setFloat( name, value);
 	}
 
 	void com_Shader::setVec2(const std::string& name, const glm::vec2& value)
 	{
-		ShaderLoader::setVec2(mID, name, value);
+		mShader->setVec2( name, value);
 	}
 	void com_Shader::setVec2(const std::string& name, float x, float y)
 	{
-		ShaderLoader::setVec2(mID, name, x, y);
+		mShader->setVec2( name, x, y);
 	}
 
 	void com_Shader::setVec3(const std::string& name, const glm::vec3& value)
 	{
-		ShaderLoader::setVec3(mID, name, value);
+		mShader->setVec3( name, value);
 	}
 	void com_Shader::setVec3(const std::string& name, float x, float y, float z)
 	{
-		ShaderLoader::setVec3(mID, name, x, y, z);
+		mShader->setVec3( name, x, y, z);
 	}
 
 	void com_Shader::setVec4(const std::string& name, const glm::vec4& value)
 	{
-		ShaderLoader::setVec4(mID, name, value);
+		mShader->setVec4( name, value);
 	}
 	void com_Shader::setVec4(const std::string& name, float x, float y, float z, float w)
 	{
-		ShaderLoader::setVec4(mID, name, x, y, z, w);
+		mShader->setVec4( name, x, y, z, w);
 	}
 
 	void com_Shader::setMat2(const std::string& name, const glm::mat2& mat)
 	{
-		ShaderLoader::setMat2(mID, name, mat);
+		mShader->setMat2( name, mat);
 	}
 
 	void com_Shader::setMat3(const std::string& name, const glm::mat3& mat)
 	{
-		ShaderLoader::setMat3(mID, name, mat);
+		mShader->setMat3( name, mat);
 	}
 
 	void com_Shader::setMat4(const std::string& name, const glm::mat4& mat)
 	{
-		ShaderLoader::setMat4(mID, name, mat);
+		mShader->setMat4( name, mat);
 	}
 }

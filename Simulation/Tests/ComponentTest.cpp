@@ -67,7 +67,7 @@ bool ComponentTest::ShaderComponent()
 
     // build and compile our shader program
     // ------------------------------------
-    Component::com_Shader ourShader("../Data/Shaders/3.3.shader.vs", "../Data/Shaders/3.3.shader.fs"); // you can name your shader files however you like
+    Component::com_Shader ourShader("triangle", "../Data/Shaders/3.3.shader.vs", "../Data/Shaders/3.3.shader.fs"); // you can name your shader files however you like
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -141,7 +141,7 @@ bool ComponentTest::TextureComponent()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Component::com_Shader ourShader("../Data/Shaders/4.2.texture.vs", "../Data/Shaders/4.2.texture.fs");
+    Component::com_Shader ourShader("texSha", "../Data/Shaders/4.2.texture.vs", "../Data/Shaders/4.2.texture.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -258,7 +258,7 @@ bool ComponentTest::ModelComponent()
 
     // build and compile shaders
     // -------------------------
-    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    Component::com_Shader ourShader("modShader", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
 
     // load models
     // -----------
@@ -344,7 +344,7 @@ bool ComponentTest::CameraComponent()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Component::com_Shader ourShader("../Data/Shaders/7.4.camera.vs", "../Data/Shaders/7.4.camera.fs");
+    Component::com_Shader ourShader("camShader", "../Data/Shaders/7.4.camera.vs", "../Data/Shaders/7.4.camera.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------

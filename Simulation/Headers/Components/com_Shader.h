@@ -9,6 +9,8 @@
 
 #include <string>
 
+#include "Resource/ResourceManager.h"
+
 #include "Graphics/Shader.h"
 
 namespace Component
@@ -16,8 +18,10 @@ namespace Component
 	class com_Shader
 	{
 	public:
-		com_Shader() {};
-		com_Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+		com_Shader() { mShader = nullptr; }
+		com_Shader(std::string name, const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+		com_Shader(std::string name);
+		~com_Shader() { mShader = nullptr; }
 
 		unsigned int ID() const;
 
@@ -45,6 +49,6 @@ namespace Component
 		void setMat4(const std::string& name, const glm::mat4& mat);
 
 	private:
-		unsigned int mID{};
+		Shader* mShader;
 	};
 }

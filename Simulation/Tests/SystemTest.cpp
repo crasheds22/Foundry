@@ -128,7 +128,7 @@ bool SystemTest::RenderSystem()
 
     // build and compile shaders
     // -------------------------
-    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    Component::com_Shader ourShader("modShader", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
 
     // load models
     // -----------
@@ -212,7 +212,7 @@ bool SystemTest::ControlSystem()
     ref = &Props::Instance();
     ref->SetContext(&graphics);
 
-    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    Component::com_Shader ourShader("newShader", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
     Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
     Component::com_Transform camTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
