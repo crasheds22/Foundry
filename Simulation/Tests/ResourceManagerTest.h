@@ -12,7 +12,9 @@ public:
     bool Test() override;
 
 private:
+    bool ShaderTesting();
     bool TextureTesting();
+    bool ModelTesting();
 
 
     Resource::ResourceManager* ResMgr = nullptr;
