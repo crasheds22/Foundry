@@ -2,10 +2,11 @@
 
 namespace Component {
 
-	com_Physics::com_Physics(float mass, float invmass, float res, glm::vec3 com, glm::mat4 inertia)
+	com_Physics::com_Physics(float mass, float invmass, float res, int width, int height, int depth)
 		: mVelocity(glm::vec3(0)), mAcceleration(glm::vec3(0)), mRotationVel(glm::vec3(0)), mRotationAcc(glm::vec3(0)),
-		mMass(mass), mInvMass(invmass), mRestitution(res), mCentreOfMass(com), mInertiaTensor(inertia)
+		mMass(mass), mInvMass(invmass), mRestitution(res)
 	{
+		mCentreOfMass = { width / 2.0, height / 2.0, depth / 2.0 };
 	}
 
 	glm::vec3 com_Physics::Velocity() const
