@@ -23,14 +23,14 @@ namespace Resource
 
 		Model* RetrieveModel(std::string name);
 		Texture* RetrieveTexture(std::string name);
-		unsigned int* RetrieveShader(std::string name);
+		Shader* RetrieveShader(std::string name);
 
 	private:
 		ResourceManager();
 
 		Manager<Model> mModelManager;
 		Manager<Texture> mTextureManager;
-		Manager<unsigned int> mShaderManager;
+		Manager<Shader> mShaderManager;
 	};
 }
 
