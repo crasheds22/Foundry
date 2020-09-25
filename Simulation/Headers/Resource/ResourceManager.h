@@ -19,7 +19,7 @@ namespace Resource
 
 		void CreateModel(std::string name, std::string filepath);
 		void CreateTexture(std::string name, std::string filepath, TextureType type = TextureType::DIFFUSE);
-		void CreateShader(std::string name, std::string vertex, std::string frag, std::string geo);
+		void CreateShader(std::string name, std::string vertex, std::string frag, std::string geo = "");
 
 		Model* RetrieveModel(std::string name);
 		Texture* RetrieveTexture(std::string name);
