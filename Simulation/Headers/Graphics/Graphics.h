@@ -35,6 +35,7 @@ public:
 	void SetScrollCallback(void(*scroll)(GLFWwindow*, double, double));
 	void SetKeyboardCallback(void(*keys)(GLFWwindow*, int, int, int, int));
 
+	void StickyKeys();
 	void CaptureMouse();
 
 	bool ShouldWindowClose();
@@ -45,6 +46,9 @@ public:
 
 	void SwapBuffers();
 	void PollForEvents();
+
+	bool KeyPressed(int key);
+	void MousePos(double& x, double& y);
 
 	void Terminate();
 
