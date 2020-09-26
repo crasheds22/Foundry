@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Headers\AI\emotions.h" />
     <ClInclude Include="Headers\Actions.h" />
     <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
     <ClInclude Include="Headers\Algorithms\CollisionAlgo.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Headers\Components\com_Shader.h" />
     <ClInclude Include="Headers\Components\com_Texture.h" />
     <ClInclude Include="Headers\Components\com_Transform.h" />
+    <ClInclude Include="Headers\Components\com_Physics.h" />
     <ClInclude Include="Headers\ECS\ComponentArray.h" />
     <ClInclude Include="Headers\ECS\ComponentManager.h" />
     <ClInclude Include="Headers\ECS\Coordinator.h" />
@@ -184,6 +186,8 @@
     <ClInclude Include="Headers\Theatre.h" />
     <ClInclude Include="Headers\Systems\sys_PlayerControl.h" />
     <ClInclude Include="Headers\Resource\ResourceManager.h" />
+    <ClInclude Include="Tests\ResourceManagerTest.h" />
+    <ClInclude Include="Tests\ManagerTest.h" />
     <ClInclude Include="Tests\ColliderTest.h" />
     <ClInclude Include="Tests\ComponentTest.h" />
     <ClInclude Include="Tests\GraphicsTest.h" />
@@ -193,7 +197,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
+    <ClCompile Include="Source\Components\com_Physics.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Tests\ResourceManagerTest.cpp" />
+    <ClCompile Include="Tests\ManagerTest.cpp" />
     <ClCompile Include="Source\Resource\ResourceManager.cpp" />
     <ClCompile Include="Source\Algorithm\CollisionAlgo.cpp" />
     <ClCompile Include="Source\Algorithm\Physics.cpp" />

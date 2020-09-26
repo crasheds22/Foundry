@@ -8,12 +8,6 @@ namespace Component
 		UpdateCameraVectors();
 	}
 
-	com_Camera::com_Camera(const com_Camera& c)
-		: mPosition(c.mPosition), mFront(c.mFront), mRight(c.mRight), mUp(c.mUp), mYaw(c.mYaw), mPitch(c.mPitch), mRoll(c.mRoll), mZoom(c.mZoom), mWorldUp(glm::vec3(0.0f, 1.0f, 0.0f))
-	{
-		UpdateCameraVectors();
-	}
-
 	void com_Camera::Position(const glm::vec3 position)
 	{
 		mPosition = position;

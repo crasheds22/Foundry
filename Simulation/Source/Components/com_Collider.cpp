@@ -3,7 +3,7 @@
 #include "Algorithms/CollisionAlgo.h"
 
 CollisionPoint::CollisionPoint(glm::vec3 a, glm::vec3 b, bool hasCollided)
-	: mA(a), mB(b), mNormal(glm::normalize(mB - mA)), mDepth(glm::length(glm::normalize(mB - mA))), mHasCollision(false)
+	: mA(a), mB(b), mNormal(glm::normalize(mB - mA)), mDepth(glm::length(glm::normalize(mB - mA))), mHasCollision(hasCollided)
 {
 }
 
@@ -60,10 +60,6 @@ namespace Component
 	com_Box::com_Box(glm::vec3 min, glm::vec3 max) : mMin(min), mMax(max)
 	{
 	}
-
-	com_Box::com_Box(const com_Box& b) : mMin(b.mMin), mMax(b.mMax)
-	{
-	}
 	
 	glm::vec3 com_Box::Max() const
 	{
@@ -102,10 +98,6 @@ namespace Component
 	com_Sphere::com_Sphere(glm::vec3 center, float rad) : mCenter(center), mRadius(rad)
 	{
 	}
-
-	com_Sphere::com_Sphere(const com_Sphere& s) : mCenter(s.mCenter), mRadius(s.mRadius)
-	{
-	}
 	
 	glm::vec3 com_Sphere::Center() const
 	{
@@ -142,10 +134,6 @@ namespace Component
 
 
 	com_Plane::com_Plane(glm::vec3 p, float d) : mP(p), mD(d)
-	{
-	} // end Plane
-
-	com_Plane::com_Plane(const com_Plane& p) : mP(p.mP), mD(p.mD)
 	{
 	} // end Plane
 

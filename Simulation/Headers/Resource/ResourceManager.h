@@ -18,19 +18,19 @@ namespace Resource
 		void operator=(const ResourceManager& rm) = delete;
 
 		void CreateModel(std::string name, std::string filepath);
-		void CreateTexture(std::string name, std::string filepath);
-		void CreateShader(std::string name, std::string vertex, std::string frag, std::string geo);
+		void CreateTexture(std::string name, std::string filepath, TextureType type = TextureType::DIFFUSE);
+		void CreateShader(std::string name, std::string vertex, std::string frag, std::string geo = "");
 
 		Model* RetrieveModel(std::string name);
-		unsigned int* RetrieveTexture(std::string name);
-		unsigned int* RetrieveShader(std::string name);
+		Texture* RetrieveTexture(std::string name);
+		Shader* RetrieveShader(std::string name);
 
 	private:
 		ResourceManager();
 
 		Manager<Model> mModelManager;
-		Manager<unsigned int> mTextureManager;
-		Manager<unsigned int> mShaderManager;
+		Manager<Texture> mTextureManager;
+		Manager<Shader> mShaderManager;
 	};
 }
 

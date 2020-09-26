@@ -120,7 +120,7 @@ bool SystemTest::RenderSystem()
     graphics.InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
 
     // configure global opengl state
     // -----------------------------
@@ -128,7 +128,7 @@ bool SystemTest::RenderSystem()
 
     // build and compile shaders
     // -------------------------
-    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    Component::com_Shader ourShader("modShader", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
 
     // load models
     // -----------
@@ -205,14 +205,14 @@ bool SystemTest::ControlSystem()
 
     graphics.InitializeGLAD();
 
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
 
     Graphics::Enable(Graphics::Capability::DEPTH);
 
     ref = &Props::Instance();
     ref->SetContext(&graphics);
 
-    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    Component::com_Shader ourShader("newShader", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
     Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
     Component::com_Transform camTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 

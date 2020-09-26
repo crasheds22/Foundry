@@ -15,14 +15,17 @@ namespace Resource
 			DeleteAll();
 		}
 
-		void Create(std::string name, T& obj)
+		void Create(std::string name, T obj)
 		{
-			mItems[name] = obj;
+			mItems.insert( std::pair<std::string, T>(name, obj));
 		}
 
 		T* Retrieve(std::string name)
 		{
-			return &mItems[name];
+			if(mItems.find(name) != mItems.end())
+				return &mItems.at(name);
+
+			return nullptr;
 		}
 
 	private:
