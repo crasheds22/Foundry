@@ -38,6 +38,8 @@
     <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
     <ClInclude Include="Headers\Resource\Manager.h" />
     <ClInclude Include="Headers\Resource\ResourceManager.h" />
+    <ClInclude Include="Tests\ManagerTest.h" />
+    <ClInclude Include="Tests\ResourceManagerTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -66,5 +68,7 @@
     <ClCompile Include="Source\Components\com_Physics.cpp" />
     <ClCompile Include="Source\Systems\sys_PlayerControl.cpp" />
     <ClCompile Include="Source\Resource\ResourceManager.cpp" />
+    <ClCompile Include="Tests\ManagerTest.cpp" />
+    <ClCompile Include="Tests\ResourceManagerTest.cpp" />
   </ItemGroup>
 </Project>

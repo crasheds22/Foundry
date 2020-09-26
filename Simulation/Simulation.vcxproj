@@ -186,6 +186,8 @@
     <ClInclude Include="Headers\Theatre.h" />
     <ClInclude Include="Headers\Systems\sys_PlayerControl.h" />
     <ClInclude Include="Headers\Resource\ResourceManager.h" />
+    <ClInclude Include="Tests\ResourceManagerTest.h" />
+    <ClInclude Include="Tests\ManagerTest.h" />
     <ClInclude Include="Tests\ColliderTest.h" />
     <ClInclude Include="Tests\ComponentTest.h" />
     <ClInclude Include="Tests\GraphicsTest.h" />
@@ -197,6 +199,8 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="Source\Components\com_Physics.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Tests\ResourceManagerTest.cpp" />
+    <ClCompile Include="Tests\ManagerTest.cpp" />
     <ClCompile Include="Source\Resource\ResourceManager.cpp" />
     <ClCompile Include="Source\Algorithm\CollisionAlgo.cpp" />
     <ClCompile Include="Source\Algorithm\Physics.cpp" />

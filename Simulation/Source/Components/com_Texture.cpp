@@ -2,19 +2,25 @@
 
 namespace Component
 {
-	com_Texture::com_Texture(std::string path)
-		: com_Texture(path.c_str())
+	com_Texture::com_Texture(std::string name)
 	{
-
+		mTexture = Resource::ResourceManager::Instance().RetrieveTexture(name);
 	}
 
-	com_Texture::com_Texture(const char* path)
+	com_Texture::com_Texture(std::string name, std::string filepath)
 	{
-		mID = Texture::New(path);
+		Resource::ResourceManager::Instance().CreateTexture(name, filepath);
+
+		mTexture = Resource::ResourceManager::Instance().RetrieveTexture(name);
 	}
 
 	unsigned int com_Texture::ID() const
 	{
-		return mID;
+		return mTexture->ID();
+	}
+	
+	std::string com_Texture::Name() const
+	{
+		return mTexture->Name();
 	}
 }
