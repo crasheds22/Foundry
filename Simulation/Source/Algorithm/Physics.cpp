@@ -2,7 +2,7 @@
 
 float Physics::CalculateRestitution(float resA, float resB)
 {
-	return -(1 + resA - resB);
+	return -(1 + (resA - resB));
 }
 
 float Physics::CalculateVelocityDifference(glm::vec3 normal, glm::vec3 vA, glm::vec3 vB)

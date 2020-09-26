@@ -32,17 +32,17 @@ bool CollisionPoint::HasCollision() const
 	return mHasCollision;
 }
 
-Collision::Collision(ECS::Entity* A, ECS::Entity* B, CollisionPoint point)
+Collision::Collision(ECS::Entity A, ECS::Entity B, CollisionPoint point)
 	: mEntityA(A), mEntityB(B), mPoint(point)
 {
 }
 
-ECS::Entity* Collision::EntityA() const
+ECS::Entity Collision::EntityA() const
 {
 	return mEntityA;
 }
 
-ECS::Entity* Collision::EntityB() const
+ECS::Entity Collision::EntityB() const
 {
 	return mEntityB;
 }

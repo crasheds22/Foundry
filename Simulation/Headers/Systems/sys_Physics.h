@@ -6,6 +6,8 @@
 #include "Components/com_Transform.h"
 #include "Components/com_Collider.h"
 
+#include "Algorithms/Physics.h"
+
 #include <vector>
 
 namespace System
