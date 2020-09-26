@@ -1,8 +1,8 @@
 #include "Algorithms/Physics.h"
 
-float Physics::CalculateRestitution(float res)
+float Physics::CalculateRestitution(float resA, float resB)
 {
-	return -(1 + res);
+	return -(1 + resA - resB);
 }
 
 float Physics::CalculateVelocityDifference(glm::vec3 normal, glm::vec3 vA, glm::vec3 vB)
@@ -18,8 +18,6 @@ float Physics::CalculateAngleAround(glm::vec3 rotvel, float radius, glm::vec3 no
 float Physics::CalculateBeast(float radius, glm::vec3 normal, glm::mat3 inertia)
 {
 	return ((radius * glm::normalize(normal)) * (glm::inverse(inertia) * (radius * glm::normalize(normal))))[0];
-	//Need to figure out how transpose works.
-	//return 0.0f;
 }
 
 float Physics::CalculateLinearForce(float mass, float acceleration)

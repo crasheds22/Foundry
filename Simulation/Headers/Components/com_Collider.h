@@ -4,8 +4,6 @@
 
 #include "ECS/Types.h"
 
-#include "Algorithms/Physics.h"
-
 #include "Components/com_Transform.h"
 
 class CollisionPoint

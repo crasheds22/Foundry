@@ -105,6 +105,8 @@ CollisionPoint CollisionAlgo::FindBoxPlane(const Component::com_Box* bA, const C
 
 	glm::vec3 P = N * pB->D() + tB->Position();
 
+
+
 	//Actually do this please
 
 	return CollisionPoint(glm::vec3(0), glm::vec3(0), false);

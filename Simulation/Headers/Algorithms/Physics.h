@@ -6,7 +6,7 @@
 class Physics
 {
 public:
-	static float CalculateRestitution(float res);
+	static float CalculateRestitution(float resA, float resB);
 	static float CalculateVelocityDifference(glm::vec3 normal, glm::vec3 vA, glm::vec3 vB);
 	static float CalculateAngleAround(glm::vec3 rotvel, float radius, glm::vec3 normal);
 	static float CalculateBeast(float radius, glm::vec3 normal, glm::mat3 inertia);
