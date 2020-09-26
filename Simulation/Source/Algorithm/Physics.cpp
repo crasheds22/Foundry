@@ -20,6 +20,13 @@ float Physics::CalculateBeast(float radius, glm::vec3 normal, glm::mat3 inertia)
 	return ((radius * glm::normalize(normal)) * (glm::inverse(inertia) * (radius * glm::normalize(normal))))[0];
 }
 
+float Physics::CalculateRadius(glm::vec3 pA, glm::vec3 pB, glm::vec3 com, glm::vec3 worldPos)
+{
+	glm::vec3 temp = { (pA.x + pB.x) / 2.0, (pA.y + pB.y) / 2.0, (pA.z + pB.z) / 2.0 };
+
+	return glm::distance(com + worldPos, temp);
+}
+
 float Physics::CalculateLinearForce(float mass, float acceleration)
 {
 	return mass * acceleration;
