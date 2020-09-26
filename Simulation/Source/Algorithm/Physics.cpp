@@ -15,11 +15,11 @@ float Physics::CalculateAngleAround(glm::vec3 rotvel, float radius, glm::vec3 no
 	return glm::dot(rotvel, (radius * glm::normalize(normal)));
 }
 
-float Physics::CalculateBeast(float radius, glm::vec3 normal, glm::mat4 inertia)
+float Physics::CalculateBeast(float radius, glm::vec3 normal, glm::mat3 inertia)
 {
-	//return glm::transpose(radius * glm::normalize(normal)) * glm::inverse(inertia) * (radius * glm::normalize(normal));
+	return ((radius * glm::normalize(normal)) * (glm::inverse(inertia) * (radius * glm::normalize(normal))))[0];
 	//Need to figure out how transpose works.
-	return 0.0f;
+	//return 0.0f;
 }
 
 float Physics::CalculateLinearForce(float mass, float acceleration)
