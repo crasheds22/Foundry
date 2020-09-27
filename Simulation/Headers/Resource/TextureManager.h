@@ -8,7 +8,7 @@
 namespace Resource
 {
 	class TextureManager
-		: public Manager<Texture>, public Singleton
+		: public Manager<Texture>, public Singleton<TextureManager>
 	{
 	};
 }

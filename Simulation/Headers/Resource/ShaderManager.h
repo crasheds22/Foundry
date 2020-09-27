@@ -8,7 +8,7 @@
 namespace Resource
 {
 	class ShaderManager
-		: public Manager<Shader>, public Singleton
+		: public Manager<Shader>, public Singleton<ShaderManager>
 	{
 	public:
 

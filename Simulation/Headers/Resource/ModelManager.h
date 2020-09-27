@@ -8,7 +8,7 @@
 namespace Resource
 {
 	class ModelManager
-		: public Manager<Model>, public Singleton
+		: public Manager<Model>, public Singleton<ModelManager>
 	{
 	public:
 
