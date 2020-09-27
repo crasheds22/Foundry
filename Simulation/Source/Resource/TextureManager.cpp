@@ -16,7 +16,7 @@ namespace Resource
 			return false;
 		}
 
-		Texture temp(path.c_str(), name);
+		Texture temp(path.c_str());
 
 		return Manager::Create(temp.Name(), temp);
 	}
