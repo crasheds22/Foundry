@@ -83,7 +83,7 @@ void SystemTest::ScrollCallback(GLFWwindow* window, double xOff, double yOff)
 
 SystemTest::SystemTest() : UnitTest("Systems test")
 {
-    
+    ResMgr->Init();
 }
 
 bool SystemTest::Test()
@@ -128,33 +128,31 @@ bool SystemTest::RenderSystem()
 
     // build and compile shaders
     // -------------------------
-    Component::com_Shader ourShader("modShader", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    ResMgr->CreateShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
 
     // load models
     // -----------
-    Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
+    ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
 
+    Component::com_Render ourRender("backpack", "1.model");
     Component::com_Transform ourTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
     gCoordinator.Init();
 
     gCoordinator.RegisterComponent<Component::com_Camera>();
-    gCoordinator.RegisterComponent<Component::com_Model>();
-    gCoordinator.RegisterComponent<Component::com_Shader>();
+    gCoordinator.RegisterComponent<Component::com_Render>();
     gCoordinator.RegisterComponent<Component::com_Transform>();
 
     auto RenderSystem = gCoordinator.RegisterSystem<System::sys_Render>();
     {
         ECS::Signature sig;
-        sig.set(gCoordinator.GetComponentType<Component::com_Model>());
-        sig.set(gCoordinator.GetComponentType<Component::com_Shader>());
+        sig.set(gCoordinator.GetComponentType<Component::com_Render>());
         sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
         gCoordinator.SetSystemSignature<System::sys_Render>(sig);
     }
 
     auto backpack = gCoordinator.CreateEntity();
-    gCoordinator.AddComponent<Component::com_Model>(backpack, ourModel);
-    gCoordinator.AddComponent<Component::com_Shader>(backpack, ourShader);
+    gCoordinator.AddComponent<Component::com_Render>(backpack, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack, ourTransform);
 
     // render loop
@@ -212,9 +210,11 @@ bool SystemTest::ControlSystem()
     ref = &Props::Instance();
     ref->SetContext(&graphics);
 
-    Component::com_Shader ourShader("newShader", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
-    Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
+    ResMgr->CreateShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
+
     Component::com_Transform camTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+    Component::com_Render ourRender("backpack", "1.model");
 
     Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 3.0f));
     Component::com_Player ourPlayer(2.5f, 0.1f);
@@ -223,16 +223,14 @@ bool SystemTest::ControlSystem()
     gCoordinator.Init();
 
     gCoordinator.RegisterComponent<Component::com_Camera>();
-    gCoordinator.RegisterComponent<Component::com_Model>();
-    gCoordinator.RegisterComponent<Component::com_Shader>();
+    gCoordinator.RegisterComponent<Component::com_Render>();
     gCoordinator.RegisterComponent<Component::com_Transform>();
     gCoordinator.RegisterComponent<Component::com_Player>();
 
     auto RenderSystem = gCoordinator.RegisterSystem<System::sys_Render>();
     {
         ECS::Signature sig;
-        sig.set(gCoordinator.GetComponentType<Component::com_Model>());
-        sig.set(gCoordinator.GetComponentType<Component::com_Shader>());
+        sig.set(gCoordinator.GetComponentType<Component::com_Render>());
         sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
         gCoordinator.SetSystemSignature<System::sys_Render>(sig);
     }
@@ -248,8 +246,7 @@ bool SystemTest::ControlSystem()
     PlayerControlSystem->Init();
 
     auto backpack = gCoordinator.CreateEntity();
-    gCoordinator.AddComponent<Component::com_Model>(backpack, ourModel);
-    gCoordinator.AddComponent<Component::com_Shader>(backpack, ourShader);
+    gCoordinator.AddComponent<Component::com_Render>(backpack, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack, camTransform);
 
     auto player = gCoordinator.CreateEntity();

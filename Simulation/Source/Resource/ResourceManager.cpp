@@ -2,7 +2,7 @@
 
 namespace Resource
 {
-    void ResourceManager::CreateModel(std::string name, std::string filepath)
+    void ResourceManager::CreateModel(std::string filepath, std::string name)
     {
         if(mModelManager)
             mModelManager->Create(filepath.c_str(), name);

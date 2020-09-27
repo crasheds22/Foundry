@@ -5,10 +5,9 @@
 #include "Graphics/Graphics.h"
 #include "Resource/ResourceManager.h"
 
-#include "Components/com_Shader.h"
 #include "Components/com_Texture.h"
 #include "Components/com_Camera.h"
-#include "Components/com_Model.h"
+#include "Components/com_Render.h"
 
 class ComponentTest
 	: public UnitTest
@@ -34,9 +33,8 @@ public:
 	Resource::ResourceManager* ResMgr = &Resource::ResourceManager::Instance();
 
 private:
-	bool ShaderComponent();
 	bool TextureComponent();
-	bool ModelComponent();
+	bool RenderComponent();
 	bool CameraComponent();
 };
 
