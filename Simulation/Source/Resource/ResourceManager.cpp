@@ -18,7 +18,7 @@ namespace Resource
 
     void ResourceManager::CreateTexture(std::string name, std::string filepath, TextureType type)
     {
-        Texture tex(filepath.c_str(), name, type);
+        Texture tex(filepath.c_str(), type, name);
 
         mTextureManager.Create(name, tex);
     }
