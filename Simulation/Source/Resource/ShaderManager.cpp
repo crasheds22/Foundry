@@ -2,7 +2,7 @@
 
 namespace Resource
 {
-	bool ShaderManager::Create(std::string name, const char* frag, const char* vert, const char* geo = nullptr)
+	bool ShaderManager::Create(std::string name, const char* frag, const char* vert, const char* geo)
 	{
 		if (!Find(name))
 		{
