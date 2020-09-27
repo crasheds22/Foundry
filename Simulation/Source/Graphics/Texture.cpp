@@ -51,7 +51,7 @@ void TextureLoader::FlipVertically()
     stbi_set_flip_vertically_on_load(true);
 }
 
-Texture::Texture(std::string name, const char* path, TextureType type) : mName(name), mFilePath(path), mType(type)
+Texture::Texture(const char* path, std::string name, TextureType type) : mName(name), mFilePath(path), mType(type)
 {
     mID = TextureLoader::New(path);
 }

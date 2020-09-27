@@ -8,13 +8,13 @@ namespace Resource
 		{
 			if (!Find(name))
 			{
-				Texture temp(name, path.c_str());
+				Texture temp(path.c_str(), name);
 
 				return Manager::Create(name, temp);
 			}
 		}
 
-		Texture temp(name, path.c_str());
+		Texture temp(path.c_str(), name);
 
 		return Manager::Create(temp.Name(), temp);
 	}
