@@ -10,14 +10,15 @@ namespace Resource
 	class Manager
 	{
 	public:
-		~Manager()
+		bool Create(std::string name, T obj)
 		{
-			DeleteAll();
-		}
+			if (!Find(name))
+			{
+				mItems.insert(std::pair<std::string, T>(name, obj));
+				return true;
+			}
 
-		void Create(std::string name, T obj)
-		{
-			mItems.insert( std::pair<std::string, T>(name, obj));
+			return false;
 		}
 
 		T* Retrieve(std::string name)
@@ -28,13 +29,32 @@ namespace Resource
 			return nullptr;
 		}
 
-	private:
-		std::map<std::string, T> mItems;
+		bool Find(std::string name)
+		{
+			if (mItems.find(name) != mItems.end())
+				return true;
+
+			return false;
+		}
+
+		bool DeleteItem(std::string name)
+		{
+			if (Find(name))
+			{
+				mItems.erase(mItems.find(name));
+				return true;
+			}
+
+			return false;
+		}
 
 		void DeleteAll()
 		{
 			mItems.clear();
 		}
+
+	private:
+		std::map<std::string, T> mItems;
 	};
 }
 

@@ -7,19 +7,12 @@ namespace Component
 		mTexture = Resource::ResourceManager::Instance().RetrieveTexture(name);
 	}
 
-	com_Texture::com_Texture(std::string name, std::string filepath)
-	{
-		Resource::ResourceManager::Instance().CreateTexture(name, filepath);
-
-		mTexture = Resource::ResourceManager::Instance().RetrieveTexture(name);
-	}
-
-	unsigned int com_Texture::ID() const
+	unsigned int com_Texture::TextureID() const
 	{
 		return mTexture->ID();
 	}
 	
-	std::string com_Texture::Name() const
+	std::string com_Texture::TextureName() const
 	{
 		return mTexture->Name();
 	}

@@ -2,35 +2,32 @@
 #define __RESOURCE_MANAGER__
 
 #include "Manager.h"
+#include "Singleton.h"
 
-#include "Graphics/Model.h"
-#include "Graphics/Shader.h"
-#include "Graphics/Texture.h"
+#include "ModelManager.h"
+#include "TextureManager.h"
+#include "ShaderManager.h"
 
 namespace Resource
 {
 	class ResourceManager
+		: public Singleton<ResourceManager>
 	{
 	public:
-		static ResourceManager& Instance();
+		void Init();
 
-		ResourceManager(const ResourceManager& rm) = delete;
-		void operator=(const ResourceManager& rm) = delete;
-
-		void CreateModel(std::string name, std::string filepath);
+		void CreateModel(std::string filepath, std::string name = "");
 		void CreateTexture(std::string name, std::string filepath, TextureType type = TextureType::DIFFUSE);
-		void CreateShader(std::string name, std::string vertex, std::string frag, std::string geo = "");
+		void CreateShader(std::string name, const char* vertex, const char* frag, const char* geo = nullptr);
 
 		Model* RetrieveModel(std::string name);
 		Texture* RetrieveTexture(std::string name);
 		Shader* RetrieveShader(std::string name);
 
 	private:
-		ResourceManager();
-
-		Manager<Model> mModelManager;
-		Manager<Texture> mTextureManager;
-		Manager<Shader> mShaderManager;
+		ModelManager*   mModelManager = nullptr;
+		TextureManager* mTextureManager = nullptr;
+		ShaderManager*  mShaderManager = nullptr;
 	};
 }
 

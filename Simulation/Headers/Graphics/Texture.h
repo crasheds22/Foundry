@@ -15,7 +15,7 @@ enum class TextureType
 class Texture
 {
 public:
-	Texture(std::string name, const char* path, TextureType type = TextureType::DIFFUSE);
+	Texture(const char* path, TextureType type = TextureType::DIFFUSE, std::string name = "");
 
 	unsigned int ID() const;
 	std::string Name() const;

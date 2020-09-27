@@ -1,7 +1,6 @@
 #include "Systems/sys_Render.h"
 
-#include "Components/com_Model.h"
-#include "Components/com_Shader.h"
+#include "Components/com_Render.h"
 #include "Components/com_Transform.h"
 
 #include "ECS/Coordinator.h"
@@ -17,17 +16,16 @@ namespace System
     {
         for (const auto& entity : mEntities)
         {
-            auto& eModel     = gCoordinator.GetComponent<Component::com_Model>(entity);
-            auto& eShader    = gCoordinator.GetComponent<Component::com_Shader>(entity);
+            auto& eRender    = gCoordinator.GetComponent<Component::com_Render>(entity);
             auto& eTransform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
-            eShader.Use();
+            eRender._Shader()->Use();
 
             glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom()), graphics->AspectRatio(), 0.1f, 100.0f);
-            eShader.setMat4("projection", projection);
+            eRender._Shader()->setMat4("projection", projection);
 
             glm::mat4 view = camera->ViewMatrix();
-            eShader.setMat4("view", view);
+            eRender._Shader()->setMat4("view", view);
 
             glm::mat4 model(1.0f);
             model = glm::translate(model, eTransform.Position());
@@ -37,9 +35,9 @@ namespace System
             model = glm::rotate(model, eTransform.Rotation().z, glm::vec3(0, 0, 1));
 
             model = glm::scale(model, eTransform.Scale());
-            eShader.setMat4("model", model);
+            eRender._Shader()->setMat4("model", model);
 
-            eModel.Draw(eShader.ID());
+            eRender._Model()->Draw(eRender._Shader()->ID());
         }
     }
 }

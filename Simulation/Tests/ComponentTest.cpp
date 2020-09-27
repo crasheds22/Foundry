@@ -49,86 +49,11 @@ bool ComponentTest::Test()
 {
     bool allPassed = false;
 
-    allPassed = ShaderComponent();
     allPassed = TextureComponent();
-    allPassed = ModelComponent();
+    allPassed = RenderComponent();
     allPassed = CameraComponent();
 
     return allPassed;
-}
-
-bool ComponentTest::ShaderComponent()
-{
-    Graphics graphics = Graphics(SCR_WIDTH, SCR_HEIGHT, "Using shaders");
-    graphics.MakeWindowCurrent();
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
-
-    graphics.InitializeGLAD();
-
-    // build and compile our shader program
-    // ------------------------------------
-    Component::com_Shader ourShader("triangle", "../Data/Shaders/3.3.shader.vs", "../Data/Shaders/3.3.shader.fs"); // you can name your shader files however you like
-
-    // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
-    float vertices[] = {
-        // positions         // colors
-         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
-    };
-
-    unsigned int VBO, VAO;
-    Graphics::GenerateVertexArrays(VAO);
-    Graphics::GenerateBuffer(VBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    Graphics::BindArray(VAO);
-
-    Graphics::BindBufferAndData(Graphics::BufferType::ARRAY, VBO, sizeof(vertices), vertices);
-
-    // position attribute
-    Graphics::VertexAttirbutePointer(0, 3, 6 * sizeof(float), (void*)0);
-    // color attribute
-    Graphics::VertexAttirbutePointer(1, 3, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    // glBindVertexArray(0);
-
-
-    // render loop
-    // -----------
-    while (!graphics.ShouldWindowClose())
-    {
-        // input
-        // -----
-        ProcessInput(graphics.Window());
-
-        // render
-        // ------
-        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
-
-        // render the triangle
-        ourShader.Use();
-        Graphics::BindArray(VAO);
-        Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 3);
-
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
-    }
-
-    // optional: de-allocate all resources once they've outlived their purpose:
-    // ------------------------------------------------------------------------
-    Graphics::DeleteArrays(VAO, 1);
-    Graphics::DeleteBuffers(VBO, 1);
-
-    // glfw: terminate, clearing all previously allocated GLFW resources.
-    // ------------------------------------------------------------------
-    graphics.Terminate();
-
-    return true;
 }
 
 bool ComponentTest::TextureComponent()
@@ -141,7 +66,7 @@ bool ComponentTest::TextureComponent()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Component::com_Shader ourShader("texSha", "../Data/Shaders/4.2.texture.vs", "../Data/Shaders/4.2.texture.fs");
+    ResMgr->CreateShader("4.2.texture", "../Data/Shaders/4.2.texture.vs", "../Data/Shaders/4.2.texture.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -183,9 +108,10 @@ bool ComponentTest::TextureComponent()
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
-    ourShader.Use(); // don't forget to activate/use the shader before setting uniforms!
-    ourShader.setInt("texture1", 0);
-    ourShader.setInt("texture2", 1);
+    Shader* ourShader = ResMgr->RetrieveShader("4.2.texture");
+    ourShader->Use(); // don't forget to activate/use the shader before setting uniforms!
+    ourShader->setInt("texture1", 0);
+    ourShader->setInt("texture2", 1);
 
     // render loop
     // -----------
@@ -200,11 +126,11 @@ bool ComponentTest::TextureComponent()
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
-        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.ID());
-        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.TextureID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.TextureID());
 
         // render container
-        ourShader.Use();
+        ourShader->Use();
         Graphics::BindArray(VAO);
         Graphics::DrawElements(Graphics::Shape::TRIANGLES, 6, Graphics::DataType::UNSIGNED_INT, 0);
 
@@ -227,7 +153,7 @@ bool ComponentTest::TextureComponent()
     return true;
 }
 
-bool ComponentTest::ModelComponent()
+bool ComponentTest::RenderComponent()
 {
     camera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
@@ -258,12 +184,13 @@ bool ComponentTest::ModelComponent()
 
     // build and compile shaders
     // -------------------------
-    Component::com_Shader ourShader("modShader", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    ResMgr->CreateShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
 
     // load models
     // -----------
-    Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
+    ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
 
+    Component::com_Render ourRender("backpack.obj", "1.model");
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -287,21 +214,21 @@ bool ComponentTest::ModelComponent()
         graphics.Clear(0.05f, 0.05f, 0.05f, 1.0f);
 
         // don't forget to enable shader before setting uniforms
-        ourShader.Use();
+        ourRender._Shader()->Use();
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.ViewMatrix();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
+        ourRender._Shader()->setMat4("projection", projection);
+        ourRender._Shader()->setMat4("view", view);
 
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-        ourShader.setMat4("model", model);
+        ourRender._Shader()->setMat4("model", model);
 
-        ourModel.Draw(ourShader.ID());
+        ourRender._Model()->Draw(ourRender._Shader()->ID());
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -344,7 +271,8 @@ bool ComponentTest::CameraComponent()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    Component::com_Shader ourShader("camShader", "../Data/Shaders/7.4.camera.vs", "../Data/Shaders/7.4.camera.fs");
+    ResMgr->CreateShader("7.4.camera", "../Data/Shaders/7.4.camera.vs", "../Data/Shaders/7.4.camera.fs");
+    Shader* ourShader = ResMgr->RetrieveShader("7.4.camera");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -430,9 +358,9 @@ bool ComponentTest::CameraComponent()
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
-    ourShader.Use();
-    ourShader.setInt("texture1", 0);
-    ourShader.setInt("texture2", 1);
+    ourShader->Use();
+    ourShader->setInt("texture1", 0);
+    ourShader->setInt("texture2", 1);
 
 
     // render loop
@@ -454,19 +382,19 @@ bool ComponentTest::CameraComponent()
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
-        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.ID());
-        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.TextureID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.TextureID());
 
         // activate shader
-        ourShader.Use();
+        ourShader->Use();
 
         // pass projection matrix to shader (note that in this case it could change every frame)
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom()), (float)800 / (float)500, 0.1f, 100.0f);
-       ourShader.setMat4("projection", projection);
+       ourShader->setMat4("projection", projection);
 
         // camera/view transformation
         glm::mat4 view = camera.ViewMatrix();
-        ourShader.setMat4("view", view);
+        ourShader->setMat4("view", view);
 
         // render boxes
         Graphics::BindArray(VAO);
@@ -477,7 +405,7 @@ bool ComponentTest::CameraComponent()
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            ourShader.setMat4("model", model);
+            ourShader->setMat4("model", model);
 
             Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
         }

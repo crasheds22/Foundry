@@ -23,9 +23,9 @@ void ProcessInput(GLFWwindow* window, CameraTest* camera = nullptr, float dt = 0
 class ShaderTest
 {
 public:
-    unsigned int ID;
+    Shader ID;
 
-    ShaderTest(const char* vPath, const char* fPath, const char* gPath = nullptr) : ID(ShaderLoader::New(vPath, fPath, gPath)) { }
+    ShaderTest(std::string name, const char* vPath, const char* fPath, const char* gPath = nullptr) : ID(name, vPath, fPath, gPath) { }
 };
 
 class TextureTest
@@ -135,7 +135,7 @@ bool GraphicsTest::HelloTriangle()
 
     // build and compile our shader program
     // ------------------------------------
-    ShaderTest shader("../Data/Shaders/0.1.disco.vs", "../Data/Shaders/0.1.disco.fs");
+    ShaderTest shader("0.1.disco", "../Data/Shaders/0.1.disco.vs", "../Data/Shaders/0.1.disco.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -189,7 +189,7 @@ bool GraphicsTest::HelloTriangle()
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // draw our first triangle
-        ShaderLoader::Use(shader.ID);
+        shader.ID.Use();
         Graphics::BindArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         //glDrawArrays(GL_TRIANGLES, 0, 6);
         Graphics::DrawElements(Graphics::Shape::TRIANGLES, 6, Graphics::DataType::UNSIGNED_INT, 0);
@@ -206,7 +206,7 @@ bool GraphicsTest::HelloTriangle()
     Graphics::DeleteArrays(VAO, 1);
     Graphics::DeleteBuffers(VBO, 1);
     Graphics::DeleteBuffers(EBO, 1);
-    Graphics::DeleteProgram(shader.ID);
+    shader.ID.DeleteShader();
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
@@ -225,7 +225,7 @@ bool GraphicsTest::UsingShaders()
 
     // build and compile our shader program
     // ------------------------------------
-    ShaderTest ourShader("../Data/Shaders/3.3.shader.vs", "../Data/Shaders/3.3.shader.fs"); // you can name your shader files however you like
+    ShaderTest ourShader("3.3.triangle", "../Data/Shaders/3.3.shader.vs", "../Data/Shaders/3.3.shader.fs"); // you can name your shader files however you like
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -267,7 +267,7 @@ bool GraphicsTest::UsingShaders()
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // render the triangle
-        ShaderLoader::Use(ourShader.ID);
+        ourShader.ID.Use();
         Graphics::BindArray(VAO);
         Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 3);
 
@@ -299,7 +299,7 @@ bool GraphicsTest::Textures()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    ShaderTest ourShader("../Data/Shaders/4.2.texture.vs", "../Data/Shaders/4.2.texture.fs");
+    ShaderTest ourShader("4.2.textureShader", "../Data/Shaders/4.2.texture.vs", "../Data/Shaders/4.2.texture.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -338,9 +338,9 @@ bool GraphicsTest::Textures()
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
-    ShaderLoader::Use(ourShader.ID); // don't forget to activate/use the shader before setting uniforms!
-    ShaderLoader::setInt(ourShader.ID, "texture1", 0);
-    ShaderLoader::setInt(ourShader.ID, "texture2", 1);
+    ourShader.ID.Use(); // don't forget to activate/use the shader before setting uniforms!
+    ourShader.ID.setInt("texture1", 0);
+    ourShader.ID.setInt("texture2", 1);
 
     // render loop
     // -----------
@@ -359,7 +359,7 @@ bool GraphicsTest::Textures()
         Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID);
 
         // render container
-        ShaderLoader::Use(ourShader.ID);
+        ourShader.ID.Use();
         Graphics::BindArray(VAO);
         Graphics::DrawElements(Graphics::Shape::TRIANGLES, 6, Graphics::DataType::UNSIGNED_INT, 0);
 
@@ -410,7 +410,7 @@ bool GraphicsTest::CameraAndCubes()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    ShaderTest ourShader("../Data/Shaders/7.4.camera.vs", "../Data/Shaders/7.4.camera.fs");
+    ShaderTest ourShader("7.4.cameraShader", "../Data/Shaders/7.4.camera.vs", "../Data/Shaders/7.4.camera.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -492,9 +492,9 @@ bool GraphicsTest::CameraAndCubes()
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
-    ShaderLoader::Use(ourShader.ID);
-    ShaderLoader::setInt(ourShader.ID, "texture1", 0);
-    ShaderLoader::setInt(ourShader.ID, "texture2", 1);
+    ourShader.ID.Use();
+    ourShader.ID.setInt("texture1", 0);
+    ourShader.ID.setInt("texture2", 1);
 
 
     // render loop
@@ -520,15 +520,15 @@ bool GraphicsTest::CameraAndCubes()
         Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID);
 
         // activate shader
-        ShaderLoader::Use(ourShader.ID);
+        ourShader.ID.Use();
 
         // pass projection matrix to shader (note that in this case it could change every frame)
         glm::mat4 projection = glm::perspective(glm::radians(camera.GetZoom()), (float)800 / (float)500, 0.1f, 100.0f);
-        ShaderLoader::setMat4(ourShader.ID, "projection", projection);
+        ourShader.ID.setMat4("projection", projection);
 
         // camera/view transformation
         glm::mat4 view = camera.ViewMatrix();
-        ShaderLoader::setMat4(ourShader.ID, "view", view);
+        ourShader.ID.setMat4("view", view);
 
         // render boxes
         Graphics::BindArray(VAO);
@@ -539,7 +539,7 @@ bool GraphicsTest::CameraAndCubes()
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            ShaderLoader::setMat4(ourShader.ID, "model", model);
+            ourShader.ID.setMat4("model", model);
 
             Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
         }
@@ -592,8 +592,8 @@ bool GraphicsTest::IntroToLighting()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    ShaderTest lightingShader ("../Data/Shaders/2.2.basic_lighting.vs", "../Data/Shaders/2.2.basic_lighting.fs");
-    ShaderTest lightCubeShader("../Data/Shaders/2.2.light_cube.vs"    , "../Data/Shaders/2.2.light_cube.fs");
+    ShaderTest lightingShader ("2.2.basicLight", "../Data/Shaders/2.2.basic_lighting.vs", "../Data/Shaders/2.2.basic_lighting.fs");
+    ShaderTest lightCubeShader("2.2.lightCube" , "../Data/Shaders/2.2.light_cube.vs"    , "../Data/Shaders/2.2.light_cube.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -684,21 +684,21 @@ bool GraphicsTest::IntroToLighting()
         graphics.Clear(0.1f, 0.1f, 0.1f, 1.0f);
 
         // be sure to activate shader when setting uniforms/drawing objects
-        ShaderLoader::Use(lightingShader.ID);
-        ShaderLoader::setVec3(lightingShader.ID, "objectColor", 1.0f, 0.5f, 0.31f);
-        ShaderLoader::setVec3(lightingShader.ID, "lightColor", 1.0f, 1.0f, 1.0f);
-        ShaderLoader::setVec3(lightingShader.ID, "lightPos", lightPos);
-        ShaderLoader::setVec3(lightingShader.ID, "viewPos", camera.GetPosition());
+        lightingShader.ID.Use();
+        lightingShader.ID.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        lightingShader.ID.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lightingShader.ID.setVec3("lightPos", lightPos);
+        lightingShader.ID.setVec3("viewPos", camera.GetPosition());
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.ViewMatrix();
-        ShaderLoader::setMat4(lightingShader.ID, "projection", projection);
-        ShaderLoader::setMat4(lightingShader.ID, "view", view);
+        lightingShader.ID.setMat4("projection", projection);
+        lightingShader.ID.setMat4("view", view);
 
         // world transformation
         glm::mat4 model = glm::mat4(1.0f);
-        ShaderLoader::setMat4(lightingShader.ID, "model", model);
+        lightingShader.ID.setMat4("model", model);
 
         // render the cube
         Graphics::BindArray(cubeVAO);
@@ -706,13 +706,13 @@ bool GraphicsTest::IntroToLighting()
 
 
         // also draw the lamp object
-        ShaderLoader::Use(lightCubeShader.ID);
-        ShaderLoader::setMat4(lightCubeShader.ID, "projection", projection);
-        ShaderLoader::setMat4(lightCubeShader.ID, "view", view);
+        lightCubeShader.ID.Use();
+        lightCubeShader.ID.setMat4("projection", projection);
+        lightCubeShader.ID.setMat4("view", view);
         model = glm::mat4(1.0f);
         model = glm::translate(model, lightPos);
         model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-        ShaderLoader::setMat4(lightCubeShader.ID, "model", model);
+        lightCubeShader.ID.setMat4("model", model);
 
         Graphics::BindArray(lightCubeVAO);
         Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
@@ -767,8 +767,8 @@ bool GraphicsTest::Lighting()
 
     // build and compile our shader zprogram
     // ------------------------------------
-    ShaderTest lightingShader("../Data/Shaders/6.multiple_lights.vs", "../Data/Shaders/6.multiple_lights.fs");
-    ShaderTest lightCubeShader("../Data/Shaders/6.light_cube.vs", "../Data/Shaders/6.light_cube.fs");
+    ShaderTest lightingShader ("6.multiLight", "../Data/Shaders/6.multiple_lights.vs", "../Data/Shaders/6.multiple_lights.fs");
+    ShaderTest lightCubeShader("6.lightCube" , "../Data/Shaders/6.light_cube.vs"     , "../Data/Shaders/6.light_cube.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -864,9 +864,9 @@ bool GraphicsTest::Lighting()
 
     // shader configuration
     // --------------------
-    ShaderLoader::Use(lightingShader.ID);
-    ShaderLoader::setInt(lightingShader.ID, "material.diffuse", 0);
-    ShaderLoader::setInt(lightingShader.ID, "material.specular", 1);
+    lightingShader.ID.Use();
+    lightingShader.ID.setInt("material.diffuse", 0);
+    lightingShader.ID.setInt("material.specular", 1);
 
 
     // render loop
@@ -888,9 +888,9 @@ bool GraphicsTest::Lighting()
         graphics.Clear(0.1f, 0.1f, 0.1f, 1.0f);
 
         // be sure to activate shader when setting uniforms/drawing objects
-        ShaderLoader::Use(lightingShader.ID);
-        ShaderLoader::setVec3(lightingShader.ID, "viewPos", camera.GetPosition());
-        ShaderLoader::setFloat(lightingShader.ID, "material.shininess", 32.0f);
+        lightingShader.ID.Use();
+        lightingShader.ID.setVec3("viewPos", camera.GetPosition());
+        lightingShader.ID.setFloat("material.shininess", 32.0f);
 
         /*
            Here we set all the uniforms for the 5/6 types of lights we have. We have to set them manually and index
@@ -899,63 +899,63 @@ bool GraphicsTest::Lighting()
            by using 'Uniform buffer objects', but that is something we'll discuss in the 'Advanced GLSL' tutorial.
         */
         // directional light
-        ShaderLoader::setVec3(lightingShader.ID, "dirLight.direction", -0.2f, -1.0f, -0.3f);
-        ShaderLoader::setVec3(lightingShader.ID, "dirLight.ambient", 0.05f, 0.05f, 0.05f);
-        ShaderLoader::setVec3(lightingShader.ID, "dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-        ShaderLoader::setVec3(lightingShader.ID, "dirLight.specular", 0.5f, 0.5f, 0.5f);
+        lightingShader.ID.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+        lightingShader.ID.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
+        lightingShader.ID.setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
+        lightingShader.ID.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
         // point light 1
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[0].position", pointLightPositions[0]);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[0].specular", 1.0f, 1.0f, 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[0].constant", 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[0].linear", 0.09);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[0].quadratic", 0.032);
+        lightingShader.ID.setVec3("pointLights[0].position", pointLightPositions[0]);
+        lightingShader.ID.setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+        lightingShader.ID.setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+        lightingShader.ID.setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+        lightingShader.ID.setFloat("pointLights[0].constant", 1.0f);
+        lightingShader.ID.setFloat("pointLights[0].linear", 0.09);
+        lightingShader.ID.setFloat("pointLights[0].quadratic", 0.032);
         // point light 2
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[1].position", pointLightPositions[1]);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[1].specular", 1.0f, 1.0f, 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[1].constant", 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[1].linear", 0.09);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[1].quadratic", 0.032);
+        lightingShader.ID.setVec3("pointLights[1].position", pointLightPositions[1]);
+        lightingShader.ID.setVec3("pointLights[1].ambient", 0.05f, 0.05f, 0.05f);
+        lightingShader.ID.setVec3("pointLights[1].diffuse", 0.8f, 0.8f, 0.8f);
+        lightingShader.ID.setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+        lightingShader.ID.setFloat("pointLights[1].constant", 1.0f);
+        lightingShader.ID.setFloat("pointLights[1].linear", 0.09);
+        lightingShader.ID.setFloat("pointLights[1].quadratic", 0.032);
         // point light 3
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[2].position", pointLightPositions[2]);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[2].specular", 1.0f, 1.0f, 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[2].constant", 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[2].linear", 0.09);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[2].quadratic", 0.032);
+        lightingShader.ID.setVec3("pointLights[2].position", pointLightPositions[2]);
+        lightingShader.ID.setVec3("pointLights[2].ambient", 0.05f, 0.05f, 0.05f);
+        lightingShader.ID.setVec3("pointLights[2].diffuse", 0.8f, 0.8f, 0.8f);
+        lightingShader.ID.setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+        lightingShader.ID.setFloat("pointLights[2].constant", 1.0f);
+        lightingShader.ID.setFloat("pointLights[2].linear", 0.09);
+        lightingShader.ID.setFloat("pointLights[2].quadratic", 0.032);
         // point light 4
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[3].position", pointLightPositions[3]);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
-        ShaderLoader::setVec3(lightingShader.ID, "pointLights[3].specular", 1.0f, 1.0f, 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[3].constant", 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[3].linear", 0.09);
-        ShaderLoader::setFloat(lightingShader.ID, "pointLights[3].quadratic", 0.032);
+        lightingShader.ID.setVec3("pointLights[3].position", pointLightPositions[3]);
+        lightingShader.ID.setVec3("pointLights[3].ambient", 0.05f, 0.05f, 0.05f);
+        lightingShader.ID.setVec3("pointLights[3].diffuse", 0.8f, 0.8f, 0.8f);
+        lightingShader.ID.setVec3("pointLights[3].specular", 1.0f, 1.0f, 1.0f);
+        lightingShader.ID.setFloat("pointLights[3].constant", 1.0f);
+        lightingShader.ID.setFloat("pointLights[3].linear", 0.09);
+        lightingShader.ID.setFloat("pointLights[3].quadratic", 0.032);
         // spotLight
-        ShaderLoader::setVec3(lightingShader.ID, "spotLight.position", camera.GetPosition());
-        ShaderLoader::setVec3(lightingShader.ID, "spotLight.direction", camera.GetFront());
-        ShaderLoader::setVec3(lightingShader.ID, "spotLight.ambient", 0.0f, 0.0f, 0.0f);
-        ShaderLoader::setVec3(lightingShader.ID, "spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-        ShaderLoader::setVec3(lightingShader.ID, "spotLight.specular", 1.0f, 1.0f, 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "spotLight.constant", 1.0f);
-        ShaderLoader::setFloat(lightingShader.ID, "spotLight.linear", 0.09);
-        ShaderLoader::setFloat(lightingShader.ID, "spotLight.quadratic", 0.032);
-        ShaderLoader::setFloat(lightingShader.ID, "spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-        ShaderLoader::setFloat(lightingShader.ID, "spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+        lightingShader.ID.setVec3("spotLight.position", camera.GetPosition());
+        lightingShader.ID.setVec3("spotLight.direction", camera.GetFront());
+        lightingShader.ID.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+        lightingShader.ID.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+        lightingShader.ID.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+        lightingShader.ID.setFloat("spotLight.constant", 1.0f);
+        lightingShader.ID.setFloat("spotLight.linear", 0.09);
+        lightingShader.ID.setFloat("spotLight.quadratic", 0.032);
+        lightingShader.ID.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+        lightingShader.ID.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.ViewMatrix();
-        ShaderLoader::setMat4(lightingShader.ID, "projection", projection);
-        ShaderLoader::setMat4(lightingShader.ID, "view", view);
+        lightingShader.ID.setMat4("projection", projection);
+        lightingShader.ID.setMat4("view", view);
 
         // world transformation
         glm::mat4 model = glm::mat4(1.0f);
-        ShaderLoader::setMat4(lightingShader.ID, "model", model);
+        lightingShader.ID.setMat4("model", model);
 
         // bind diffuse map
         Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, diffuseMap.ID);
@@ -971,15 +971,15 @@ bool GraphicsTest::Lighting()
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * i;
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-            ShaderLoader::setMat4(lightingShader.ID, "model", model);
+            lightingShader.ID.setMat4("model", model);
 
             Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
         }
 
         // also draw the lamp object(s)
-        ShaderLoader::Use(lightingShader.ID);
-        ShaderLoader::setMat4(lightingShader.ID, "projection", projection);
-        ShaderLoader::setMat4(lightingShader.ID, "view", view);
+        lightingShader.ID.Use();
+        lightingShader.ID.setMat4("projection", projection);
+        lightingShader.ID.setMat4("view", view);
 
         // we now draw as many light bulbs as we have point lights.
         Graphics::BindArray(lightCubeVAO);
@@ -988,7 +988,7 @@ bool GraphicsTest::Lighting()
             model = glm::mat4(1.0f);
             model = glm::translate(model, pointLightPositions[i]);
             model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-            ShaderLoader::setMat4(lightingShader.ID, "model", model);
+            lightingShader.ID.setMat4("model", model);
 
             Graphics::DrawArrays(Graphics::Shape::TRIANGLES, 0, 36);
         }
@@ -1036,7 +1036,7 @@ bool GraphicsTest::ModelOne()
 
     // build and compile shaders
     // -------------------------
-    ShaderTest ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    ShaderTest ourShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
 
     // load models
     // -----------
@@ -1065,20 +1065,20 @@ bool GraphicsTest::ModelOne()
         graphics.Clear(0.05f, 0.05f, 0.05f, 1.0f);
 
         // don't forget to enable shader before setting uniforms
-        ShaderLoader::Use(ourShader.ID);
+        ourShader.ID.Use();
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.ViewMatrix();
-        ShaderLoader::setMat4(ourShader.ID, "projection", projection);
-        ShaderLoader::setMat4(ourShader.ID, "view", view);
+        ourShader.ID.setMat4("projection", projection);
+        ourShader.ID.setMat4("view", view);
 
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-        ShaderLoader::setMat4(ourShader.ID, "model", model);
-        ourModel.Draw(ourShader.ID);
+        ourShader.ID.setMat4("model", model);
+        ourModel.Draw(ourShader.ID.ID());
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -1117,7 +1117,7 @@ bool GraphicsTest::RobertsonModel()
 
     // build and compile shaders
     // -------------------------
-    ShaderTest ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    ShaderTest ourShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
 
     // load models
     // -----------
@@ -1146,20 +1146,20 @@ bool GraphicsTest::RobertsonModel()
         graphics.Clear(0.05f, 0.05f, 0.05f, 1.0f);
 
         // don't forget to enable shader before setting uniforms
-        ShaderLoader::Use(ourShader.ID);
+        ourShader.ID.Use();
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.GetZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.ViewMatrix();
-        ShaderLoader::setMat4(ourShader.ID, "projection", projection);
-        ShaderLoader::setMat4(ourShader.ID, "view", view);
+        ourShader.ID.setMat4("projection", projection);
+        ourShader.ID.setMat4("view", view);
 
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-        ShaderLoader::setMat4(ourShader.ID, "model", model);
-        ourModel.Draw(ourShader.ID);
+        ourShader.ID.setMat4("model", model);
+        ourModel.Draw(ourShader.ID.ID());
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

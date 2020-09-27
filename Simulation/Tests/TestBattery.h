@@ -26,11 +26,11 @@ TestBattery::TestBattery()
 {
 	//Create new tests here, add to TestList
 	//TestList.push_back(new GraphicsTest());
-	TestList.push_back(new ComponentTest());
-	//TestList.push_back(new SystemTest());
+	//TestList.push_back(new ComponentTest());
+	TestList.push_back(new SystemTest());
 	//TestList.push_back(new ColliderTest());
 	//TestList.push_back(new ManagerTest());
-	TestList.push_back(new ResourceManagerTest());
+	//TestList.push_back(new ResourceManagerTest());
 }
 
 TestBattery::~TestBattery()

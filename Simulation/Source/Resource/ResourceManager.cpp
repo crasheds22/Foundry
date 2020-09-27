@@ -2,52 +2,56 @@
 
 namespace Resource
 {
-    ResourceManager& ResourceManager::Instance()
+    void ResourceManager::CreateModel(std::string filepath, std::string name)
     {
-        static ResourceManager mInstance;
-
-        return mInstance;
-    }
-
-    void ResourceManager::CreateModel(std::string name, std::string filepath)
-    {
-        Model temp(filepath);
-
-        mModelManager.Create(name, temp);
+        if(mModelManager)
+            mModelManager->Create(filepath.c_str(), name);
     }
 
     void ResourceManager::CreateTexture(std::string name, std::string filepath, TextureType type)
     {
-        Texture tex(name, filepath.c_str(), type);
-
-        mTextureManager.Create(name, tex);
+        if(mTextureManager)
+            mTextureManager->Create(filepath.c_str(), type, name);
     }
 
-    void ResourceManager::CreateShader(std::string name, std::string vertex, std::string frag, std::string geo)
+    void ResourceManager::CreateShader(std::string name, const char* vertex, const char* frag, const char* geo)
     {
-        Shader sha(name, vertex.c_str(), frag.c_str(), geo.length() > 0 ? geo.c_str() : nullptr);
-
-        mShaderManager.Create(name, sha);
+        if(mShaderManager)
+            mShaderManager->Create(name, vertex, frag, geo);
     }
 
     Model* ResourceManager::RetrieveModel(std::string name)
     {
-        return mModelManager.Retrieve(name);
+        if(mModelManager)
+            return mModelManager->Retrieve(name);
+
+        return nullptr;
     }
 
     Texture* ResourceManager::RetrieveTexture(std::string name)
     {
-        return mTextureManager.Retrieve(name);
+        if(mTextureManager)
+            return mTextureManager->Retrieve(name);
+
+        return nullptr;
     }
 
     Shader* ResourceManager::RetrieveShader(std::string name)
     {
-        return mShaderManager.Retrieve(name);
+        if(mShaderManager)
+            return mShaderManager->Retrieve(name);
+
+        return nullptr;
     }
 
-    ResourceManager::ResourceManager()
+    void ResourceManager::Init()
     {
-
+        if(!mModelManager)
+            mModelManager   = &ModelManager::Instance();
+        if(!mTextureManager)
+            mTextureManager = &TextureManager::Instance();
+        if(!mShaderManager)
+            mShaderManager  = &ShaderManager::Instance();
     }
 
 }
