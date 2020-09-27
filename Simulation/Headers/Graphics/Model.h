@@ -13,7 +13,7 @@
 #include <vector>
 #include <iostream>
 
-#include "Texture.h"
+#include "Resource/TextureManager.h"
 
 struct Vertex
 {
@@ -51,29 +51,9 @@ public:
 
 private:
 	std::vector<Mesh> mMeshes;
-	std::vector<Texture> mTexturesLoaded;
 	std::string mDirectory;
 	
 	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture*> LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName);
 };
-
-std::string FullName(TextureType type)
-{
-	switch (type)
-	{
-	case TextureType::DIFFUSE:
-		return "texture_diffuse";
-	case TextureType::AMBIENT:
-		return "teture_ambient";
-	case TextureType::HEIGHT:
-		return "texture_height";
-	case TextureType::NORMAL:
-		return "texture_normal";
-	case TextureType::SPECULAR:
-		return "texture_specular";
-	default:
-		return "";
-	}
-}

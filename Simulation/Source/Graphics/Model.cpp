@@ -1,5 +1,24 @@
 #include "Graphics/Model.h"
 
+std::string FullName(TextureType type)
+{
+	switch (type)
+	{
+	case TextureType::DIFFUSE:
+		return "texture_diffuse";
+	case TextureType::AMBIENT:
+		return "teture_ambient";
+	case TextureType::HEIGHT:
+		return "texture_height";
+	case TextureType::NORMAL:
+		return "texture_normal";
+	case TextureType::SPECULAR:
+		return "texture_specular";
+	default:
+		return "";
+	}
+}
+
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture*> textures)
 {
 	mVertices = vertices;
@@ -216,23 +235,17 @@ std::vector<Texture*> Model::LoadMaterialTextures(aiMaterial* material, aiTextur
 		material->GetTexture(type, i, &str);
 
 		std::string filePath = mDirectory + "/" + str.C_Str();
-		// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
-		bool skip = false;
-		for (unsigned int j = 0; j < mTexturesLoaded.size(); j++)
-		{
-			if (std::strcmp(mTexturesLoaded[j].FilePath().data(), filePath.c_str()) == 0)
-			{
-				textures.push_back(&mTexturesLoaded[j]);
-				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
-				break;
-			}
-		}
-		if (!skip)
-		{   // if texture hasn't been loaded already, load it
-			Texture texture(filePath.c_str(), typeName);
+		std::string name = filePath.substr(filePath.find_last_of('/'), filePath.find_last_of('.'));
 
-			textures.push_back(&texture);
-			mTexturesLoaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+		if (Resource::TextureManager::Instance().Find(name))
+		{
+			textures.push_back(Resource::TextureManager::Instance().Retrieve(name));
+		}
+		else
+		{
+			Resource::TextureManager::Instance().Create(filePath, typeName);
+
+			textures.push_back(Resource::TextureManager::Instance().Retrieve(name));
 		}
 	}
 	return textures;
