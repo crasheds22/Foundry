@@ -4,8 +4,6 @@
 
 #include "ECS/Types.h"
 
-#include "Algorithms/Physics.h"
-
 #include "Components/com_Transform.h"
 
 namespace Component
@@ -14,7 +12,7 @@ namespace Component
 	{
 	public:
 		com_Physics() {};
-		com_Physics(float mass, float invmass, float res, int width, int height, int depth);
+		com_Physics(float mass, float res, int width, int height, int depth);
 
 		glm::vec3 Velocity() const;
 		glm::vec3 Acceleration() const;
@@ -26,7 +24,7 @@ namespace Component
 		float Restitution() const;
 
 		glm::vec3 CentreOfMass() const;
-		glm::mat4 InertiaTensor() const;
+		glm::mat3 InertiaTensor() const;
 
 	private:
 		glm::vec3 mVelocity{};
@@ -39,7 +37,7 @@ namespace Component
 		float mRestitution{};
 
 		glm::vec3 mCentreOfMass{};
-		glm::mat4 mInertiaTensor{};
+		glm::mat3 mInertiaTensor{};
 	};
 
 }

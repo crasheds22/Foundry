@@ -4,8 +4,6 @@
 
 #include "ECS/Types.h"
 
-#include "Algorithms/Physics.h"
-
 #include "Components/com_Transform.h"
 
 class CollisionPoint
@@ -31,16 +29,16 @@ private:
 class Collision
 {
 public:
-	Collision(ECS::Entity* A, ECS::Entity* B, CollisionPoint point);
+	Collision(ECS::Entity A, ECS::Entity B, CollisionPoint point);
 
-	ECS::Entity* EntityA() const;
-	ECS::Entity* EntityB() const;
+	ECS::Entity EntityA() const;
+	ECS::Entity EntityB() const;
 
 	CollisionPoint Point() const;
 
 private:
-	ECS::Entity* mEntityA;
-	ECS::Entity* mEntityB;
+	ECS::Entity mEntityA;
+	ECS::Entity mEntityB;
 	CollisionPoint mPoint;
 };
 
