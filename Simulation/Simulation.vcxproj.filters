@@ -41,6 +41,7 @@
     <ClInclude Include="Tests\ManagerTest.h" />
     <ClInclude Include="Tests\ResourceManagerTest.h" />
     <ClInclude Include="Headers\Systems\sys_Physics.h" />
+    <ClInclude Include="Headers\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
