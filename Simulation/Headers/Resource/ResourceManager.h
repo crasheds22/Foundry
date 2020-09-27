@@ -14,6 +14,8 @@ namespace Resource
 		: public Singleton<ResourceManager>
 	{
 	public:
+		void Init();
+
 		void CreateModel(std::string name, std::string filepath);
 		void CreateTexture(std::string name, std::string filepath, TextureType type = TextureType::DIFFUSE);
 		void CreateShader(std::string name, std::string vertex, std::string frag, std::string geo = "");
@@ -23,8 +25,6 @@ namespace Resource
 		Shader* RetrieveShader(std::string name);
 
 	private:
-		ResourceManager();
-
 		ModelManager*   mModelManager = nullptr;
 		TextureManager* mTextureManager = nullptr;
 		ShaderManager*  mShaderManager = nullptr;

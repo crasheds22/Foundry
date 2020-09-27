@@ -200,8 +200,8 @@ bool ComponentTest::TextureComponent()
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
-        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.ID());
-        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.TextureID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.TextureID());
 
         // render container
         ourShader.Use();
@@ -454,8 +454,8 @@ bool ComponentTest::CameraComponent()
         graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
-        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.ID());
-        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.ID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.TextureID());
+        Graphics::BindTextureOnUnit(Graphics::Unit::ONE, texture2.TextureID());
 
         // activate shader
         ourShader.Use();

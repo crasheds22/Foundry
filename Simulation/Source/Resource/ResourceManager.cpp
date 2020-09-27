@@ -44,11 +44,14 @@ namespace Resource
         return nullptr;
     }
 
-    ResourceManager::ResourceManager()
+    void ResourceManager::Init()
     {
-        mModelManager   = &ModelManager::Instance();
-        mTextureManager = &TextureManager::Instance();
-        mShaderManager  = &ShaderManager::Instance();
+        if(!mModelManager)
+            mModelManager   = &ModelManager::Instance();
+        if(!mTextureManager)
+            mTextureManager = &TextureManager::Instance();
+        if(!mShaderManager)
+            mShaderManager  = &ShaderManager::Instance();
     }
 
 }
