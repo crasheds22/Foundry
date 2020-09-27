@@ -190,7 +190,7 @@ bool ComponentTest::RenderComponent()
     // -----------
     ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
 
-    Component::com_Render ourRender("backpack", "1.model");
+    Component::com_Render ourRender("backpack.obj", "1.model");
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

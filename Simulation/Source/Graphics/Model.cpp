@@ -104,7 +104,7 @@ Model::Model(const std::string path, std::string name)
 	if (name.length() > 0)
 		mName = name;
 	else
-		mName = path.substr(path.find_last_of('/'), path.find_last_of('.'));
+		mName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - 3);
 
 	ModelLoader::New(path, mMeshes);
 }

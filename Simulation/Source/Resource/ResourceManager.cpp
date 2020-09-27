@@ -14,10 +14,10 @@ namespace Resource
             mTextureManager->Create(filepath.c_str(), type, name);
     }
 
-    void ResourceManager::CreateShader(std::string name, std::string vertex, std::string frag, std::string geo)
+    void ResourceManager::CreateShader(std::string name, const char* vertex, const char* frag, const char* geo)
     {
         if(mShaderManager)
-            mShaderManager->Create(name, vertex.c_str(), frag.c_str(), geo.c_str());
+            mShaderManager->Create(name, vertex, frag, geo);
     }
 
     Model* ResourceManager::RetrieveModel(std::string name)

@@ -17,9 +17,7 @@ namespace Resource
 		}
 
 		Model temp(path);
-
-		//Implement
-		// return Manager::Create(temp.Name(), temp);
-		return true;
+		
+		return Manager::Create(temp.Name(), temp);
 	}
 }

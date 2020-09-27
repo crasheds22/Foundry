@@ -134,7 +134,7 @@ bool SystemTest::RenderSystem()
     // -----------
     ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
 
-    Component::com_Render ourRender("backpack", "1.model");
+    Component::com_Render ourRender("backpack.obj", "1.model");
     Component::com_Transform ourTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
     gCoordinator.Init();
@@ -214,7 +214,7 @@ bool SystemTest::ControlSystem()
     ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
 
     Component::com_Transform camTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
-    Component::com_Render ourRender("backpack", "1.model");
+    Component::com_Render ourRender("backpack.obj", "1.model");
 
     Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 3.0f));
     Component::com_Player ourPlayer(2.5f, 0.1f);
