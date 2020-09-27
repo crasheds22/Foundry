@@ -2,52 +2,53 @@
 
 namespace Resource
 {
-    ResourceManager& ResourceManager::Instance()
-    {
-        static ResourceManager mInstance;
-
-        return mInstance;
-    }
-
     void ResourceManager::CreateModel(std::string name, std::string filepath)
     {
-        Model temp(filepath);
-
-        mModelManager.Create(name, temp);
+        if(mModelManager)
+            mModelManager->Create(filepath.c_str(), name);
     }
 
     void ResourceManager::CreateTexture(std::string name, std::string filepath, TextureType type)
     {
-        Texture tex(filepath.c_str(), type, name);
-
-        mTextureManager.Create(name, tex);
+        if(mTextureManager)
+            mTextureManager->Create(filepath.c_str(), type, name);
     }
 
     void ResourceManager::CreateShader(std::string name, std::string vertex, std::string frag, std::string geo)
     {
-        Shader sha(name, vertex.c_str(), frag.c_str(), geo.length() > 0 ? geo.c_str() : nullptr);
-
-        mShaderManager.Create(name, sha);
+        if(mShaderManager)
+            mShaderManager->Create(name, vertex.c_str(), frag.c_str(), geo.c_str());
     }
 
     Model* ResourceManager::RetrieveModel(std::string name)
     {
-        return mModelManager.Retrieve(name);
+        if(mModelManager)
+            return mModelManager->Retrieve(name);
+
+        return nullptr;
     }
 
     Texture* ResourceManager::RetrieveTexture(std::string name)
     {
-        return mTextureManager.Retrieve(name);
+        if(mTextureManager)
+            return mTextureManager->Retrieve(name);
+
+        return nullptr;
     }
 
     Shader* ResourceManager::RetrieveShader(std::string name)
     {
-        return mShaderManager.Retrieve(name);
+        if(mShaderManager)
+            return mShaderManager->Retrieve(name);
+
+        return nullptr;
     }
 
     ResourceManager::ResourceManager()
     {
-
+        mModelManager   = &ModelManager::Instance();
+        mTextureManager = &TextureManager::Instance();
+        mShaderManager  = &ShaderManager::Instance();
     }
 
 }
