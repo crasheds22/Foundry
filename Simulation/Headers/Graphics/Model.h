@@ -24,24 +24,17 @@ struct Vertex
 	glm::vec3 Bitangent;
 };
 
-struct ModelTexture
-{
-	unsigned int ID;
-	std::string Type;
-	std::string Path;
-};
-
 class Mesh
 {
 public:
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<ModelTexture> textures);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture*> textures);
 
 	void Draw(unsigned int shaderID);
 
 private:
 	std::vector<Vertex> mVertices;
 	std::vector<unsigned int> mIndices;
-	std::vector<ModelTexture> mTextures;
+	std::vector<Texture*> mTextures;
 
 	unsigned int mVAO, mVBO, mEBO;
 
@@ -58,11 +51,29 @@ public:
 
 private:
 	std::vector<Mesh> mMeshes;
-	std::vector<ModelTexture> mTexturesLoaded;
+	std::vector<Texture> mTexturesLoaded;
 	std::string mDirectory;
 	
 	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
 	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	std::vector<ModelTexture> LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
+	std::vector<Texture*> LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName);
 };
 
+std::string FullName(TextureType type)
+{
+	switch (type)
+	{
+	case TextureType::DIFFUSE:
+		return "texture_diffuse";
+	case TextureType::AMBIENT:
+		return "teture_ambient";
+	case TextureType::HEIGHT:
+		return "texture_height";
+	case TextureType::NORMAL:
+		return "texture_normal";
+	case TextureType::SPECULAR:
+		return "texture_specular";
+	default:
+		return "";
+	}
+}
