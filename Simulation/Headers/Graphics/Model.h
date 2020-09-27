@@ -45,15 +45,27 @@ class Model
 {
 public:
 	Model() {};
-	Model(const std::string path);
+	Model(const std::string path, std::string name = "");
+
+	std::string Name() const;
 
 	void Draw(unsigned int shaderID);
 
 private:
 	std::vector<Mesh> mMeshes;
-	std::string mDirectory;
-	
-	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
-	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	std::vector<Texture*> LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName);
+	std::string mName;
+};
+
+class ModelLoader
+{
+public:
+	static void New(const std::string path, std::vector<Mesh>& meshes);
+
+	static std::string CurrentDirectory;
+
+private:
+	static void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
+	static Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	static std::vector<Texture*> LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName);
+
 };

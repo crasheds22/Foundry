@@ -99,7 +99,32 @@ void Mesh::SetUpMesh()
 	glBindVertexArray(0);
 }
 
-Model::Model(const std::string path)
+Model::Model(const std::string path, std::string name)
+{
+	if (name.length() > 0)
+		mName = name;
+	else
+		mName = path.substr(path.find_last_of('/'), path.find_last_of('.'));
+
+	ModelLoader::New(path, mMeshes);
+}
+
+std::string Model::Name() const
+{
+	return mName;
+}
+
+void Model::Draw(unsigned int shaderID)
+{
+	for (auto& mesh : mMeshes)
+	{
+		mesh.Draw(shaderID);
+	}
+}
+
+std::string ModelLoader::CurrentDirectory = "";
+
+void ModelLoader::New(const std::string path, std::vector<Mesh>& meshes)
 {
 	// read file via ASSIMP
 	Assimp::Importer importer;
@@ -111,21 +136,13 @@ Model::Model(const std::string path)
 		exit(1);
 	}
 	// retrieve the directory path of the filepath
-	mDirectory = path.substr(0, path.find_last_of('/'));
+	CurrentDirectory = path.substr(0, path.find_last_of('/'));
 
 	// process ASSIMP's root node recursively
-	ProcessNode(scene->mRootNode, scene, mMeshes);
+	ProcessNode(scene->mRootNode, scene, meshes);
 }
 
-void Model::Draw(unsigned int shaderID)
-{
-	for (auto& mesh : mMeshes)
-	{
-		mesh.Draw(shaderID);
-	}
-}
-
-void Model::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes)
+void ModelLoader::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes)
 {
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -142,7 +159,7 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& m
 	}
 }
 
-Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+Mesh ModelLoader::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	// data to fill
 	std::vector<Vertex> vertices;
@@ -226,7 +243,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	return Mesh(vertices, indices, textures);
 }
 
-std::vector<Texture*> Model::LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName)
+std::vector<Texture*> ModelLoader::LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName)
 {
 	std::vector<Texture*> textures;
 	for (unsigned int i = 0; i < material->GetTextureCount(type); i++)
@@ -234,7 +251,7 @@ std::vector<Texture*> Model::LoadMaterialTextures(aiMaterial* material, aiTextur
 		aiString str;
 		material->GetTexture(type, i, &str);
 
-		std::string filePath = mDirectory + "/" + str.C_Str();
+		std::string filePath = CurrentDirectory + "/" + str.C_Str();
 		std::string name = filePath.substr(filePath.find_last_of('/'), filePath.find_last_of('.'));
 
 		if (Resource::TextureManager::Instance().Find(name))
