@@ -4,8 +4,13 @@ namespace Resource
 {
     Resource::ResourceManager::~ResourceManager()
     {
+        mModelManager->DeleteAll();
         mModelManager = nullptr;
+
+        mShaderManager->DeleteAll();
         mShaderManager = nullptr;
+
+        mTextureManager->DeleteAll();
         mTextureManager = nullptr;
     }
 
