@@ -7,6 +7,7 @@ namespace System
 {
     void sys_Physics::Init()
     {
+        ref = &Props::Instance();
     }
     
     void sys_Physics::Update()
@@ -65,7 +66,9 @@ namespace System
             auto& ePhysics = gCoordinator.GetComponent<Component::com_Physics>(entity);
             auto& eTransform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
+            eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
 
+            eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
         }
     }
     
