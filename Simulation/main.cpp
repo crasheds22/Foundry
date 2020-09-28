@@ -1,18 +1,16 @@
 #include <iostream>
 
-#include "Tests/TestBattery.h"
+#include "Theatre.h"
 
 int main()
 {
-	if (true)
-	{
-		TestBattery tests;
-		tests.RunTests();
-	}
-	else
-	{
-		std::cout << "unreachable" << std::endl;
-	}
+	Theatre* theatre = &Theatre::Instance();
+
+	theatre->PreShow();
+
+	theatre->PlayShow();
+
+	theatre->EndShow();
 
 	return 0;
 }

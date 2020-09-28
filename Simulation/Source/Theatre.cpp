@@ -1,12 +1,13 @@
 #include "Theatre.h"
 
+#include "ECS/Coordinator.h"
+ECS::Coordinator gCoordinator;
+
 Theatre::Theatre()
 {
 	mGraphics = &Graphics::Instance();
 
 	mResourceManager = &Resource::ResourceManager::Instance();
-
-	mActiveSystems = &SystemsManager::Instance();
 
 	mProps = &Props::Instance();
 }
@@ -16,8 +17,6 @@ Theatre::~Theatre()
 	mGraphics = nullptr;
 
 	mResourceManager = nullptr;
-
-	mActiveSystems = nullptr;
 
 	mProps = nullptr;
 }
@@ -54,28 +53,7 @@ void Theatre::PreShow()
 	gCoordinator.RegisterComponent<Component::com_Texture>();
 	gCoordinator.RegisterComponent<Component::com_Transform>();
 
-	//	Systems
-	auto RenderSys = gCoordinator.RegisterSystem<System::sys_Render>();
-	{
-		ECS::Signature sig;
-		sig.set(gCoordinator.GetComponentType<Component::com_Render>());
-		sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
-		gCoordinator.SetSystemSignature<System::sys_Render>(sig);
-	}
-
-	mActiveSystems->Create("RenderSystem", RenderSys);
-
-	auto PlayerSys = gCoordinator.RegisterSystem<System::sys_PlayerControl>();
-	{
-		ECS::Signature sig;
-		sig.set(gCoordinator.GetComponentType<Component::com_Player>());
-		sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
-		gCoordinator.SetSystemSignature<System::sys_PlayerControl>(sig);
-	}
-
-	mActiveSystems->Create("PlayerSystem", PlayerSys);
-
-	PlayShow();
+	mActiveStage.Init();
 }
 
 void Theatre::PlayShow()
@@ -97,8 +75,6 @@ void Theatre::PlayShow()
 		mGraphics->SwapBuffers();
 		mGraphics->PollForEvents();
 	}
-
-	EndShow();
 }
 
 void Theatre::EndShow()

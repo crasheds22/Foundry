@@ -1,7 +1,7 @@
 #include "SystemTest.h"
 
 #include "ECS/Coordinator.h"
-ECS::Coordinator gCoordinator;
+extern     ECS::Coordinator gCoordinator;
 
 float SPEED = 2.5f;
 float SENSITIVITY = 0.1f;
@@ -172,7 +172,7 @@ bool SystemTest::RenderSystem()
 
         graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-        RenderSystem->Update(&camera, graphics);
+        RenderSystem->Update(&camera);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -268,7 +268,7 @@ bool SystemTest::ControlSystem()
 
         graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-        RenderSystem->Update(&ourCamera, graphics);
+        RenderSystem->Update(&ourCamera);
 
         graphics->SwapBuffers();
         graphics->PollForEvents();

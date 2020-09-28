@@ -1,16 +1,14 @@
 #pragma once
 
 #include "Resource/ResourceManager.h"
-#include "Systems/SystemsManager.h"
 
 #include "Manager.h"
 
 #include "ECS/Types.h"
 
-#include "ECS/Coordinator.h"
-extern ECS::Coordinator gCoordinator;
-
 #include "Components/Components.h"
+
+#include "Systems/Systems.h"
 
 class Stage
 	: public Manager<ECS::Entity>
@@ -26,7 +24,9 @@ public:
 private:
 	Resource::ResourceManager* mResources = nullptr;
 
-	SystemsManager* mSystems = nullptr;
+	Component::com_Camera mCamera; 
 
+	std::shared_ptr<System::sys_PlayerControl> PlayerSys;
+	std::shared_ptr<System::sys_Render> RenderSys;
 };
 

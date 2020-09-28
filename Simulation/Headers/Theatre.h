@@ -9,13 +9,7 @@
 
 #include "Stage.h"
 
-#include "Systems/SystemsManager.h"
-
-#include "ECS/Coordinator.h"
-ECS::Coordinator gCoordinator;
-
 #include "Components/Components.h"
-#include "Systems/Systems.h"
 
 class Theatre
 	: public Singleton<Theatre>
@@ -32,8 +26,6 @@ public:
 
 private:
 	Graphics* mGraphics;
-
-	SystemsManager* mActiveSystems;
 
 	Resource::ResourceManager* mResourceManager;
 
