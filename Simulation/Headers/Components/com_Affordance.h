@@ -9,10 +9,10 @@ namespace Component {
 	public:
 		com_Affordance() {};
 
-		void InsertAction(Affordance::Action act, float val = 0.0f);
+		void InsertAction(Affordance::Action act, float val);
 		float CheckAction(Affordance::Action act);
 
-		void InsertQuality(Affordance::Quality qual, float val = 0.0f);
+		void InsertQuality(Affordance::Quality qual, float val);
 		float CheckQuality(Affordance::Quality qual);
 
 	private:
