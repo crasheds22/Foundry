@@ -1,17 +1,5 @@
 #include "Props.h"
 
-Props& Props::Instance()
-{
-    static Props mInstance;
-
-    return mInstance;
-}
-
-void Props::SetContext(Graphics* context)
-{
-    mContext = context;
-}
-
 void Props::UpdateKeys()
 {
     if (mContext)
@@ -126,7 +114,7 @@ float Props::DeltaTime() const
 
 Props::Props()
 {
-    mContext = nullptr;
+    mContext = &Graphics::Instance();
 
     mMoveActionMap =
     {

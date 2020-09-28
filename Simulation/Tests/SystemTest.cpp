@@ -83,7 +83,7 @@ void SystemTest::ScrollCallback(GLFWwindow* window, double xOff, double yOff)
 
 SystemTest::SystemTest() : UnitTest("Systems test")
 {
-    
+    ResMgr->Init();
 }
 
 bool SystemTest::Test()
@@ -107,20 +107,21 @@ bool SystemTest::RenderSystem()
     lastY = 500.0f / 2.0f;
     FirstMouse = true;
 
-    Graphics graphics = Graphics(800, 500, "Model One");
-    graphics.MakeWindowCurrent();
-    Graphics::SetWindowUserPointer(graphics.Window(), this);
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    graphics.SetCursorCallback(MouseCallback);
-    graphics.SetScrollCallback(ScrollCallback);
+    Graphics* graphics = &Graphics::Instance();
+    graphics->Init(800, 500, "Model One");
+    graphics->MakeWindowCurrent();
+    Graphics::SetWindowUserPointer(graphics->Window(), this);
+    graphics->SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    graphics->SetCursorCallback(MouseCallback);
+    graphics->SetScrollCallback(ScrollCallback);
 
     // tell GLFW to capture our mouse
-    graphics.CaptureMouse();
+    graphics->CaptureMouse();
 
-    graphics.InitializeGLAD();
+    graphics->InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
 
     // configure global opengl state
     // -----------------------------
@@ -128,38 +129,36 @@ bool SystemTest::RenderSystem()
 
     // build and compile shaders
     // -------------------------
-    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    ResMgr->CreateShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
 
     // load models
     // -----------
-    Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
+    ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
 
+    Component::com_Render ourRender("backpack.obj", "1.model");
     Component::com_Transform ourTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
 
     gCoordinator.Init();
 
     gCoordinator.RegisterComponent<Component::com_Camera>();
-    gCoordinator.RegisterComponent<Component::com_Model>();
-    gCoordinator.RegisterComponent<Component::com_Shader>();
+    gCoordinator.RegisterComponent<Component::com_Render>();
     gCoordinator.RegisterComponent<Component::com_Transform>();
 
     auto RenderSystem = gCoordinator.RegisterSystem<System::sys_Render>();
     {
         ECS::Signature sig;
-        sig.set(gCoordinator.GetComponentType<Component::com_Model>());
-        sig.set(gCoordinator.GetComponentType<Component::com_Shader>());
+        sig.set(gCoordinator.GetComponentType<Component::com_Render>());
         sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
         gCoordinator.SetSystemSignature<System::sys_Render>(sig);
     }
 
     auto backpack = gCoordinator.CreateEntity();
-    gCoordinator.AddComponent<Component::com_Model>(backpack, ourModel);
-    gCoordinator.AddComponent<Component::com_Shader>(backpack, ourShader);
+    gCoordinator.AddComponent<Component::com_Render>(backpack, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack, ourTransform);
 
     // render loop
     // -----------
-    while (!graphics.ShouldWindowClose())
+    while (!graphics->ShouldWindowClose())
     {
         // per-frame time logic
         // --------------------
@@ -169,21 +168,21 @@ bool SystemTest::RenderSystem()
 
         // input
         // -----
-        ProcessInput(graphics.Window(), &camera, deltaTime);
+        ProcessInput(graphics->Window(), &camera, deltaTime);
 
-        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-        RenderSystem->Update(&camera, &graphics);
+        RenderSystem->Update(&camera, graphics);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
+        graphics->SwapBuffers();
+        graphics->PollForEvents();
     }
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    graphics.Terminate();
+    graphics->Terminate();
 
     return true;
 }
@@ -196,25 +195,27 @@ bool SystemTest::ControlSystem()
     lastY = 500.0f / 2.0f;
     FirstMouse = true;
 
-    Graphics graphics = Graphics(800, 500, "Model One");
-    graphics.MakeWindowCurrent();
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    Graphics* graphics = &Graphics::Instance();
+    graphics->Init(800, 500, "Model One");
+    graphics->MakeWindowCurrent();
+    graphics->SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
 
-    graphics.CaptureMouse();
-    graphics.StickyKeys();
+    graphics->CaptureMouse();
+    graphics->StickyKeys();
 
-    graphics.InitializeGLAD();
+    graphics->InitializeGLAD();
 
-    Texture::FlipVertically();
+    TextureLoader::FlipVertically();
 
     Graphics::Enable(Graphics::Capability::DEPTH);
 
     ref = &Props::Instance();
-    ref->SetContext(&graphics);
 
-    Component::com_Shader ourShader("../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
-    Component::com_Model ourModel("../Data/Models/Backpack/backpack.obj");
+    ResMgr->CreateShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
+    ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
+
     Component::com_Transform camTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+    Component::com_Render ourRender("backpack.obj", "1.model");
 
     Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 3.0f));
     Component::com_Player ourPlayer(2.5f, 0.1f);
@@ -223,16 +224,14 @@ bool SystemTest::ControlSystem()
     gCoordinator.Init();
 
     gCoordinator.RegisterComponent<Component::com_Camera>();
-    gCoordinator.RegisterComponent<Component::com_Model>();
-    gCoordinator.RegisterComponent<Component::com_Shader>();
+    gCoordinator.RegisterComponent<Component::com_Render>();
     gCoordinator.RegisterComponent<Component::com_Transform>();
     gCoordinator.RegisterComponent<Component::com_Player>();
 
     auto RenderSystem = gCoordinator.RegisterSystem<System::sys_Render>();
     {
         ECS::Signature sig;
-        sig.set(gCoordinator.GetComponentType<Component::com_Model>());
-        sig.set(gCoordinator.GetComponentType<Component::com_Shader>());
+        sig.set(gCoordinator.GetComponentType<Component::com_Render>());
         sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
         gCoordinator.SetSystemSignature<System::sys_Render>(sig);
     }
@@ -248,15 +247,14 @@ bool SystemTest::ControlSystem()
     PlayerControlSystem->Init();
 
     auto backpack = gCoordinator.CreateEntity();
-    gCoordinator.AddComponent<Component::com_Model>(backpack, ourModel);
-    gCoordinator.AddComponent<Component::com_Shader>(backpack, ourShader);
+    gCoordinator.AddComponent<Component::com_Render>(backpack, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack, camTransform);
 
     auto player = gCoordinator.CreateEntity();
     gCoordinator.AddComponent<Component::com_Player>(player, ourPlayer);
     gCoordinator.AddComponent<Component::com_Transform>(player, plaTransform);
 
-    while (!graphics.ShouldWindowClose())
+    while (!graphics->ShouldWindowClose())
     {
         ref->UpdateDT();
 
@@ -264,19 +262,19 @@ bool SystemTest::ControlSystem()
         ref->UpdateMouse();
 
         if (ref->Pressed(Actions::Global::QUIT))
-            graphics.SetWindowShouldClose();
+            graphics->SetWindowShouldClose();
 
         PlayerControlSystem->Update(&ourCamera);
 
-        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-        RenderSystem->Update(&ourCamera, &graphics);
+        RenderSystem->Update(&ourCamera, graphics);
 
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
+        graphics->SwapBuffers();
+        graphics->PollForEvents();
     }
 
-    graphics.Terminate();
+    graphics->Terminate();
 
     return true;
 }

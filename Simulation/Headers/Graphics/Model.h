@@ -13,7 +13,7 @@
 #include <vector>
 #include <iostream>
 
-#include "Texture.h"
+#include "Resource/TextureManager.h"
 
 struct Vertex
 {
@@ -24,24 +24,17 @@ struct Vertex
 	glm::vec3 Bitangent;
 };
 
-struct ModelTexture
-{
-	unsigned int ID;
-	std::string Type;
-	std::string Path;
-};
-
 class Mesh
 {
 public:
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<ModelTexture> textures);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture*> textures);
 
 	void Draw(unsigned int shaderID);
 
 private:
 	std::vector<Vertex> mVertices;
 	std::vector<unsigned int> mIndices;
-	std::vector<ModelTexture> mTextures;
+	std::vector<Texture*> mTextures;
 
 	unsigned int mVAO, mVBO, mEBO;
 
@@ -52,17 +45,27 @@ class Model
 {
 public:
 	Model() {};
-	Model(const std::string path);
+	Model(const std::string path, std::string name = "");
+
+	std::string Name() const;
 
 	void Draw(unsigned int shaderID);
 
 private:
 	std::vector<Mesh> mMeshes;
-	std::vector<ModelTexture> mTexturesLoaded;
-	std::string mDirectory;
-	
-	void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
-	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	std::vector<ModelTexture> LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
+	std::string mName;
 };
 
+class ModelLoader
+{
+public:
+	static void New(const std::string path, std::vector<Mesh>& meshes);
+
+	static std::string CurrentDirectory;
+
+private:
+	static void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
+	static Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	static std::vector<Texture*> LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName);
+
+};

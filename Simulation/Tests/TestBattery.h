@@ -7,6 +7,8 @@
 #include "ComponentTest.h"
 #include "SystemTest.h"
 #include "ColliderTest.h"
+#include "ManagerTest.h"
+#include "ResourceManagerTest.h"
 
 class TestBattery
 {
@@ -27,6 +29,8 @@ TestBattery::TestBattery()
 	//TestList.push_back(new ComponentTest());
 	TestList.push_back(new SystemTest());
 	//TestList.push_back(new ColliderTest());
+	//TestList.push_back(new ManagerTest());
+	//TestList.push_back(new ResourceManagerTest());
 }
 
 TestBattery::~TestBattery()

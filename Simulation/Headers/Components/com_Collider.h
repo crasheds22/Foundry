@@ -4,8 +4,6 @@
 
 #include "ECS/Types.h"
 
-#include "Algorithms/Physics.h"
-
 #include "Components/com_Transform.h"
 
 class CollisionPoint
@@ -31,16 +29,16 @@ private:
 class Collision
 {
 public:
-	Collision(ECS::Entity* A, ECS::Entity* B, CollisionPoint point);
+	Collision(ECS::Entity A, ECS::Entity B, CollisionPoint point);
 
-	ECS::Entity* EntityA() const;
-	ECS::Entity* EntityB() const;
+	ECS::Entity EntityA() const;
+	ECS::Entity EntityB() const;
 
 	CollisionPoint Point() const;
 
 private:
-	ECS::Entity* mEntityA;
-	ECS::Entity* mEntityB;
+	ECS::Entity mEntityA;
+	ECS::Entity mEntityB;
 	CollisionPoint mPoint;
 };
 
@@ -84,7 +82,6 @@ namespace Component
 	public:
 		com_Box() {};
 		com_Box(glm::vec3 min, glm::vec3 max);
-		com_Box(const com_Box& b);
 
 		glm::vec3 Max() const;
 		glm::vec3 Min() const;
@@ -119,7 +116,6 @@ namespace Component
 	public:
 		com_Sphere() {};
 		com_Sphere(glm::vec3 center, float rad);
-		com_Sphere(const com_Sphere& s);
 
 		glm::vec3 Center() const;
 		float Radius() const;
@@ -154,7 +150,6 @@ namespace Component
 	public:
 		com_Plane() {};
 		com_Plane(glm::vec3 p, float d);
-		com_Plane(const com_Plane& p);
 
 		glm::vec3 P() const;
 		float D() const;

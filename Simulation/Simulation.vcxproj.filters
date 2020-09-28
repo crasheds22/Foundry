@@ -11,9 +11,7 @@
     <ClInclude Include="Tests\UnitTest.h" />
     <ClInclude Include="Headers\Components\com_Camera.h" />
     <ClInclude Include="Headers\Components\com_Collider.h" />
-    <ClInclude Include="Headers\Components\com_Model.h" />
     <ClInclude Include="Headers\Components\com_Player.h" />
-    <ClInclude Include="Headers\Components\com_Shader.h" />
     <ClInclude Include="Headers\Components\com_Texture.h" />
     <ClInclude Include="Headers\Components\com_Transform.h" />
     <ClInclude Include="Headers\ECS\ComponentArray.h" />
@@ -31,9 +29,22 @@
     <ClInclude Include="Headers\Props.h" />
     <ClInclude Include="Headers\Stage.h" />
     <ClInclude Include="Headers\Theatre.h" />
+    <ClInclude Include="Headers\AI\emotions.h" />
+    <ClInclude Include="Headers\Components\com_Physics.h" />
     <ClInclude Include="Headers\Actions.h" />
     <ClInclude Include="Headers\Systems\sys_PlayerControl.h" />
     <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
+    <ClInclude Include="Headers\Resource\ResourceManager.h" />
+    <ClInclude Include="Tests\ManagerTest.h" />
+    <ClInclude Include="Tests\ResourceManagerTest.h" />
+    <ClInclude Include="Headers\Systems\sys_Physics.h" />
+    <ClInclude Include="Headers\Singleton.h" />
+    <ClInclude Include="Headers\Resource\ModelManager.h" />
+    <ClInclude Include="Headers\Resource\TextureManager.h" />
+    <ClInclude Include="Headers\Resource\ShaderManager.h" />
+    <ClInclude Include="Headers\Components\com_Render.h" />
+    <ClInclude Include="Headers\Manager.h" />
+    <ClInclude Include="Headers\Systems\SystemsManager.h" />
     <ClInclude Include="Headers\AI\Belief.h" />
     <ClInclude Include="Headers\Components\com_Affordance.h" />
   </ItemGroup>
@@ -47,9 +58,7 @@
     <ClCompile Include="Source\Algorithm\Physics.cpp" />
     <ClCompile Include="Source\Components\com_Camera.cpp" />
     <ClCompile Include="Source\Components\com_Collider.cpp" />
-    <ClCompile Include="Source\Components\com_Model.cpp" />
     <ClCompile Include="Source\Components\com_Player.cpp" />
-    <ClCompile Include="Source\Components\com_Shader.cpp" />
     <ClCompile Include="Source\Components\com_Texture.cpp" />
     <ClCompile Include="Source\Components\com_Transform.cpp" />
     <ClCompile Include="Source\Graphics\Graphics.cpp" />
@@ -61,7 +70,16 @@
     <ClCompile Include="Source\Stage.cpp" />
     <ClCompile Include="Source\Theatre.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="Source\Components\com_Physics.cpp" />
     <ClCompile Include="Source\Systems\sys_PlayerControl.cpp" />
+    <ClCompile Include="Source\Resource\ResourceManager.cpp" />
+    <ClCompile Include="Tests\ManagerTest.cpp" />
+    <ClCompile Include="Tests\ResourceManagerTest.cpp" />
+    <ClCompile Include="Source\Systems\sys_Physics.cpp" />
+    <ClCompile Include="Source\Resource\ModelManager.cpp" />
+    <ClCompile Include="Source\Resource\TextureManager.cpp" />
+    <ClCompile Include="Source\Resource\ShaderManager.cpp" />
+    <ClCompile Include="Source\Components\com_Render.cpp" />
     <ClCompile Include="Source\AI\Belief.cpp" />
     <ClCompile Include="Source\Components\com_Affordance.cpp" />
   </ItemGroup>
