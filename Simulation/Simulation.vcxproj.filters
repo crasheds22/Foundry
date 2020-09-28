@@ -34,7 +34,6 @@
     <ClInclude Include="Headers\Actions.h" />
     <ClInclude Include="Headers\Systems\sys_PlayerControl.h" />
     <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
-    <ClInclude Include="Headers\Resource\Manager.h" />
     <ClInclude Include="Headers\Resource\ResourceManager.h" />
     <ClInclude Include="Tests\ManagerTest.h" />
     <ClInclude Include="Tests\ResourceManagerTest.h" />
@@ -44,6 +43,8 @@
     <ClInclude Include="Headers\Resource\TextureManager.h" />
     <ClInclude Include="Headers\Resource\ShaderManager.h" />
     <ClInclude Include="Headers\Components\com_Render.h" />
+    <ClInclude Include="Headers\Manager.h" />
+    <ClInclude Include="Headers\Systems\SystemsManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "Resource/Manager.h"
+#include "Manager.h"
 
 class Integer
 {
