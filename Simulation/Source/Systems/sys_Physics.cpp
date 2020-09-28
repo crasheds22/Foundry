@@ -53,7 +53,11 @@ namespace System
         
             float lambda = (restitution * (velocityDifference + angleAroundA - angleAroundB)) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
 
-            
+            pA.Velocity(Physics::CalculateCollisionVel(pA.Velocity(), lambda, pA.Mass(), collide.Point().Normal()));
+            pB.Velocity(Physics::CalculateCollisionVel(pB.Velocity(), -lambda, pB.Mass(), collide.Point().Normal()));
+
+            pA.RotationVel(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.InertiaTensor(), radiusA, collide.Point().Normal()));
+            pB.RotationVel(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.InertiaTensor(), radiusB, collide.Point().Normal()));
         }
         
         for (const auto& entity : mEntities)
