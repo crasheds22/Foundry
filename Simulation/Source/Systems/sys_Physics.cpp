@@ -52,11 +52,16 @@ namespace System
             float beastB = Physics::CalculateBeast(radiusB, collide.Point().Normal(), pB.InertiaTensor());
         
             float lambda = (restitution * (velocityDifference + angleAroundA - angleAroundB)) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
+
+            
         }
         
-        for (const auto& entityA : mEntities)
+        for (const auto& entity : mEntities)
         {
-            //Apply Force
+            auto& ePhysics = gCoordinator.GetComponent<Component::com_Physics>(entity);
+            auto& eTransform = gCoordinator.GetComponent<Component::com_Transform>(entity);
+
+
         }
     }
     

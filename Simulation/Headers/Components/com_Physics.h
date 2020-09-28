@@ -20,6 +20,11 @@ namespace Component
 		glm::vec3 RotationVel() const;
 		glm::vec3 RotationAcc() const;
 
+		void Velocity(glm::vec3 vel);
+		void Acceleration(glm::vec3 acc);
+		void RotationVel(glm::vec3 rotvel);
+		void RotationAcc(glm::vec3 rotacc);
+
 		float Mass() const;
 		float InvMass() const;
 		float Restitution() const;
@@ -44,5 +49,4 @@ namespace Component
 
 		Collider* mCollidercom;
 	};
-
 }
