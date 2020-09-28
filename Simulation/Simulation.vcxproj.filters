@@ -45,6 +45,7 @@
     <ClInclude Include="Headers\Components\Collider.h" />
     <ClInclude Include="Headers\Manager.h" />
     <ClInclude Include="Headers\Systems\SystemsManager.h" />
+    <ClInclude Include="Headers\Components\Components.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
