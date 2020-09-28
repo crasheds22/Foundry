@@ -13,8 +13,6 @@ class Props
 public:
 	Props();
 
-	void SetContext(Graphics* context);
-
 	void UpdateKeys();
 	void UpdateMouse();
 	void UpdateDT();

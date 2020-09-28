@@ -1,8 +1,14 @@
 #include "Graphics/Graphics.h"
 
-Graphics::Graphics(int width, int height, std::string title)
+Graphics::Graphics()
 {
     InitializeGLFW();
+}
+
+void Graphics::Init(int width, int height, std::string title)
+{
+    if (mWindow)
+        glfwDestroyWindow(mWindow);
 
     mWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     if (mWindow == NULL)
