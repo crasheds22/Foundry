@@ -2,6 +2,13 @@
 
 namespace Resource
 {
+    Resource::ResourceManager::~ResourceManager()
+    {
+        mModelManager = nullptr;
+        mShaderManager = nullptr;
+        mTextureManager = nullptr;
+    }
+
     void ResourceManager::CreateModel(std::string filepath, std::string name)
     {
         if(mModelManager)
