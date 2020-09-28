@@ -183,6 +183,7 @@
     <ClInclude Include="Headers\Manager.h" />
     <ClInclude Include="Headers\Singleton.h" />
     <ClInclude Include="Headers\Stage.h" />
+    <ClInclude Include="Headers\Systems\Systems.h" />
     <ClInclude Include="Headers\Systems\SystemsManager.h" />
     <ClInclude Include="Headers\Systems\sys_Physics.h" />
     <ClInclude Include="Headers\Systems\sys_Render.h" />

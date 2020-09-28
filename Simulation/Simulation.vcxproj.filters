@@ -46,6 +46,7 @@
     <ClInclude Include="Headers\Manager.h" />
     <ClInclude Include="Headers\Systems\SystemsManager.h" />
     <ClInclude Include="Headers\Components\Components.h" />
+    <ClInclude Include="Headers\Systems\Systems.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
