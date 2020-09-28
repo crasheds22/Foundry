@@ -158,6 +158,7 @@
     <ClInclude Include="Headers\AI\emotions.h" />
     <ClInclude Include="Headers\Actions.h" />
     <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
+    <ClInclude Include="Headers\AI\Belief.h" />
     <ClInclude Include="Headers\Algorithms\CollisionAlgo.h" />
     <ClInclude Include="Headers\Algorithms\Physics.h" />
     <ClInclude Include="Headers\Components\com_Camera.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Headers\Components\com_Texture.h" />
     <ClInclude Include="Headers\Components\com_Transform.h" />
     <ClInclude Include="Headers\Components\com_Physics.h" />
+    <ClInclude Include="Headers\Components\com_Affordance.h" />
     <ClInclude Include="Headers\ECS\ComponentArray.h" />
     <ClInclude Include="Headers\ECS\ComponentManager.h" />
     <ClInclude Include="Headers\ECS\Coordinator.h" />
@@ -211,8 +213,10 @@
     <ClCompile Include="Tests\ResourceManagerTest.cpp" />
     <ClCompile Include="Tests\ManagerTest.cpp" />
     <ClCompile Include="Source\Resource\ResourceManager.cpp" />
+    <ClCompile Include="Source\AI\Belief.cpp" />
     <ClCompile Include="Source\Algorithm\CollisionAlgo.cpp" />
     <ClCompile Include="Source\Algorithm\Physics.cpp" />
+    <ClCompile Include="Source\Components\com_Affordance.cpp" />
     <ClCompile Include="Source\Components\com_Camera.cpp" />
     <ClCompile Include="Source\Components\Collider.cpp" />
     <ClCompile Include="Source\Components\com_Player.cpp" />
