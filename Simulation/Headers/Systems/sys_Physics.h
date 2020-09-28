@@ -4,7 +4,7 @@
 
 #include "Components/com_Physics.h"
 #include "Components/com_Transform.h"
-#include "Components/com_Collider.h"
+#include "Components/Collider.h"
 
 #include "Algorithms/Physics.h"
 

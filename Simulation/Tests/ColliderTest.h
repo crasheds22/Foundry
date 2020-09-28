@@ -5,7 +5,7 @@
 #include <iostream>
 #include <glm/vec3.hpp>
 
-#include "Components/com_Collider.h"
+#include "Components/Collider.h"
 
 class ColliderTest : public UnitTest {
 public:
