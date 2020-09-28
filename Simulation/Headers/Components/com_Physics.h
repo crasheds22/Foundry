@@ -5,6 +5,7 @@
 #include "ECS/Types.h"
 
 #include "Components/com_Transform.h"
+#include "Components/Collider.h"
 
 namespace Component
 {
@@ -12,7 +13,7 @@ namespace Component
 	{
 	public:
 		com_Physics() {};
-		com_Physics(float mass, float res, int width, int height, int depth);
+		com_Physics(float mass, float res, int width, int height, int depth, Collider* coll);
 
 		glm::vec3 Velocity() const;
 		glm::vec3 Acceleration() const;
@@ -26,6 +27,8 @@ namespace Component
 		glm::vec3 CentreOfMass() const;
 		glm::mat3 InertiaTensor() const;
 
+		Collider* Collidercom() const;
+
 	private:
 		glm::vec3 mVelocity{};
 		glm::vec3 mAcceleration{};
@@ -38,6 +41,8 @@ namespace Component
 
 		glm::vec3 mCentreOfMass{};
 		glm::mat3 mInertiaTensor{};
+
+		Collider* mCollidercom;
 	};
 
 }
