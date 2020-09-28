@@ -210,7 +210,6 @@ bool SystemTest::ControlSystem()
     Graphics::Enable(Graphics::Capability::DEPTH);
 
     ref = &Props::Instance();
-    ref->SetContext(graphics);
 
     ResMgr->CreateShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
     ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");

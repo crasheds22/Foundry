@@ -14,8 +14,6 @@ public:
 	Props(const Props& p) = delete;
 	void operator=(const Props& p) = delete;
 
-	void SetContext(Graphics* context);
-
 	void UpdateKeys();
 	void UpdateMouse();
 	void UpdateDT();
