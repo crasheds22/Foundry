@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-unsigned int Texture::New(const char* path)
+unsigned int TextureLoader::New(const char* path)
 {
     // load and create a texture 
     // -------------------------
@@ -46,7 +46,40 @@ unsigned int Texture::New(const char* path)
     return texID;
 }
 
-void Texture::FlipVertically()
+void TextureLoader::FlipVertically()
 {
     stbi_set_flip_vertically_on_load(true);
+}
+
+Texture::Texture(const char* path, TextureType type, std::string name) : mFilePath(path), mType(type)
+{
+    if (name.length() > 0)
+        mName = name;
+    else
+    {
+        std::string p = path;
+        mName = p.substr(p.find_last_of('/'), p.find_last_of('.'));
+    }
+
+    mID = TextureLoader::New(path);
+}
+
+unsigned int Texture::ID() const
+{
+    return mID;
+}
+
+std::string Texture::Name() const
+{
+    return mName;
+}
+
+std::string Texture::FilePath() const
+{
+    return mFilePath;
+}
+
+TextureType Texture::Type() const
+{
+    return mType;
 }

@@ -1,6 +1,25 @@
 #include "Graphics/Model.h"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<ModelTexture> textures)
+std::string FullName(TextureType type)
+{
+	switch (type)
+	{
+	case TextureType::DIFFUSE:
+		return "texture_diffuse";
+	case TextureType::AMBIENT:
+		return "teture_ambient";
+	case TextureType::HEIGHT:
+		return "texture_height";
+	case TextureType::NORMAL:
+		return "texture_normal";
+	case TextureType::SPECULAR:
+		return "texture_specular";
+	default:
+		return "";
+	}
+}
+
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture*> textures)
 {
 	mVertices = vertices;
 	mIndices = indices;
@@ -21,7 +40,7 @@ void Mesh::Draw(unsigned int shaderID)
 		glActiveTexture(GL_TEXTURE0 + i);
 
 		std::string number;
-		std::string name = mTextures[i].Type;
+		std::string name = FullName(mTextures[i]->Type());
 		if (name == "texture_diffuse")
 			number = std::to_string(diffuseNr++);
 		else if (name == "texture_specular")
@@ -32,7 +51,7 @@ void Mesh::Draw(unsigned int shaderID)
 			number = std::to_string(heightNr++);
 
 		glUniform1i(glGetUniformLocation(shaderID, (name + number).c_str()), i);
-		glBindTexture(GL_TEXTURE_2D, mTextures[i].ID);
+		glBindTexture(GL_TEXTURE_2D, mTextures[i]->ID());
 	}
 
 	glBindVertexArray(mVAO);
@@ -80,7 +99,32 @@ void Mesh::SetUpMesh()
 	glBindVertexArray(0);
 }
 
-Model::Model(const std::string path)
+Model::Model(const std::string path, std::string name)
+{
+	if (name.length() > 0)
+		mName = name;
+	else
+		mName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - 3);
+
+	ModelLoader::New(path, mMeshes);
+}
+
+std::string Model::Name() const
+{
+	return mName;
+}
+
+void Model::Draw(unsigned int shaderID)
+{
+	for (auto& mesh : mMeshes)
+	{
+		mesh.Draw(shaderID);
+	}
+}
+
+std::string ModelLoader::CurrentDirectory = "";
+
+void ModelLoader::New(const std::string path, std::vector<Mesh>& meshes)
 {
 	// read file via ASSIMP
 	Assimp::Importer importer;
@@ -92,21 +136,13 @@ Model::Model(const std::string path)
 		exit(1);
 	}
 	// retrieve the directory path of the filepath
-	mDirectory = path.substr(0, path.find_last_of('/'));
+	CurrentDirectory = path.substr(0, path.find_last_of('/'));
 
 	// process ASSIMP's root node recursively
-	ProcessNode(scene->mRootNode, scene, mMeshes);
+	ProcessNode(scene->mRootNode, scene, meshes);
 }
 
-void Model::Draw(unsigned int shaderID)
-{
-	for (auto& mesh : mMeshes)
-	{
-		mesh.Draw(shaderID);
-	}
-}
-
-void Model::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes)
+void ModelLoader::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes)
 {
 	// process each mesh located at the current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -123,12 +159,12 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& m
 	}
 }
 
-Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+Mesh ModelLoader::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	// data to fill
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<ModelTexture> textures;
+	std::vector<Texture*> textures;
 
 	// walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -191,49 +227,42 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	// normal: texture_normalN
 
 	// 1. diffuse maps
-	std::vector<ModelTexture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+	std::vector<Texture*> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, TextureType::DIFFUSE);
 	textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 	// 2. specular maps
-	std::vector<ModelTexture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+	std::vector<Texture*> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, TextureType::SPECULAR);
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	// 3. normal maps
-	std::vector<ModelTexture> normalMaps = LoadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+	std::vector<Texture*> normalMaps = LoadMaterialTextures(material, aiTextureType_HEIGHT, TextureType::NORMAL);
 	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 	// 4. height maps
-	std::vector<ModelTexture> heightMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+	std::vector<Texture*> heightMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, TextureType::HEIGHT);
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 	// return a mesh object created from the extracted mesh data
 	return Mesh(vertices, indices, textures);
 }
 
-std::vector<ModelTexture> Model::LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName)
+std::vector<Texture*> ModelLoader::LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName)
 {
-	std::vector<ModelTexture> textures;
+	std::vector<Texture*> textures;
 	for (unsigned int i = 0; i < material->GetTextureCount(type); i++)
 	{
 		aiString str;
 		material->GetTexture(type, i, &str);
-		// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
-		bool skip = false;
-		for (unsigned int j = 0; j < mTexturesLoaded.size(); j++)
+
+		std::string filePath = CurrentDirectory + "/" + str.C_Str();
+		std::string name = filePath.substr(filePath.find_last_of('/'), filePath.find_last_of('.'));
+
+		if (Resource::TextureManager::Instance().Find(name))
 		{
-			if (std::strcmp(mTexturesLoaded[j].Path.data(), str.C_Str()) == 0)
-			{
-				textures.push_back(mTexturesLoaded[j]);
-				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
-				break;
-			}
+			textures.push_back(Resource::TextureManager::Instance().Retrieve(name));
 		}
-		if (!skip)
-		{   // if texture hasn't been loaded already, load it
-			ModelTexture texture;
-			std::string filePath = mDirectory + "/" + str.C_Str();
-			texture.ID = Texture::New(filePath.c_str());
-			texture.Type = typeName;
-			texture.Path = str.C_Str();
-			textures.push_back(texture);
-			mTexturesLoaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+		else
+		{
+			Resource::TextureManager::Instance().Create(filePath, typeName);
+
+			textures.push_back(Resource::TextureManager::Instance().Retrieve(name));
 		}
 	}
 	return textures;
