@@ -11,6 +11,8 @@ namespace Resource
 		: public Manager<Model>, public Singleton<ModelManager>
 	{
 	public:
+		~ModelManager();
+
 		bool Create(const std::string path, std::string name = "");
 
 	private:

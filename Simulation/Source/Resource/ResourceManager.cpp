@@ -2,6 +2,18 @@
 
 namespace Resource
 {
+    Resource::ResourceManager::~ResourceManager()
+    {
+        mModelManager->DeleteAll();
+        mModelManager = nullptr;
+
+        mShaderManager->DeleteAll();
+        mShaderManager = nullptr;
+
+        mTextureManager->DeleteAll();
+        mTextureManager = nullptr;
+    }
+
     void ResourceManager::CreateModel(std::string filepath, std::string name)
     {
         if(mModelManager)
@@ -42,6 +54,16 @@ namespace Resource
             return mShaderManager->Retrieve(name);
 
         return nullptr;
+    }
+
+    ResourceManager::ResourceManager()
+    {
+        if (!mModelManager)
+            mModelManager = &ModelManager::Instance();
+        if (!mTextureManager)
+            mTextureManager = &TextureManager::Instance();
+        if (!mShaderManager)
+            mShaderManager = &ShaderManager::Instance();
     }
 
     void ResourceManager::Init()

@@ -11,6 +11,8 @@ namespace Resource
 		: public Manager<Texture>, public Singleton<TextureManager>
 	{
 	public:
+		~TextureManager();
+
 		bool Create(const std::string path, TextureType type = TextureType::DIFFUSE, std::string name = "");
 
 	private:

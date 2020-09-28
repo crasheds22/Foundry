@@ -14,6 +14,8 @@ namespace Resource
 		: public Singleton<ResourceManager>
 	{
 	public:
+		~ResourceManager();
+
 		void Init();
 
 		void CreateModel(std::string filepath, std::string name = "");
@@ -23,6 +25,8 @@ namespace Resource
 		Model* RetrieveModel(std::string name);
 		Texture* RetrieveTexture(std::string name);
 		Shader* RetrieveShader(std::string name);
+
+		ResourceManager();
 
 	private:
 		ModelManager*   mModelManager = nullptr;
