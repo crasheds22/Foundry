@@ -44,6 +44,7 @@
     <ClInclude Include="Headers\Resource\ShaderManager.h" />
     <ClInclude Include="Headers\Components\com_Render.h" />
     <ClInclude Include="Headers\Manager.h" />
+    <ClInclude Include="Headers\Systems\SystemsManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
