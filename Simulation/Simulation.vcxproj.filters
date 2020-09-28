@@ -10,7 +10,6 @@
     <ClInclude Include="Tests\TestBattery.h" />
     <ClInclude Include="Tests\UnitTest.h" />
     <ClInclude Include="Headers\Components\com_Camera.h" />
-    <ClInclude Include="Headers\Components\com_Collider.h" />
     <ClInclude Include="Headers\Components\com_Player.h" />
     <ClInclude Include="Headers\Components\com_Texture.h" />
     <ClInclude Include="Headers\Components\com_Transform.h" />
@@ -44,6 +43,7 @@
     <ClInclude Include="Headers\Resource\TextureManager.h" />
     <ClInclude Include="Headers\Resource\ShaderManager.h" />
     <ClInclude Include="Headers\Components\com_Render.h" />
+    <ClInclude Include="Headers\Components\Collider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -54,7 +54,6 @@
     <ClCompile Include="Source\Algorithm\CollisionAlgo.cpp" />
     <ClCompile Include="Source\Algorithm\Physics.cpp" />
     <ClCompile Include="Source\Components\com_Camera.cpp" />
-    <ClCompile Include="Source\Components\com_Collider.cpp" />
     <ClCompile Include="Source\Components\com_Player.cpp" />
     <ClCompile Include="Source\Components\com_Texture.cpp" />
     <ClCompile Include="Source\Components\com_Transform.cpp" />
@@ -77,5 +76,6 @@
     <ClCompile Include="Source\Resource\TextureManager.cpp" />
     <ClCompile Include="Source\Resource\ShaderManager.cpp" />
     <ClCompile Include="Source\Components\com_Render.cpp" />
+    <ClCompile Include="Source\Components\Collider.cpp" />
   </ItemGroup>
 </Project>

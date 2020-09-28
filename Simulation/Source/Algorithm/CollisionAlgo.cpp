@@ -1,6 +1,6 @@
 #include "Algorithms/CollisionAlgo.h"
 
-CollisionPoint CollisionAlgo::FindSphereSphere(const Component::com_Sphere* sA, const Component::com_Transform* tA, const Component::com_Sphere* sB, const Component::com_Transform* tB)
+CollisionPoint CollisionAlgo::FindSphereSphere(const Sphere* sA, const Component::com_Transform* tA, const Sphere* sB, const Component::com_Transform* tB)
 {
 	glm::vec3 A = sA->Center() + tA->Position();
 	glm::vec3 B = sB->Center() + tB->Position();
@@ -22,7 +22,7 @@ CollisionPoint CollisionAlgo::FindSphereSphere(const Component::com_Sphere* sA, 
 	return CollisionPoint(A, B, true);
 }
 
-CollisionPoint CollisionAlgo::FindSphereBox(const Component::com_Sphere* sA, const Component::com_Transform* tA, const Component::com_Box* bB, const Component::com_Transform* tB)
+CollisionPoint CollisionAlgo::FindSphereBox(const Sphere* sA, const Component::com_Transform* tA, const Box* bB, const Component::com_Transform* tB)
 {
 	glm::vec3 A = sA->Center() + tA->Position();
 	float Ar = sA->Radius() * tA->Scale().length();
@@ -48,7 +48,7 @@ CollisionPoint CollisionAlgo::FindSphereBox(const Component::com_Sphere* sA, con
 	return CollisionPoint(A, B, true);
 }
 
-CollisionPoint CollisionAlgo::FindSpherePlane(const Component::com_Sphere* sA, const Component::com_Transform* tA, const Component::com_Plane* pB, const Component::com_Transform* tB)
+CollisionPoint CollisionAlgo::FindSpherePlane(const Sphere* sA, const Component::com_Transform* tA, const Plane* pB, const Component::com_Transform* tB)
 {
 	glm::vec3 A = sA->Center() + tA->Position();
 	float Ar = sA->Radius() * tA->Scale().length();
@@ -69,7 +69,7 @@ CollisionPoint CollisionAlgo::FindSpherePlane(const Component::com_Sphere* sA, c
 	return CollisionPoint(A, B, true);
 }
 
-CollisionPoint CollisionAlgo::FindBoxBox(const Component::com_Box* bA, const Component::com_Transform* tA, const Component::com_Box* bB, const Component::com_Transform* tB)
+CollisionPoint CollisionAlgo::FindBoxBox(const Box* bA, const Component::com_Transform* tA, const Box* bB, const Component::com_Transform* tB)
 {
 	glm::vec3 Amin = bA->Min() + tA->Position();
 	glm::vec3 Amax = bA->Max() + tA->Position();
@@ -94,7 +94,7 @@ CollisionPoint CollisionAlgo::FindBoxBox(const Component::com_Box* bA, const Com
 	return CollisionPoint(A, B, true);
 }
 
-CollisionPoint CollisionAlgo::FindBoxPlane(const Component::com_Box* bA, const Component::com_Transform* tA, const Component::com_Plane* pB, const Component::com_Transform* tB)
+CollisionPoint CollisionAlgo::FindBoxPlane(const Box* bA, const Component::com_Transform* tA, const Plane* pB, const Component::com_Transform* tB)
 {
 	glm::vec3 Amin = bA->Min() + tA->Position();
 	glm::vec3 Amax = bA->Max() + tA->Position();
@@ -112,7 +112,7 @@ CollisionPoint CollisionAlgo::FindBoxPlane(const Component::com_Box* bA, const C
 	return CollisionPoint(glm::vec3(0), glm::vec3(0), false);
 }
 
-CollisionPoint CollisionAlgo::FindPlanePlane(const Component::com_Plane* pA, const Component::com_Transform* tA, const Component::com_Plane* pB, const Component::com_Transform* tB)
+CollisionPoint CollisionAlgo::FindPlanePlane(const Plane* pA, const Component::com_Transform* tA, const Plane* pB, const Component::com_Transform* tB)
 {
 	return CollisionPoint(glm::vec3(0), glm::vec3(0), false);
 }
