@@ -1,12 +1,5 @@
 #include "Props.h"
 
-Props& Props::Instance()
-{
-    static Props mInstance;
-
-    return mInstance;
-}
-
 void Props::SetContext(Graphics* context)
 {
     mContext = context;

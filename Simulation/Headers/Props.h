@@ -5,14 +5,13 @@
 
 #include "Actions.h"
 #include "Graphics/Graphics.h"
+#include "Singleton.h"
 
 class Props
+	: public Singleton<Props>
 {
 public:
-	static Props& Instance();
-
-	Props(const Props& p) = delete;
-	void operator=(const Props& p) = delete;
+	Props();
 
 	void SetContext(Graphics* context);
 
@@ -39,8 +38,6 @@ public:
 	float DeltaTime() const;
 
 private:
-	Props();
-
 	std::map<Actions::Move, int> mMoveActionMap;
 	std::map<Actions::User, int> mUserActionMap;
 	std::map<Actions::Global, int> mGlobalActionMap;

@@ -44,6 +44,16 @@ namespace Resource
         return nullptr;
     }
 
+    ResourceManager::ResourceManager()
+    {
+        if (!mModelManager)
+            mModelManager = &ModelManager::Instance();
+        if (!mTextureManager)
+            mTextureManager = &TextureManager::Instance();
+        if (!mShaderManager)
+            mShaderManager = &ShaderManager::Instance();
+    }
+
     void ResourceManager::Init()
     {
         if(!mModelManager)

@@ -24,6 +24,8 @@ namespace Resource
 		Texture* RetrieveTexture(std::string name);
 		Shader* RetrieveShader(std::string name);
 
+		ResourceManager();
+
 	private:
 		ModelManager*   mModelManager = nullptr;
 		TextureManager* mTextureManager = nullptr;
