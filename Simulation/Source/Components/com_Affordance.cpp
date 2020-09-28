@@ -1,32 +1,19 @@
 #include "Components/com_Affordance.h"
 
 namespace Component {
-	com_Affordance::com_Affordance(std::vector<Affordance::Action>& act, std::vector<Affordance::Quality>& qual) {
-		mActions = act;
-		mQualities = qual;
+	void com_Affordance::InsertAction(Affordance::Action act, float val) {
+		mActionMap[act] = val;
 	}
 
-	void com_Affordance::InsertAction(int i, Affordance::Action act) {
-		mActions[i] = act;
+	float com_Affordance::CheckAction(Affordance::Action act) {
+		return(mActionMap[act]);
 	}
 
-	void com_Affordance::InsertAction(Affordance::Action act) {
-		mActions.push_back(act);
+	void com_Affordance::InsertQuality(Affordance::Quality qual, float val) {
+		mQualityMap[qual] = val;
 	}
 
-	const Affordance::Action com_Affordance::GetAction(int i) {
-		return(mActions[i]);
-	}
-
-	void com_Affordance::InsertQuality(int i, Affordance::Quality qual) {
-		mQualities[i] = qual;
-	}
-
-	void com_Affordance::InsertQuality(Affordance::Quality qual) {
-		mQualities.push_back(qual);
-	}
-
-	const Affordance::Quality com_Affordance::GetQuality(int i) {
-		return(mQualities[i]);
+	float com_Affordance::CheckQuality(Affordance::Quality qual) {
+		return(mQualityMap[qual]);
 	}
 }
