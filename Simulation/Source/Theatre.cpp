@@ -90,6 +90,10 @@ void Theatre::PlayShow()
 		if (mProps->Pressed(Actions::Global::QUIT))
 			mGraphics->SetWindowShouldClose();
 
+		mGraphics->Clear(135 / 256, 206 / 256, 235 / 256, 1.0f);
+
+		mActiveStage.Update();
+
 		mGraphics->SwapBuffers();
 		mGraphics->PollForEvents();
 	}
