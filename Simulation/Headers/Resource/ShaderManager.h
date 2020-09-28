@@ -11,6 +11,8 @@ namespace Resource
 		: public Manager<Shader>, public Singleton<ShaderManager>
 	{
 	public:
+		~ShaderManager();
+
 		bool Create(std::string name, const char* frag, const char* vert, const char* geo = nullptr);
 
 	private:

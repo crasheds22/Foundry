@@ -2,6 +2,11 @@
 
 namespace Resource
 {
+	TextureManager::~TextureManager()
+	{
+		DeleteAll();
+	}
+
 	bool TextureManager::Create(const std::string path, TextureType type, std::string name)
 	{
 		if (name.length() > 0)

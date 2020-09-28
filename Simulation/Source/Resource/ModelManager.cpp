@@ -2,6 +2,11 @@
 
 namespace Resource
 {
+	ModelManager::~ModelManager()
+	{
+		DeleteAll();
+	}
+
 	bool ModelManager::Create(const std::string path, std::string name)
 	{
 		if (name.length() > 0)
