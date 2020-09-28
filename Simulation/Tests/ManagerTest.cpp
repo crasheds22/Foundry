@@ -13,7 +13,7 @@ bool ManagerTest::Test()
 
 bool ManagerTest::ManagerForInts()
 {
-    Resource::Manager<int> IntManager;
+    Manager<int> IntManager;
 
     std::cout << "Inserting <One, 1>...<Ten, 10>" << std::endl;
 
@@ -35,7 +35,7 @@ bool ManagerTest::ManagerForInts()
 
 bool ManagerTest::ManagerForIntegers()
 {
-    Resource::Manager<Integer> IntegerManager;
+    Manager<Integer> IntegerManager;
 
     std::cout << "Inserting Integer class types <One, 1>...<Ten, 10>" << std::endl;
 
