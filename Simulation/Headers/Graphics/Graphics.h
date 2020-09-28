@@ -3,10 +3,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Singleton.h"
+
 #include <string>
 #include <iostream>
 
 class Graphics
+	: public Singleton<Graphics>
 {
 public:
 	enum class BufferType { ELEMENT, ARRAY };
@@ -19,8 +22,8 @@ public:
 
 	enum class Capability { DEPTH };
 
-	Graphics() {};
-	Graphics(int width, int height, std::string title);
+	Graphics();
+	void Init(int width, int height, std::string title);
 	~Graphics();
 
 	void InitializeGLAD();
@@ -94,8 +97,8 @@ private:
 	static GLenum Deserialise(Unit unit);
 	static GLenum Deserialise(Capability cap);
 
-	double mScreenWidth;
-	double mScreenHeight;
+	double mScreenWidth = 0.0;
+	double mScreenHeight = 0.0;
 
-	GLFWwindow* mWindow;
+	GLFWwindow* mWindow = nullptr;
 };

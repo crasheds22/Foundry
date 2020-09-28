@@ -58,11 +58,12 @@ bool ComponentTest::Test()
 
 bool ComponentTest::TextureComponent()
 {
-    Graphics graphics = Graphics(SCR_WIDTH, SCR_HEIGHT, "Textures");
-    graphics.MakeWindowCurrent();
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    Graphics* graphics = &Graphics::Instance();
+    graphics->Init(SCR_WIDTH, SCR_HEIGHT, "Textures");
+    graphics->MakeWindowCurrent();
+    graphics->SetResizeCallback([](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
-    graphics.InitializeGLAD();
+    graphics->InitializeGLAD();
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -115,15 +116,15 @@ bool ComponentTest::TextureComponent()
 
     // render loop
     // -----------
-    while (!graphics.ShouldWindowClose())
+    while (!graphics->ShouldWindowClose())
     {
         // input
         // -----
-        ProcessInput(graphics.Window());
+        ProcessInput(graphics->Window());
 
         // render
         // ------
-        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
         Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.TextureID());
@@ -136,8 +137,8 @@ bool ComponentTest::TextureComponent()
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
+        graphics->SwapBuffers();
+        graphics->PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
@@ -148,7 +149,7 @@ bool ComponentTest::TextureComponent()
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    graphics.Terminate();
+    graphics->Terminate();
 
     return true;
 }
@@ -163,17 +164,18 @@ bool ComponentTest::RenderComponent()
     lastY = 500.0f / 2.0f;
     FirstMouse = true;
     
-    Graphics graphics = Graphics(SCR_WIDTH, SCR_HEIGHT, "Model One");
-    graphics.MakeWindowCurrent();
-    Graphics::SetWindowUserPointer(graphics.Window(), this);
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    graphics.SetCursorCallback(MouseCallback);
-    graphics.SetScrollCallback(ScrollCallback);
+    Graphics* graphics = &Graphics::Instance();
+    graphics->Init(SCR_WIDTH, SCR_HEIGHT, "Model One");
+    graphics->MakeWindowCurrent();
+    Graphics::SetWindowUserPointer(graphics->Window(), this);
+    graphics->SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    graphics->SetCursorCallback(MouseCallback);
+    graphics->SetScrollCallback(ScrollCallback);
 
     // tell GLFW to capture our mouse
-    graphics.CaptureMouse();
+    graphics->CaptureMouse();
 
-    graphics.InitializeGLAD();
+    graphics->InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
     TextureLoader::FlipVertically();
@@ -197,7 +199,7 @@ bool ComponentTest::RenderComponent()
 
     // render loop
     // -----------
-    while (!graphics.ShouldWindowClose())
+    while (!graphics->ShouldWindowClose())
     {
         // per-frame time logic
         // --------------------
@@ -207,11 +209,11 @@ bool ComponentTest::RenderComponent()
 
         // input
         // -----
-        ProcessInput(graphics.Window(), &camera, deltaTime);
+        ProcessInput(graphics->Window(), &camera, deltaTime);
 
         // render
         // ------
-        graphics.Clear(0.05f, 0.05f, 0.05f, 1.0f);
+        graphics->Clear(0.05f, 0.05f, 0.05f, 1.0f);
 
         // don't forget to enable shader before setting uniforms
         ourRender._Shader()->Use();
@@ -232,13 +234,13 @@ bool ComponentTest::RenderComponent()
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
+        graphics->SwapBuffers();
+        graphics->PollForEvents();
     }
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    graphics.Terminate();
+    graphics->Terminate();
 
     return true;
 }
@@ -253,17 +255,18 @@ bool ComponentTest::CameraComponent()
     lastY = 500.0f / 2.0f;
     FirstMouse = true;
 
-    Graphics graphics = Graphics(SCR_WIDTH, SCR_HEIGHT, "Camera and Cubes");
-    graphics.MakeWindowCurrent();
-    Graphics::SetWindowUserPointer(graphics.Window(), this);
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    graphics.SetCursorCallback(MouseCallback);
-    graphics.SetScrollCallback(ScrollCallback);
+    Graphics* graphics = &Graphics::Instance();
+    graphics->Init(SCR_WIDTH, SCR_HEIGHT, "Camera and Cubes");
+    graphics->MakeWindowCurrent();
+    Graphics::SetWindowUserPointer(graphics->Window(), this);
+    graphics->SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    graphics->SetCursorCallback(MouseCallback);
+    graphics->SetScrollCallback(ScrollCallback);
 
     // tell GLFW to capture our mouse
-    graphics.CaptureMouse();
+    graphics->CaptureMouse();
 
-    graphics.InitializeGLAD();
+    graphics->InitializeGLAD();
 
     // configure global opengl state
     // -----------------------------
@@ -365,7 +368,7 @@ bool ComponentTest::CameraComponent()
 
     // render loop
     // -----------
-    while (!graphics.ShouldWindowClose())
+    while (!graphics->ShouldWindowClose())
     {
         // per-frame time logic
         // --------------------
@@ -375,11 +378,11 @@ bool ComponentTest::CameraComponent()
 
         // input
         // -----
-        ProcessInput(graphics.Window(), &camera, deltaTime);
+        ProcessInput(graphics->Window(), &camera, deltaTime);
 
         // render
         // ------
-        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
         Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, texture1.TextureID());
@@ -412,8 +415,8 @@ bool ComponentTest::CameraComponent()
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
+        graphics->SwapBuffers();
+        graphics->PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
@@ -423,7 +426,7 @@ bool ComponentTest::CameraComponent()
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    graphics.Terminate();
+    graphics->Terminate();
 
     return true;
 }

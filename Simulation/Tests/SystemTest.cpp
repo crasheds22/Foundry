@@ -107,17 +107,18 @@ bool SystemTest::RenderSystem()
     lastY = 500.0f / 2.0f;
     FirstMouse = true;
 
-    Graphics graphics = Graphics(800, 500, "Model One");
-    graphics.MakeWindowCurrent();
-    Graphics::SetWindowUserPointer(graphics.Window(), this);
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
-    graphics.SetCursorCallback(MouseCallback);
-    graphics.SetScrollCallback(ScrollCallback);
+    Graphics* graphics = &Graphics::Instance();
+    graphics->Init(800, 500, "Model One");
+    graphics->MakeWindowCurrent();
+    Graphics::SetWindowUserPointer(graphics->Window(), this);
+    graphics->SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    graphics->SetCursorCallback(MouseCallback);
+    graphics->SetScrollCallback(ScrollCallback);
 
     // tell GLFW to capture our mouse
-    graphics.CaptureMouse();
+    graphics->CaptureMouse();
 
-    graphics.InitializeGLAD();
+    graphics->InitializeGLAD();
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
     TextureLoader::FlipVertically();
@@ -157,7 +158,7 @@ bool SystemTest::RenderSystem()
 
     // render loop
     // -----------
-    while (!graphics.ShouldWindowClose())
+    while (!graphics->ShouldWindowClose())
     {
         // per-frame time logic
         // --------------------
@@ -167,21 +168,21 @@ bool SystemTest::RenderSystem()
 
         // input
         // -----
-        ProcessInput(graphics.Window(), &camera, deltaTime);
+        ProcessInput(graphics->Window(), &camera, deltaTime);
 
-        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-        RenderSystem->Update(&camera, &graphics);
+        RenderSystem->Update(&camera, graphics);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
+        graphics->SwapBuffers();
+        graphics->PollForEvents();
     }
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    graphics.Terminate();
+    graphics->Terminate();
 
     return true;
 }
@@ -194,21 +195,22 @@ bool SystemTest::ControlSystem()
     lastY = 500.0f / 2.0f;
     FirstMouse = true;
 
-    Graphics graphics = Graphics(800, 500, "Model One");
-    graphics.MakeWindowCurrent();
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
+    Graphics* graphics = &Graphics::Instance();
+    graphics->Init(800, 500, "Model One");
+    graphics->MakeWindowCurrent();
+    graphics->SetResizeCallback([](GLFWwindow* win, int w, int h) {glViewport(0, 0, w, h); });
 
-    graphics.CaptureMouse();
-    graphics.StickyKeys();
+    graphics->CaptureMouse();
+    graphics->StickyKeys();
 
-    graphics.InitializeGLAD();
+    graphics->InitializeGLAD();
 
     TextureLoader::FlipVertically();
 
     Graphics::Enable(Graphics::Capability::DEPTH);
 
     ref = &Props::Instance();
-    ref->SetContext(&graphics);
+    ref->SetContext(graphics);
 
     ResMgr->CreateShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
     ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
@@ -253,7 +255,7 @@ bool SystemTest::ControlSystem()
     gCoordinator.AddComponent<Component::com_Player>(player, ourPlayer);
     gCoordinator.AddComponent<Component::com_Transform>(player, plaTransform);
 
-    while (!graphics.ShouldWindowClose())
+    while (!graphics->ShouldWindowClose())
     {
         ref->UpdateDT();
 
@@ -261,19 +263,19 @@ bool SystemTest::ControlSystem()
         ref->UpdateMouse();
 
         if (ref->Pressed(Actions::Global::QUIT))
-            graphics.SetWindowShouldClose();
+            graphics->SetWindowShouldClose();
 
         PlayerControlSystem->Update(&ourCamera);
 
-        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
-        RenderSystem->Update(&ourCamera, &graphics);
+        RenderSystem->Update(&ourCamera, graphics);
 
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
+        graphics->SwapBuffers();
+        graphics->PollForEvents();
     }
 
-    graphics.Terminate();
+    graphics->Terminate();
 
     return true;
 }
