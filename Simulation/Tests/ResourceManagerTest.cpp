@@ -13,11 +13,12 @@ bool ResourceManagerTest::Test()
 
 bool ResourceManagerTest::ShaderTesting()
 {
-    Graphics graphics = Graphics(500, 800, "Using shaders");
-    graphics.MakeWindowCurrent();
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    Graphics* graphics = &Graphics::Instance();
+    graphics->Init(500, 800, "Using shaders");
+    graphics->MakeWindowCurrent();
+    graphics->SetResizeCallback([](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
-    graphics.InitializeGLAD();
+    graphics->InitializeGLAD();
 
     // build and compile our shader program
     // ------------------------------------
@@ -52,16 +53,16 @@ bool ResourceManagerTest::ShaderTesting()
 
     // render loop
     // -----------
-    while (!graphics.ShouldWindowClose())
+    while (!graphics->ShouldWindowClose())
     {
         // input
         // -----
-        if (graphics.KeyPressed(GLFW_KEY_ESCAPE))
-            graphics.SetWindowShouldClose();
+        if (graphics->KeyPressed(GLFW_KEY_ESCAPE))
+            graphics->SetWindowShouldClose();
 
         // render
         // ------
-        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // render the triangle
         ResMgr->RetrieveShader("shaShader")->Use();
@@ -70,8 +71,8 @@ bool ResourceManagerTest::ShaderTesting()
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
+        graphics->SwapBuffers();
+        graphics->PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
@@ -81,18 +82,19 @@ bool ResourceManagerTest::ShaderTesting()
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    graphics.Terminate();
+    graphics->Terminate();
 
     return true;
 }
 
 bool ResourceManagerTest::TextureTesting()
 {
-    Graphics graphics = Graphics(800, 500, "Textures");
-    graphics.MakeWindowCurrent();
-    graphics.SetResizeCallback([](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
+    Graphics* graphics = &Graphics::Instance();
+    graphics->Init(800, 500, "Textures");
+    graphics->MakeWindowCurrent();
+    graphics->SetResizeCallback([](GLFWwindow* win, int w, int h) { glViewport(0, 0, w, h); });
 
-    graphics.InitializeGLAD();
+    graphics->InitializeGLAD();
 
     // build and compile our shader zprogram
     // ------------------------------------
@@ -142,16 +144,16 @@ bool ResourceManagerTest::TextureTesting()
 
     // render loop
     // -----------
-    while (!graphics.ShouldWindowClose())
+    while (!graphics->ShouldWindowClose())
     {
         // input
         // -----
-        if (graphics.KeyPressed(GLFW_KEY_ESCAPE))
-            graphics.SetWindowShouldClose();
+        if (graphics->KeyPressed(GLFW_KEY_ESCAPE))
+            graphics->SetWindowShouldClose();
 
         // render
         // ------
-        graphics.Clear(0.2f, 0.3f, 0.3f, 1.0f);
+        graphics->Clear(0.2f, 0.3f, 0.3f, 1.0f);
 
         // bind textures on corresponding texture units
         Graphics::BindTextureOnUnit(Graphics::Unit::ZERO, ResMgr->RetrieveTexture("texture1")->ID());
@@ -164,8 +166,8 @@ bool ResourceManagerTest::TextureTesting()
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-        graphics.SwapBuffers();
-        graphics.PollForEvents();
+        graphics->SwapBuffers();
+        graphics->PollForEvents();
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
@@ -176,7 +178,7 @@ bool ResourceManagerTest::TextureTesting()
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    graphics.Terminate();
+    graphics->Terminate();
 
     return true;
 }

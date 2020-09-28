@@ -11,8 +11,8 @@ public:
 		return mInstance;
 	}
 
-	Singleton(const T& s)	   = delete;
-	void operator=(const T& s) = delete;
+	Singleton(const Singleton& s)	   = delete;
+	void operator=(const Singleton& s) = delete;
 
 protected:
 	Singleton() {};
