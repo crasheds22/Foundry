@@ -27,6 +27,16 @@ float Physics::CalculateRadius(glm::vec3 pA, glm::vec3 pB, glm::vec3 com, glm::v
 	return glm::distance(com + worldPos, temp);
 }
 
+glm::vec3 Physics::CalculateCollisionVel(glm::vec3 ivelocity, float lambda, float mass, glm::vec3 normal)
+{
+	return ivelocity + ((lambda * glm::normalize(normal)) / mass);
+}
+
+glm::vec3 Physics::CalculateCollisionRotVel(glm::vec3 irotvel, float lambda, glm::mat3 inertia, float radius, glm::vec3 normal)
+{
+	return irotvel + lambda * glm::inverse(inertia) * (radius * glm::normalize(normal));
+}
+
 float Physics::CalculateLinearForce(float mass, float acceleration)
 {
 	return mass * acceleration;

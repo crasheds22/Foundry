@@ -7,6 +7,7 @@
 #include "Components/Collider.h"
 
 #include "Algorithms/Physics.h"
+#include "Props.h"
 
 #include <vector>
 
@@ -21,5 +22,6 @@ namespace System
 
 	private:
 		std::vector<Collision> CollisionList;
+		Props* ref = nullptr;
 	};
 }

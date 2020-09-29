@@ -30,6 +30,26 @@ namespace Component {
 		return mRotationAcc;
 	}
 
+	void com_Physics::Velocity(glm::vec3 vel)
+	{
+		mVelocity = vel;
+	}
+
+	void com_Physics::Acceleration(glm::vec3 acc)
+	{
+		mAcceleration = acc;
+	}
+
+	void com_Physics::RotationVel(glm::vec3 rotvel)
+	{
+		mRotationVel = rotvel;
+	}
+
+	void com_Physics::RotationAcc(glm::vec3 rotacc)
+	{
+		mRotationAcc = rotacc;
+	}
+
 	float com_Physics::Mass() const
 	{
 		return mMass;

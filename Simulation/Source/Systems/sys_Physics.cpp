@@ -7,6 +7,7 @@ namespace System
 {
     void sys_Physics::Init()
     {
+        ref = &Props::Instance();
     }
     
     void sys_Physics::Update()
@@ -52,11 +53,22 @@ namespace System
             float beastB = Physics::CalculateBeast(radiusB, collide.Point().Normal(), pB.InertiaTensor());
         
             float lambda = (restitution * (velocityDifference + angleAroundA - angleAroundB)) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
+
+            pA.Velocity(Physics::CalculateCollisionVel(pA.Velocity(), lambda, pA.Mass(), collide.Point().Normal()));
+            pB.Velocity(Physics::CalculateCollisionVel(pB.Velocity(), -lambda, pB.Mass(), collide.Point().Normal()));
+
+            pA.RotationVel(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.InertiaTensor(), radiusA, collide.Point().Normal()));
+            pB.RotationVel(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.InertiaTensor(), radiusB, collide.Point().Normal()));
         }
         
-        for (const auto& entityA : mEntities)
+        for (const auto& entity : mEntities)
         {
-            //Apply Force
+            auto& ePhysics = gCoordinator.GetComponent<Component::com_Physics>(entity);
+            auto& eTransform = gCoordinator.GetComponent<Component::com_Transform>(entity);
+
+            eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
+
+            eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
         }
     }
     
