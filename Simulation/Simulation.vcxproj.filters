@@ -47,6 +47,8 @@
     <ClInclude Include="Headers\Systems\SystemsManager.h" />
     <ClInclude Include="Headers\Components\Components.h" />
     <ClInclude Include="Headers\Systems\Systems.h" />
+    <ClInclude Include="Headers\AI\Belief.h" />
+    <ClInclude Include="Headers\Components\com_Affordance.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -80,5 +82,7 @@
     <ClCompile Include="Source\Resource\ShaderManager.cpp" />
     <ClCompile Include="Source\Components\com_Render.cpp" />
     <ClCompile Include="Source\Components\Collider.cpp" />
+    <ClCompile Include="Source\AI\Belief.cpp" />
+    <ClCompile Include="Source\Components\com_Affordance.cpp" />
   </ItemGroup>
 </Project>
