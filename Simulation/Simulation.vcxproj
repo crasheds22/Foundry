@@ -184,6 +184,7 @@
     <ClInclude Include="Headers\Props.h" />
     <ClInclude Include="Headers\Manager.h" />
     <ClInclude Include="Headers\Prototype\proto_Bush.h" />
+    <ClInclude Include="Headers\Prototype\proto_Desk.h" />
     <ClInclude Include="Headers\Prototype\proto_Tree.h" />
     <ClInclude Include="Headers\Singleton.h" />
     <ClInclude Include="Headers\Stage.h" />
