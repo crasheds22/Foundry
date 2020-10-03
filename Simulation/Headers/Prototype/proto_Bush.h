@@ -1,11 +1,7 @@
 #ifndef __PROTO_BUSH_H__
 #define __PROTO_BUSH_H__
 
-#include "ECS/Types.h"
-
-#include "Components/com_Transform.h"
-
-#include <string>
+#include "IPrototype.h"
 
 namespace Prototype
 {
@@ -14,12 +10,7 @@ namespace Prototype
 	public:
 		Bush(std::string name, Component::com_Transform transform);
 
-		ECS::Entity ID() const;
-		std::string Name() const;
-
 	private:
-		ECS::Entity mID;
-		std::string mName;
 	};
 }
 

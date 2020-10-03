@@ -1,26 +1,17 @@
 #ifndef __PROTO_TABLE_H__
 #define __PROTO_TABLE_H__
 
-#include <string>
-
-#include "ECS/Types.h"
-
-#include "Components/com_Transform.h"
+#include "IPrototype.h"
 
 namespace Prototype
 {
 	class Table
+		: public IPrototype
 	{
 	public:
-		Table(std::string name, Component::com_Transform);
-
-		ECS::Entity ID() const;
-		std::string Name() const;
+		Table(std::string name, Component::com_Transform transform);
 
 	private:
-		ECS::Entity mID;
-		std::string mName;
-
 	};
 }
 

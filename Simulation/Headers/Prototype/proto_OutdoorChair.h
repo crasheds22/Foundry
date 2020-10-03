@@ -1,25 +1,18 @@
 #ifndef __PROTO_OUTDOORCHAIR_H__
 #define __PROTO_OUTDOORCHAIR_H__
 
-#include <string>
-
-#include "ECS/Types.h"
-
-#include "Components/com_Transform.h"
+#include "IPrototype.h"
 
 namespace Prototype
 {
 	class OutdoorChair
+		: public IPrototype
 	{
 	public:
-		OutdoorChair(std::string name, Component::com_Transform trandsform);
-
-		ECS::Entity ID() const;
-		std::string Name() const;
+		OutdoorChair(std::string name, Component::com_Transform transform);
 
 	private:
-		ECS::Entity mID;
-		std::string mName;
+
 	};
 }
 
