@@ -49,16 +49,16 @@ namespace System
             float velocityDifference = Physics::CalculateVelocityDifference(collide.Point().Normal(), pA.Velocity(), pB.Velocity());
             float angleAroundA = Physics::CalculateAngleAround(pA.RotationVel(), radiusA, collide.Point().Normal());
             float angleAroundB = Physics::CalculateAngleAround(pB.RotationVel(), radiusB, collide.Point().Normal());
-            float beastA = Physics::CalculateBeast(radiusA, collide.Point().Normal(), pA.InertiaTensor());
-            float beastB = Physics::CalculateBeast(radiusB, collide.Point().Normal(), pB.InertiaTensor());
+            float beastA = Physics::CalculateBeast(radiusA, collide.Point().Normal(), pA.Collidercom()->Inertia());
+            float beastB = Physics::CalculateBeast(radiusB, collide.Point().Normal(), pB.Collidercom()->Inertia());
         
             float lambda = (restitution * (velocityDifference + angleAroundA - angleAroundB)) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
 
             pA.Velocity(Physics::CalculateCollisionVel(pA.Velocity(), lambda, pA.Mass(), collide.Point().Normal()));
             pB.Velocity(Physics::CalculateCollisionVel(pB.Velocity(), -lambda, pB.Mass(), collide.Point().Normal()));
 
-            pA.RotationVel(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.InertiaTensor(), radiusA, collide.Point().Normal()));
-            pB.RotationVel(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.InertiaTensor(), radiusB, collide.Point().Normal()));
+            pA.RotationVel(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal()));
+            pB.RotationVel(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal()));
         }
         
         for (const auto& entity : mEntities)

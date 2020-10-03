@@ -22,6 +22,21 @@ glm::vec3 CollisionPoint::Normal() const
 	return mNormal;
 }
 
+void CollisionPoint::PointA(glm::vec3 a)
+{
+	mA = a;
+}
+
+void CollisionPoint::PointB(glm::vec3 b)
+{
+	mB = b;
+}
+
+void CollisionPoint::Normal(glm::vec3 n)
+{
+	mNormal = n;
+}
+
 float CollisionPoint::Depth() const
 {
 	return mDepth;
@@ -82,12 +97,34 @@ CollisionPoint Box::TestCollision(const Component::com_Transform* transformA, co
 
 CollisionPoint Box::TestCollision(const Component::com_Transform* transformA, const Sphere* colliderB, const Component::com_Transform* transformB) const
 {
-	return CollisionAlgo::FindSphereBox(colliderB, transformA, this, transformB);
+	CollisionPoint points = colliderB->TestCollision(transformB, this, transformA);
+
+	glm::vec3 T = points.PointA();
+	points.PointA(points.PointB());
+	points.PointB(T);
+	points.Normal(-points.Normal());
+
+	return points;
 }
 
 CollisionPoint Box::TestCollision(const Component::com_Transform* transformA, const Plane* colliderB, const Component::com_Transform* transformB) const
 {
 	return CollisionAlgo::FindBoxPlane(this, transformA, colliderB, transformB);
+}
+
+void Box::SetInertia(float mass)
+{
+	float height = mMax.y - mMin.y;
+	float width = mMax.x - mMin.x;
+	float depth = mMax.z - mMin.z;
+
+	float Ixx = (1 / 12) * mass * (height * height + depth * depth);
+	float Iyy = (1 / 12) * mass * (width * width + depth * depth);
+	float Izz = (1 / 12) * mass * (width * width + height * height);
+
+	mInertia[0][0] = Ixx;
+	mInertia[1][1] = Iyy;
+	mInertia[2][2] = Izz;
 }
 
 
@@ -126,6 +163,15 @@ CollisionPoint Sphere::TestCollision(const Component::com_Transform* transformA,
 CollisionPoint Sphere::TestCollision(const Component::com_Transform* transformA, const Plane* colliderB, const Component::com_Transform* transformB) const
 {
 	return CollisionAlgo::FindSpherePlane(this, transformA, colliderB, transformB);
+}
+
+void Sphere::SetInertia(float mass)
+{
+	float MoI = (2 / 5) * mass * mRadius * mRadius;
+
+	mInertia[0][0] = MoI;
+	mInertia[1][1] = MoI;
+	mInertia[2][2] = MoI;
 }
 	
 
@@ -173,12 +219,26 @@ CollisionPoint Plane::TestCollision(const Component::com_Transform* transformA, 
 
 CollisionPoint Plane::TestCollision(const Component::com_Transform* transformA, const Box* colliderB, const Component::com_Transform* transformB) const
 {
-	return CollisionAlgo::FindBoxPlane(colliderB, transformB, this, transformA);
+	CollisionPoint points = colliderB->TestCollision(transformB, this, transformA);
+
+	glm::vec3 T = points.PointA();
+	points.PointA(points.PointB());
+	points.PointB(T);
+	points.Normal(-points.Normal());
+
+	return points;
 }
 
 CollisionPoint Plane::TestCollision(const Component::com_Transform* transformA, const Sphere* colliderB, const Component::com_Transform* transformB) const
 {
-	return CollisionAlgo::FindSpherePlane(colliderB, transformB, this, transformA);
+	CollisionPoint points = colliderB->TestCollision(transformB, this, transformA);
+
+	glm::vec3 T = points.PointA();
+	points.PointA(points.PointB());
+	points.PointB(T);
+	points.Normal(-points.Normal());
+
+	return points;
 }
 
 CollisionPoint Plane::TestCollision(const Component::com_Transform* transformA, const Plane* colliderB, const Component::com_Transform* transformB) const
@@ -186,3 +246,7 @@ CollisionPoint Plane::TestCollision(const Component::com_Transform* transformA, 
 	return CollisionAlgo::FindPlanePlane(this, transformA, colliderB, transformB);
 }
 
+glm::mat3 Collider::Inertia()
+{
+	return mInertia;
+}
