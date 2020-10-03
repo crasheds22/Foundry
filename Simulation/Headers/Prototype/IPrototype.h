@@ -10,7 +10,7 @@ namespace Prototype
 	class IPrototype
 	{
 	public:
-		IPrototype(std::string name) {}
+		IPrototype(std::string name) : mName(name) {}
 
 		virtual ~IPrototype() = 0;
 
