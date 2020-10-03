@@ -22,6 +22,21 @@ glm::vec3 CollisionPoint::Normal() const
 	return mNormal;
 }
 
+void CollisionPoint::PointA(glm::vec3 a)
+{
+	mA = a;
+}
+
+void CollisionPoint::PointB(glm::vec3 b)
+{
+	mB = b;
+}
+
+void CollisionPoint::Normal(glm::vec3 n)
+{
+	mNormal = n;
+}
+
 float CollisionPoint::Depth() const
 {
 	return mDepth;
@@ -82,7 +97,14 @@ CollisionPoint Box::TestCollision(const Component::com_Transform* transformA, co
 
 CollisionPoint Box::TestCollision(const Component::com_Transform* transformA, const Sphere* colliderB, const Component::com_Transform* transformB) const
 {
-	return CollisionAlgo::FindSphereBox(colliderB, transformA, this, transformB);
+	CollisionPoint points = colliderB->TestCollision(transformB, this, transformA);
+
+	glm::vec3 T = points.PointA();
+	points.PointA(points.PointB());
+	points.PointB(T);
+	points.Normal(-points.Normal());
+
+	return points;
 }
 
 CollisionPoint Box::TestCollision(const Component::com_Transform* transformA, const Plane* colliderB, const Component::com_Transform* transformB) const
@@ -197,12 +219,26 @@ CollisionPoint Plane::TestCollision(const Component::com_Transform* transformA, 
 
 CollisionPoint Plane::TestCollision(const Component::com_Transform* transformA, const Box* colliderB, const Component::com_Transform* transformB) const
 {
-	return CollisionAlgo::FindBoxPlane(colliderB, transformB, this, transformA);
+	CollisionPoint points = colliderB->TestCollision(transformB, this, transformA);
+
+	glm::vec3 T = points.PointA();
+	points.PointA(points.PointB());
+	points.PointB(T);
+	points.Normal(-points.Normal());
+
+	return points;
 }
 
 CollisionPoint Plane::TestCollision(const Component::com_Transform* transformA, const Sphere* colliderB, const Component::com_Transform* transformB) const
 {
-	return CollisionAlgo::FindSpherePlane(colliderB, transformB, this, transformA);
+	CollisionPoint points = colliderB->TestCollision(transformB, this, transformA);
+
+	glm::vec3 T = points.PointA();
+	points.PointA(points.PointB());
+	points.PointB(T);
+	points.Normal(-points.Normal());
+
+	return points;
 }
 
 CollisionPoint Plane::TestCollision(const Component::com_Transform* transformA, const Plane* colliderB, const Component::com_Transform* transformB) const

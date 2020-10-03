@@ -13,8 +13,12 @@ public:
 
 	glm::vec3 PointA() const;
 	glm::vec3 PointB() const;
-
 	glm::vec3 Normal() const;
+
+	void PointA(glm::vec3 a);
+	void PointB(glm::vec3 b);
+	void Normal(glm::vec3 n);
+
 	float Depth() const;
 	bool HasCollision() const;
 
