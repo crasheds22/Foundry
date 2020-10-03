@@ -13,7 +13,7 @@ namespace Component
 	{
 	public:
 		com_Physics() {};
-		com_Physics(float mass, float res, int width, int height, int depth, Collider* coll);
+		com_Physics(float mass, float res, int width, int height, int depth, bool dynamic, Collider* coll);
 
 		glm::vec3 Velocity() const;
 		glm::vec3 Acceleration() const;
@@ -30,9 +30,10 @@ namespace Component
 		float Restitution() const;
 
 		glm::vec3 CentreOfMass() const;
-		glm::mat3 InertiaTensor() const;
 
 		Collider* Collidercom() const;
+
+		bool Dynamic() const;
 
 	private:
 		glm::vec3 mVelocity{};
@@ -45,8 +46,9 @@ namespace Component
 		float mRestitution{};
 
 		glm::vec3 mCentreOfMass{};
-		glm::mat3 mInertiaTensor{};
 
 		Collider* mCollidercom;
+
+		bool mDynamic;
 	};
 }

@@ -52,6 +52,8 @@ class Collider
 public:
 	Collider() {};
 
+	glm::mat3 Inertia();
+
 	virtual CollisionPoint TestCollision(
 		const Component::com_Transform* transformA,
 		const Collider* colliderB,
@@ -72,8 +74,10 @@ public:
 		const Plane* colliderB,
 		const Component::com_Transform* transformB) const = 0;
 
-private:
+	virtual void SetInertia(float mass) = 0;
 
+protected:
+	glm::mat3 mInertia;
 };
 
 class Box : public Collider
@@ -104,6 +108,8 @@ public:
 		const Component::com_Transform* transformA,
 		const Plane* colliderB,
 		const Component::com_Transform* transformB) const override;
+
+	void SetInertia(float mass) override;
 		
 private:
 	glm::vec3 mMin;
@@ -138,6 +144,8 @@ public:
 		const Component::com_Transform* transformA,
 		const Plane* colliderB,
 		const Component::com_Transform* transformB) const override;
+
+	void SetInertia(float mass) override;
 
 private:
 	glm::vec3 mCenter;
