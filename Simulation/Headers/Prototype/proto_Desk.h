@@ -6,6 +6,7 @@
 namespace Prototype
 {
 	class Desk
+		: public IPrototype
 	{
 	public:
 		Desk(std::string name, Component::com_Transform transform);

@@ -6,6 +6,7 @@
 namespace Prototype
 {
 	class Apple
+		: public IPrototype
 	{
 	public:
 		Apple(std::string name, Component::com_Transform transform);

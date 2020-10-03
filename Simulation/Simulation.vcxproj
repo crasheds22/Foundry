@@ -189,6 +189,7 @@
     <ClInclude Include="Headers\Prototype\proto_Bush.h" />
     <ClInclude Include="Headers\Prototype\proto_Desk.h" />
     <ClInclude Include="Headers\Prototype\proto_OutdoorChair.h" />
+    <ClInclude Include="Headers\Prototype\proto_RottenApple.h" />
     <ClInclude Include="Headers\Prototype\proto_Table.h" />
     <ClInclude Include="Headers\Prototype\proto_Tree.h" />
     <ClInclude Include="Headers\Singleton.h" />

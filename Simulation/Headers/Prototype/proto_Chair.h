@@ -6,6 +6,7 @@
 namespace Prototype
 {
 	class Chair
+		: public IPrototype
 	{
 	public:
 		Chair(std::string name, Component::com_Transform);

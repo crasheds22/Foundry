@@ -6,6 +6,7 @@
 namespace Prototype
 {
 	class Tree
+		: public IPrototype
 	{
 	public:
 		Tree(std::string name, Component::com_Transform transform);
