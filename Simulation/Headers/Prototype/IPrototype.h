@@ -10,7 +10,7 @@ namespace Prototype
 	class IPrototype
 	{
 	public:
-		IPrototype(std::string name, Component::com_Transform transform) {};
+		IPrototype(std::string name) {}
 
 		virtual ~IPrototype() = 0;
 
