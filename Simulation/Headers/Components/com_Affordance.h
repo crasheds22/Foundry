@@ -1,23 +1,27 @@
-#ifndef __COM_AFFORDANCE__
-#define __COM_AFFORDANCE__
+#ifndef __COM_AFFORDANCE_H__
+#define __COM_AFFORDANCE_H__
 
-#include <unordered_map>
+#include <map>
 #include "Affordance/Action_Qualities.h"
 
-namespace Component {
-	class com_Affordance {
+namespace Component 
+{
+	class com_Affordance 
+	{
 	public:
 		com_Affordance() {};
+		com_Affordance(std::map<Affordance::Action, float> actions
+					 , std::map<Affordance::Quality, float> qualities);
 
-		void InsertAction(Affordance::Action act, float val);
-		float CheckAction(Affordance::Action act);
+		float Value(Affordance::Action action);
+		float Value(Affordance::Quality quality);
 
-		void InsertQuality(Affordance::Quality qual, float val);
-		float CheckQuality(Affordance::Quality qual);
+		void Update(Affordance::Action action, float value);
+		void Update(Affordance::Quality quality, float value);
 
 	private:
-		std::unordered_map<Affordance::Action, float> mActionMap;
-		std::unordered_map<Affordance::Quality, float> mQualityMap;
+		std::map<Affordance::Action, float>  mActionValues;
+		std::map<Affordance::Quality, float> mQualityValues;
 	};
 }
 
