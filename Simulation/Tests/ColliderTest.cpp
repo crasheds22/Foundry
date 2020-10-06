@@ -20,8 +20,8 @@ bool ColliderTest::BoxBox() {
 			return false;
 		} // end if
 
-		posA.x += 1.0f; // posA = glm::vec3((posA.x + 1.0f), posA.y, posA.z);
-		posB.x -= 1.0f; // posB = glm::vec3((posB.x - 1.0f), posB.y, posB.z);
+		posA.x += 0.1f; // posA = glm::vec3((posA.x + 1.0f), posA.y, posA.z);
+		posB.x -= 0.1f; // posB = glm::vec3((posB.x - 1.0f), posB.y, posB.z);
 
 		aT->Position(posA);
 		bT->Position(posB);
@@ -58,12 +58,15 @@ bool ColliderTest::SphereSphere() {
 			return false;
 		} // end if
 
-		posA.x += 1.0f;
-		posB.x -= 1.0f;
+		posA.x += 0.1f;
+		posB.x -= 0.1f;
 
 		aT->Position(posA);
 		bT->Position(posB);
 	} // end while
+
+	std::cout << posA.x << ", " << posA.y << ", " << posA.z << '\n';
+	std::cout << posB.x << ", " << posB.y << ", " << posB.z << '\n';
 
 	delete a;
 	delete aT;
@@ -93,12 +96,15 @@ bool ColliderTest::BoxSphere() {
 			return false;
 		} // end if
 
-		posA.x += 1.0f; // posA = glm::vec3((posA.x + 1.0f), posA.y, posA.z);
-		posB.x -= 1.0f; // posB = glm::vec3((posB.x - 1.0f), posB.y, posB.z);
+		posA.x += 0.1f; // posA = glm::vec3((posA.x + 1.0f), posA.y, posA.z);
+		posB.x -= 0.1f; // posB = glm::vec3((posB.x - 1.0f), posB.y, posB.z);
 
 		aT->Position(posA);
 		bT->Position(posB);
 	} // end while
+
+	std::cout << posA.x << ", " << posA.y << ", " << posA.z << '\n';
+	std::cout << posB.x << ", " << posB.y << ", " << posB.z << '\n';
 
 	delete a;
 	delete aT;

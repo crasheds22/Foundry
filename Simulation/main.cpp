@@ -1,16 +1,21 @@
 #include <iostream>
 
+#include "Tests/TestBattery.h"
 #include "Theatre.h"
 
 int main()
 {
-	Theatre* theatre = &Theatre::Instance();
+	TestBattery testyay;
 
-	theatre->PreShow();
+	testyay.RunTests();
 
-	theatre->PlayShow();
+	//Theatre* theatre = &Theatre::Instance();
 
-	theatre->EndShow();
+	//theatre->PreShow();
+
+	//theatre->PlayShow();
+
+	//theatre->EndShow();
 
 	return 0;
 }

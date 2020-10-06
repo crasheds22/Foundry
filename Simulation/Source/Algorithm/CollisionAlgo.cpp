@@ -5,13 +5,13 @@ CollisionPoint CollisionAlgo::FindSphereSphere(const Sphere* sA, const Component
 	glm::vec3 A = sA->Center() + tA->Position();
 	glm::vec3 B = sB->Center() + tB->Position();
 
-	float Ar = sA->Radius() * tA->Scale().length();
-	float Br = sB->Radius() * tB->Scale().length();
+	float Ar = sA->Radius();
+	float Br = sB->Radius();
 
 	glm::vec3 AtoB = B - A;
 	glm::vec3 BtoA = A - B;
 
-	if(AtoB.length() > Ar + Br)
+	if(glm::length(AtoB) > Ar + Br)
 	{
 		return CollisionPoint(A, B, false);
 	}
@@ -25,7 +25,7 @@ CollisionPoint CollisionAlgo::FindSphereSphere(const Sphere* sA, const Component
 CollisionPoint CollisionAlgo::FindSphereBox(const Sphere* sA, const Component::com_Transform* tA, const Box* bB, const Component::com_Transform* tB)
 {
 	glm::vec3 A = sA->Center() + tA->Position();
-	float Ar = sA->Radius() * tA->Scale().length();
+	float Ar = sA->Radius();
 	
 	glm::vec3 Bmin = bB->Min() + tB->Position();
 	glm::vec3 Bmax = bB->Max() + tB->Position();
