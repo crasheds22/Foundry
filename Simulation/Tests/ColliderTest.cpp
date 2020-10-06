@@ -108,6 +108,7 @@ bool ColliderTest::BoxSphere() {
 	return true;
 } // end BoxSphere
 
+/*
 bool ColliderTest::BoxPlane() {
 	// initial positions
 	glm::vec3 initPosA = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -143,6 +144,7 @@ bool ColliderTest::BoxPlane() {
 	return true;
 } // end BoxPlane
 
+
 bool ColliderTest::SpherePlane() {
 	// initial positions
 	glm::vec3 initPosA = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -177,6 +179,7 @@ bool ColliderTest::SpherePlane() {
 
 	return true;
 } // end SpherePlane
+*/
 
 bool ColliderTest::Test() {
 	bool pass = false;
@@ -184,8 +187,8 @@ bool ColliderTest::Test() {
 	pass = BoxBox();
 	pass = SphereSphere();
 	pass = BoxSphere();
-	pass = BoxPlane();
-	pass = SpherePlane();
+	//pass = BoxPlane();
+	//pass = SpherePlane();
 
 	return pass;
 } // end Test
