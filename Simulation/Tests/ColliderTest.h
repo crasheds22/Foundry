@@ -16,8 +16,6 @@ private:
 	bool BoxBox();
 	bool SphereSphere();
 	bool BoxSphere();
+	bool SphereBox();
 
-	//CollisionPoint collision;
-	//bool BoxPlane();
-	//bool SpherePlane();
 };
