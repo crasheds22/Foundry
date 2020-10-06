@@ -5,17 +5,16 @@
 
 int main()
 {
-	TestBattery testyay;
+	//TestBattery tester;
+	//tester.RunTests();
 
-	testyay.RunTests();
+	Theatre* theatre = &Theatre::Instance();
 
-	//Theatre* theatre = &Theatre::Instance();
+	theatre->PreShow();
 
-	//theatre->PreShow();
+	theatre->PlayShow();
 
-	//theatre->PlayShow();
-
-	//theatre->EndShow();
+	theatre->EndShow();
 
 	return 0;
 }
