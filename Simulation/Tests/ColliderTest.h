@@ -16,6 +16,6 @@ private:
 	bool BoxBox();
 	bool SphereSphere();
 	bool BoxSphere();
-	bool BoxPlane();
-	bool SpherePlane();
+	bool SphereBox();
+
 };

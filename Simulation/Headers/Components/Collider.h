@@ -49,7 +49,6 @@ private:
 
 class Box;
 class Sphere;
-class Plane;
 
 class Collider
 {
@@ -71,11 +70,6 @@ public:
 	virtual CollisionPoint TestCollision(
 		const Component::com_Transform* transformA,
 		const Sphere* colliderB,
-		const Component::com_Transform* transformB) const = 0;
-		
-	virtual CollisionPoint TestCollision(
-		const Component::com_Transform* transformA,
-		const Plane* colliderB,
 		const Component::com_Transform* transformB) const = 0;
 
 	virtual void SetInertia(float mass) = 0;
@@ -106,11 +100,6 @@ public:
 	CollisionPoint TestCollision(
 		const Component::com_Transform* transformA,
 		const Sphere* colliderB,
-		const Component::com_Transform* transformB) const override;
-
-	CollisionPoint TestCollision(
-		const Component::com_Transform* transformA,
-		const Plane* colliderB,
 		const Component::com_Transform* transformB) const override;
 
 	void SetInertia(float mass) override;
@@ -144,54 +133,9 @@ public:
 		const Sphere* colliderB,
 		const Component::com_Transform* transformB) const override;
 
-	CollisionPoint TestCollision(
-		const Component::com_Transform* transformA,
-		const Plane* colliderB,
-		const Component::com_Transform* transformB) const override;
-
 	void SetInertia(float mass) override;
 
 private:
 	glm::vec3 mCenter;
 	float mRadius;
-};
-
-class Plane : public Collider
-{
-public:
-	Plane() {};
-	Plane(glm::vec3 p, float d);
-
-	glm::vec3 P() const;
-	float D() const;
-		
-	float X() const;
-	float Y() const;
-	float Z() const;
-
-	float Distance() const;
-
-	CollisionPoint TestCollision(
-		const Component::com_Transform* transformA,
-		const Collider* colliderB,
-		const Component::com_Transform* transformB) const override;
-
-	CollisionPoint TestCollision(
-		const Component::com_Transform* transformA,
-		const Box* colliderB,
-		const Component::com_Transform* transformB) const override;
-
-	CollisionPoint TestCollision(
-		const Component::com_Transform* transformA,
-		const Sphere* colliderB,
-		const Component::com_Transform* transformB) const override;
-
-	CollisionPoint TestCollision(
-		const Component::com_Transform* transformA,
-		const Plane* colliderB,
-		const Component::com_Transform* transformB) const override;
-
-private:
-	glm::vec3 mP;
-	float mD;
 };
