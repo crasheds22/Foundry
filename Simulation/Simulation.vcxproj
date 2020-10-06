@@ -206,6 +206,7 @@
     <ClInclude Include="Headers\Resource\ResourceManager.h" />
     <ClInclude Include="Headers\Resource\ModelManager.h" />
     <ClInclude Include="Headers\Resource\ShaderManager.h" />
+    <ClInclude Include="Tests\PhysicsTest.h" />
     <ClInclude Include="Tests\ResourceManagerTest.h" />
     <ClInclude Include="Tests\ManagerTest.h" />
     <ClInclude Include="Tests\ColliderTest.h" />
@@ -248,6 +249,7 @@
     <ClCompile Include="Tests\ColliderTest.cpp" />
     <ClCompile Include="Tests\ComponentTest.cpp" />
     <ClCompile Include="Tests\GraphicsTest.cpp" />
+    <ClCompile Include="Tests\PhysicsTest.cpp" />
     <ClCompile Include="Tests\SystemTest.cpp" />
     <ClCompile Include="Source\Resource\TextureManager.cpp" />
   </ItemGroup>

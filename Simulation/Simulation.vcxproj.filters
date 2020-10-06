@@ -61,6 +61,7 @@
     <ClInclude Include="Headers\Prototype\proto_Tom.h" />
     <ClInclude Include="Headers\Prototype\proto_Dick.h" />
     <ClInclude Include="Headers\Prototype\proto_Harry.h" />
+    <ClInclude Include="Tests\PhysicsTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -96,5 +97,6 @@
     <ClCompile Include="Source\Components\Collider.cpp" />
     <ClCompile Include="Source\AI\Belief.cpp" />
     <ClCompile Include="Source\Components\com_Affordance.cpp" />
+    <ClCompile Include="Tests\PhysicsTest.cpp" />
   </ItemGroup>
 </Project>
