@@ -8,10 +8,38 @@ namespace AI
 	}
 
 	Mood Emotion::Expression() const
-	{
-		glm::vec4 currentState = mState;
+	{ 
+		glm::vec4 currentState = glm::clamp(mState, glm::vec4(1), glm::vec4(0.75));
 
-		return Mood();
+		if (MoodMap.find(currentState) != MoodMap.end())
+			return MoodMap.at(currentState);
+
+		currentState = glm::clamp(mState, glm::vec4(0.75), glm::vec4(0.5));
+
+		if (MoodMap.find(currentState) != MoodMap.end())
+			return MoodMap.at(currentState);
+
+		currentState = glm::clamp(mState, glm::vec4(0.5), glm::vec4(0.25));
+
+		if (MoodMap.find(currentState) != MoodMap.end())
+			return MoodMap.at(currentState);
+
+		currentState = glm::clamp(mState, glm::vec4(0.25), glm::vec4(-0.5));
+
+		if (MoodMap.find(currentState) != MoodMap.end())
+			return MoodMap.at(currentState);
+
+		currentState = glm::clamp(mState, glm::vec4(-0.5), glm::vec4(-0.75));
+
+		if (MoodMap.find(currentState) != MoodMap.end())
+			return MoodMap.at(currentState);
+
+		currentState = glm::clamp(mState, glm::vec4(-0.75), glm::vec4(-1));
+
+		if (MoodMap.find(currentState) != MoodMap.end())
+			return MoodMap.at(currentState);
+
+		return Mood::NEUTRAL;
 	}
 
 	glm::vec4 Emotion::State() const
