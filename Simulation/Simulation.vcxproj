@@ -159,6 +159,7 @@
     <ClInclude Include="Headers\Actions.h" />
     <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
     <ClInclude Include="Headers\AI\Belief.h" />
+    <ClInclude Include="Headers\AI\Mentality.h" />
     <ClInclude Include="Headers\Algorithms\CollisionAlgo.h" />
     <ClInclude Include="Headers\Algorithms\Physics.h" />
     <ClInclude Include="Headers\Components\Components.h" />
