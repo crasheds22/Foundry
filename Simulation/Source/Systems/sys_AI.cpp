@@ -6,8 +6,6 @@ extern ECS::Coordinator gCoordinator;
 #include "Components/com_AI.h"
 #include "Components/com_Transform.h"
 
-#include <iostream>
-
 namespace System
 {
 	void sys_AI::Init()

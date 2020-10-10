@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
 
 namespace Component
 {
@@ -32,7 +31,6 @@ namespace Component
 		if ((int)mAccumulatedTime %  5 == 3)
 		{
 			mTarget = glm::vec3(RandomNumber(-100.0f, 100.0f), 0, RandomNumber(-100.0f, 100.0f));
-			std::cout << "Target: " << mTarget.x << " " << mTarget.z << " after: " << mAccumulatedTime << "s" << std::endl;
 			mAccumulatedTime = 0.0f;
 		}
 
