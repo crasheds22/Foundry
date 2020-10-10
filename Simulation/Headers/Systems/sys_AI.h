@@ -5,9 +5,6 @@
 
 #include "Props.h"
 
-#include <vector>
-#include <glm/vec3.hpp>
-
 namespace System
 {
 	class sys_AI
@@ -20,8 +17,7 @@ namespace System
 		void Update();
 
 	private:
-		std::vector<glm::vec3> mFlags;
-		int flagNo = 0;
+
 	};
 }
 

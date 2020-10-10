@@ -17,7 +17,7 @@ namespace Component
 		void NewTarget(glm::vec3 target);
 		bool TargetReached();
 
-		void Move();
+		void Move(float deltaTime);
 
 		glm::vec3 Position() const;
 

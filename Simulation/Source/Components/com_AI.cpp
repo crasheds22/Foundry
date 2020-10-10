@@ -23,13 +23,13 @@ namespace Component
 		return false;
 	}
 	
-	void com_AI::Move()
+	void com_AI::Move(float deltaTime)
 	{
 		glm::vec3 direction = mTarget - mPosition;
 
 		direction = glm::normalize(direction);
 
-		mPosition += direction * mSpeed;
+		mPosition += direction * mSpeed * deltaTime;
 	}
 
 	glm::vec3 com_AI::Position() const

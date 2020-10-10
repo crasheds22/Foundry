@@ -12,7 +12,6 @@ namespace System
 {
 	void sys_AI::Init()
 	{
-		mFlags = { glm::vec3(10, 0, 10), glm::vec3(0, 0, 10), glm::vec3(0, 0, 0), glm::vec3(10, 0, 0) };
 	}
 
 	void sys_AI::Update()
@@ -22,17 +21,7 @@ namespace System
 			auto& ai = gCoordinator.GetComponent<Component::com_AI>(entity);
 			auto& transform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
-			ai.NewTarget(mFlags[flagNo]);
-
-			if (ai.TargetReached())
-			{
-				flagNo++;
-
-				if (flagNo > 3)
-					flagNo = 0;
-			}
-
-			ai.Move();
+			ai.Move(Props::Instance().DeltaTime());
 
 			transform.Position(ai.Position());
 		}
