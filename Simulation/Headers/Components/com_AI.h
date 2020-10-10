@@ -14,9 +14,6 @@ namespace Component
 		com_AI() {};
 		com_AI(float move, float rotate, glm::vec3 position);
 
-		void NewTarget(glm::vec3 target);
-		bool TargetReached();
-
 		void Move(float deltaTime);
 
 		glm::vec3 Position() const;
