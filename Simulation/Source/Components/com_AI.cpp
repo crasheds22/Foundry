@@ -1,28 +1,53 @@
 #include "Components/com_AI.h"
 
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+
 namespace Component
 {
-	com_AI::com_AI(float move, float rotate, glm::vec3 position)
+	float RandomNumber(float min, float max)
+	{
+		return ((float(rand()) / float(RAND_MAX)) * (max - min)) + min;
+	}
+
+	com_AI::com_AI(float move, float rotate, com_Transform transform)
 	{
 		mSpeed = move;
 		mRotate = rotate;
-		mPosition = position;
+
+		mTransform = transform;
+
+		mAccumulatedTime = 0.0f;
+
 		mTarget = glm::vec3(0);
+
+		srand(time(NULL));
 	}
 	
 	void com_AI::Move(float deltaTime)
 	{
+		mAccumulatedTime += deltaTime;
 
+		if ((int)mAccumulatedTime %  5 == 3)
+		{
+			mTarget = glm::vec3(RandomNumber(-100.0f, 100.0f), 0, RandomNumber(-100.0f, 100.0f));
+			std::cout << "Target: " << mTarget.x << " " << mTarget.z << " after: " << mAccumulatedTime << "s" << std::endl;
+			mAccumulatedTime = 0.0f;
+		}
 
-		glm::vec3 direction = mTarget - mPosition;
+		if (glm::length(mTransform.Position() - mTarget) > 1.0f)
+		{
+			glm::vec3 direction = mTarget - mTransform.Position();
 
-		direction = glm::normalize(direction);
+			direction = glm::normalize(direction);
 
-		mPosition += direction * mSpeed * deltaTime;
+			mTransform.Position(mTransform.Position() + direction * mSpeed * deltaTime);
+		}
 	}
 
-	glm::vec3 com_AI::Position() const
+	com_Transform com_AI::Transform() const
 	{
-		return mPosition;
+		return mTransform;
 	}
 }

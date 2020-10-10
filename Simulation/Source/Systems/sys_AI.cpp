@@ -23,7 +23,7 @@ namespace System
 
 			ai.Move(Props::Instance().DeltaTime());
 
-			transform.Position(ai.Position());
+			transform.Position(ai.Transform().Position());
 		}
 	}
 }

@@ -69,7 +69,7 @@ void Stage::Init()
 
 	auto Thomas = gCoordinator.CreateEntity();
 		Component::com_Transform	thomasTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
-		Component::com_AI			thomasAI(0.1f, 0.1f, thomasTransform.Position());
+		Component::com_AI			thomasAI(2.0f, 0.1f, thomasTransform);
 		Component::com_Render		thomasRender("Thomas.obj", "thomas");
 
 	gCoordinator.AddComponent<Component::com_AI>(Thomas, thomasAI);

@@ -12,15 +12,18 @@ namespace Component
 	{
 	public:
 		com_AI() {};
-		com_AI(float move, float rotate, glm::vec3 position);
+		com_AI(float move, float rotate, com_Transform transform);
 
 		void Move(float deltaTime);
 
-		glm::vec3 Position() const;
+		com_Transform Transform() const;
 
 	private:
 		glm::vec3 mTarget;
-		glm::vec3 mPosition;
+
+		com_Transform mTransform;
+
+		float mAccumulatedTime;
 
 		float mSpeed;
 		float mRotate;
