@@ -195,6 +195,7 @@
     <ClInclude Include="Headers\Prototype\proto_Table.h" />
     <ClInclude Include="Headers\Prototype\proto_Tom.h" />
     <ClInclude Include="Headers\Prototype\proto_Tree.h" />
+    <ClInclude Include="Headers\QuadTree.h" />
     <ClInclude Include="Headers\Singleton.h" />
     <ClInclude Include="Headers\Stage.h" />
     <ClInclude Include="Headers\Systems\Systems.h" />
