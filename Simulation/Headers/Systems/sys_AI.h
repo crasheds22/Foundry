@@ -21,7 +21,7 @@ namespace System
 
 	private:
 		std::vector<glm::vec3> mFlags;
-
+		int flagNo = 0;
 	};
 }
 
