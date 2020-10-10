@@ -38,7 +38,8 @@ void Theatre::PreShow()
 	mGraphics->Enable(Graphics::Capability::DEPTH);
 
 	//Resources
-	mResourceManager->CreateModel("Data/Models/Backpack/backpack.obj");
+	//mResourceManager->CreateModel("Data/Models/Backpack/backpack.obj");
+	mResourceManager->CreateModel("Data/Models/Thomas/Thomas.obj");
 
 	mResourceManager->CreateShader("backpack", "Data/Shaders/1.model_loading.vs", "Data/Shaders/1.model_loading.fs");
 

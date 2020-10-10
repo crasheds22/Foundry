@@ -40,8 +40,8 @@ void Stage::Init()
 
 	//Create entities here
 	auto backpack = gCoordinator.CreateEntity();
-		Component::com_Render	 backpackRender("backpack.obj", "backpack");
-		Component::com_Transform backpackTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+		Component::com_Render	 backpackRender("Thomas.obj", "backpack");
+		Component::com_Transform backpackTransform(glm::vec3(0), glm::vec3(0), glm::vec3(0.5));
 
 	gCoordinator.AddComponent<Component::com_Render>   (backpack, backpackRender);
 	gCoordinator.AddComponent<Component::com_Transform>(backpack, backpackTransform);
