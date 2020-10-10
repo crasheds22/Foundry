@@ -98,5 +98,6 @@
     <ClCompile Include="Source\AI\Belief.cpp" />
     <ClCompile Include="Source\Components\com_Affordance.cpp" />
     <ClCompile Include="Source\Systems\sys_AI.cpp" />
+    <ClCompile Include="Source\Components\com_AI.cpp" />
   </ItemGroup>
 </Project>

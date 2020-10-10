@@ -219,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
+    <ClCompile Include="Source\Components\com_AI.cpp" />
     <ClCompile Include="Source\Components\com_Render.cpp" />
     <ClCompile Include="Source\Resource\ShaderManager.cpp" />
     <ClCompile Include="Source\Resource\ModelManager.cpp" />

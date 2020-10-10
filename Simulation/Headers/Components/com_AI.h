@@ -2,6 +2,7 @@
 #define __COM_AI_H__
 
 #include <glm/vec3.hpp>
+#include <glm/geometric.hpp>
 
 namespace Component
 {
