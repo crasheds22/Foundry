@@ -54,6 +54,7 @@ void Theatre::PreShow()
 	gCoordinator.RegisterComponent<Component::com_Render>();
 	gCoordinator.RegisterComponent<Component::com_Texture>();
 	gCoordinator.RegisterComponent<Component::com_Transform>();
+	gCoordinator.RegisterComponent<Component::com_AI>();
 
 	mActiveStage.Init();
 }

@@ -6,3 +6,4 @@
 #include "com_Render.h"
 #include "com_Texture.h"
 #include "com_Transform.h"
+#include "com_AI.h"

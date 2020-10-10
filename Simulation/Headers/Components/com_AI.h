@@ -4,22 +4,26 @@
 #include <glm/vec3.hpp>
 #include <glm/geometric.hpp>
 
+#include "com_Transform.h"
+
 namespace Component
 {
 	class com_AI
 	{
 	public:
 		com_AI() {};
-		com_AI(float move, float rotate, glm::vec3& position);
+		com_AI(float move, float rotate, glm::vec3 position);
 
 		void NewTarget(glm::vec3 target);
 		bool TargetReached();
 
 		void Move();
 
+		glm::vec3 Position() const;
+
 	private:
 		glm::vec3 mTarget;
-		glm::vec3* mPosition;
+		glm::vec3 mPosition;
 
 		float mSpeed;
 		float mRotate;

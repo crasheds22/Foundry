@@ -2,11 +2,11 @@
 
 namespace Component
 {
-	com_AI::com_AI(float move, float rotate, glm::vec3& position)
+	com_AI::com_AI(float move, float rotate, glm::vec3 position)
 	{
 		mSpeed = move;
 		mRotate = rotate;
-		mPosition = &position;
+		mPosition = position;
 		mTarget = glm::vec3(0);
 	}
 
@@ -17,7 +17,7 @@ namespace Component
 	
 	bool com_AI::TargetReached()
 	{
-		if (glm::length(glm::normalize(mTarget - *mPosition)) <= 1.0f)
+		if (glm::length(mPosition - mTarget) <= 1.0f)
 			return true;
 
 		return false;
@@ -25,10 +25,15 @@ namespace Component
 	
 	void com_AI::Move()
 	{
-		glm::vec3 direction = *mPosition - mTarget;
+		glm::vec3 direction = mTarget - mPosition;
 
 		direction = glm::normalize(direction);
 
-		*mPosition += direction * mSpeed;
+		mPosition += direction * mSpeed;
+	}
+
+	glm::vec3 com_AI::Position() const
+	{
+		return mPosition;
 	}
 }

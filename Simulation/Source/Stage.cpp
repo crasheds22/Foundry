@@ -36,11 +36,21 @@ void Stage::Init()
 
 	PlayerSys->Init();
 
+	AISys = gCoordinator.RegisterSystem<System::sys_AI>();
+	{
+		ECS::Signature sig;
+		sig.set(gCoordinator.GetComponentType<Component::com_AI>());
+		sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
+		gCoordinator.SetSystemSignature<System::sys_AI>(sig);
+	}
+
+	AISys->Init();
+
 	mCamera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 	//Create entities here
 	auto backpack = gCoordinator.CreateEntity();
-		Component::com_Render	 backpackRender("Backpack.obj", "backpack");
+		Component::com_Render	 backpackRender("backpack.obj", "backpack");
 		Component::com_Transform backpackTransform(glm::vec3(0), glm::vec3(0), glm::vec3(0.5));
 
 	gCoordinator.AddComponent<Component::com_Render>   (backpack, backpackRender);
@@ -56,6 +66,17 @@ void Stage::Init()
 	gCoordinator.AddComponent<Component::com_Transform>(player, playerTransform);
 
 	Create("Player", player);
+
+	auto Thomas = gCoordinator.CreateEntity();
+		Component::com_Transform	thomasTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+		Component::com_AI			thomasAI(0.1f, 0.1f, thomasTransform.Position());
+		Component::com_Render		thomasRender("Thomas.obj", "thomas");
+
+	gCoordinator.AddComponent<Component::com_AI>(Thomas, thomasAI);
+	gCoordinator.AddComponent<Component::com_Transform>(Thomas, thomasTransform);
+	gCoordinator.AddComponent<Component::com_Render>(Thomas, thomasRender);
+
+	Create("Thomas", Thomas);
 }
 
 void Stage::Update()
@@ -63,4 +84,6 @@ void Stage::Update()
 	PlayerSys->Update(&mCamera);
 
 	RenderSys->Update(&mCamera);
+
+	AISys->Update();
 }
