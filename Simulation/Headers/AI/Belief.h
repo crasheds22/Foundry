@@ -16,7 +16,7 @@ namespace AI
 
 		void Insert(ECS::Entity entity, Component::com_Transform& pos);
 		bool Find(ECS::Entity entity);
-		Component::com_Transform& Retrieve(ECS::Entity entity);
+		Component::com_Transform* Retrieve(ECS::Entity entity);
 
 	private:
 		std::unordered_map<ECS::Entity, Component::com_Transform&> mEncountered;
