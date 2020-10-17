@@ -164,7 +164,7 @@ CollisionPoint Sphere::TestCollision(const Component::com_Transform* transformA,
 
 void Sphere::SetInertia(float mass)
 {
-	float MoI = (2 / 5) * mass * mRadius * mRadius;
+	float MoI = (2.0f / 5.0f) * mass * mRadius * mRadius;
 
 	mInertia[0][0] = MoI;
 	mInertia[1][1] = MoI;
