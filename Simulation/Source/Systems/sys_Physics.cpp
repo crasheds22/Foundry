@@ -67,6 +67,7 @@ namespace System
             auto& eTransform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
             eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
+            //eTransform.Position(eTransform.Position() + glm::vec3(0, -0.1, 0) * ref->DeltaTime());
 
             eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
         }

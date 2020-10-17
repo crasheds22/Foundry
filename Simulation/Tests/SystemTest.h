@@ -19,6 +19,8 @@
 #include "Components/com_Render.h"
 #include "Components/com_Physics.h"
 
+#include "Components/Collider.h"
+
 class SystemTest
 	: public UnitTest
 {

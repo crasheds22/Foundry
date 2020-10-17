@@ -5,9 +5,10 @@
 
 int main()
 {
-	//TestBattery tester;
-	//tester.RunTests();
+	TestBattery tester;
+	tester.RunTests();
 
+	/*
 	Theatre* theatre = &Theatre::Instance();
 
 	theatre->PreShow();
@@ -15,6 +16,7 @@ int main()
 	theatre->PlayShow();
 
 	theatre->EndShow();
+	*/
 
 	return 0;
 }

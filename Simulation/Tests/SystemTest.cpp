@@ -306,13 +306,19 @@ bool SystemTest::PhysicsSystem()
     ref = &Props::Instance();
 
     //Create resources: models, shaders, textures
-    ResMgr->CreateShader("1.model", "../Data/Shaders/1.model_loading.vs", "../Data/Shaders/1.model_loading.fs");
-    ResMgr->CreateModel("../Data/Models/Backpack/backpack.obj");
+    ResMgr->CreateShader("1.model", "Data/Shaders/1.model_loading.vs", "Data/Shaders/1.model_loading.fs");
+    ResMgr->CreateModel("Data/Models/Backpack/backpack.obj");
 
     //Create components
-    Component::com_Transform camTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+    
+    Box* boxCol = new Box(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
+    Component::com_Physics bagPhysics(1, 1, 2, 2, 2, 1, boxCol);
+    Component::com_Transform camTransform(glm::vec3(10, 0, 0), glm::vec3(0), glm::vec3(1));
+    Component::com_Transform camTransform2(glm::vec3(-10, 0 ,0), glm::vec3(0), glm::vec3(1));
     Component::com_Render ourRender("backpack.obj", "1.model");
 
+    Box* playCol = new Box(glm::vec3(-1, -2, -1), glm::vec3(1, 2, 1));
+    Component::com_Physics playPhysics(1, 1, 2, 4, 2, 1, playCol);
     Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 3.0f));
     Component::com_Player ourPlayer(2.5f, 0.1f);
     Component::com_Transform plaTransform(ourCamera.Position(), glm::vec3(0), glm::vec3(1));
@@ -357,10 +363,19 @@ bool SystemTest::PhysicsSystem()
 
     //Create entities here
     auto backpack = gCoordinator.CreateEntity();
+    bagPhysics.Velocity(glm::vec3(-1, 0, 0));
+    gCoordinator.AddComponent<Component::com_Physics>(backpack, bagPhysics);
     gCoordinator.AddComponent<Component::com_Render>(backpack, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack, camTransform);
 
+    bagPhysics.Velocity(glm::vec3(1, 0, 0));
+    auto backpack2 = gCoordinator.CreateEntity();
+    gCoordinator.AddComponent<Component::com_Physics>(backpack2, bagPhysics);
+    gCoordinator.AddComponent<Component::com_Render>(backpack2, ourRender);
+    gCoordinator.AddComponent<Component::com_Transform>(backpack2, camTransform2);
+
     auto player = gCoordinator.CreateEntity();
+    //gCoordinator.AddComponent<Component::com_Physics>(player, playPhysics);
     gCoordinator.AddComponent<Component::com_Player>(player, ourPlayer);
     gCoordinator.AddComponent<Component::com_Transform>(player, plaTransform);
 
