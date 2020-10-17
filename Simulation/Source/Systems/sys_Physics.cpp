@@ -12,6 +12,8 @@ namespace System
     
     void sys_Physics::Update()
     {
+        bool duplicate = false;
+
         for (const auto& entityA : mEntities)
         {
             auto& ePhysicsA = gCoordinator.GetComponent<Component::com_Physics>(entityA);
@@ -19,6 +21,8 @@ namespace System
         
             for (const auto& entityB : mEntities)
             {
+                duplicate = false;
+
                 if (entityA == entityB) {
                     continue;
                 }
@@ -29,8 +33,18 @@ namespace System
                 CollisionPoint temp = ePhysicsA.Collidercom()->TestCollision(&eTransformA, ePhysicsB.Collidercom(), &eTransformB);
                 if (temp.HasCollision()) 
                 {
-                    Collision temp2(entityA, entityB, temp);
-                    CollisionList.push_back(temp2);
+                    for (Collision collide : CollisionList) 
+                    {
+                        if (collide.EntityA() == entityB && collide.EntityB() == entityA) {
+                            duplicate = true;
+                        }
+                    }
+                    
+                    if (!duplicate)
+                    {
+                        Collision temp2(entityA, entityB, temp);
+                        CollisionList.push_back(temp2);
+                    }
                 }
             }
         }
@@ -54,12 +68,28 @@ namespace System
         
             float lambda = (restitution * (velocityDifference + angleAroundA - angleAroundB)) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
 
-            pA.Velocity(Physics::CalculateCollisionVel(pA.Velocity(), lambda, pA.Mass(), collide.Point().Normal()));
-            pB.Velocity(Physics::CalculateCollisionVel(pB.Velocity(), -lambda, pB.Mass(), collide.Point().Normal()));
+            tA.Position(tA.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2));
+            tB.Position(tB.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2));
 
-            pA.RotationVel(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal()));
-            pB.RotationVel(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal()));
+            //tA.Position(tA.Position() + glm::vec3(0, -5, 0) * ref->DeltaTime());
+            //tB.Position(tB.Position() + glm::vec3(0, 5, 0) * ref->DeltaTime());
+
+            //tA.Position(glm::vec3(tA.Position().x + 1.0f, tA.Position().y - 1.0f, tA.Position().z));
+            //tB.Position(glm::vec3(tB.Position().x - 1.0f, tB.Position().y + 1.0f, tB.Position().z));
+
+            //pA.Velocity(Physics::CalculateCollisionVel(pA.Velocity(), lambda, pA.Mass(), collide.Point().Normal()));
+            //pB.Velocity(Physics::CalculateCollisionVel(pB.Velocity(), -lambda, pB.Mass(), collide.Point().Normal()));
+
+            pA.Velocity(- pA.Velocity());
+            pB.Velocity(- pB.Velocity());
+
+            //pA.RotationVel(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal()));
+            //pB.RotationVel(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal()));
+
+            
         }
+
+        CollisionList.clear();
         
         for (const auto& entity : mEntities)
         {
@@ -70,6 +100,7 @@ namespace System
             //eTransform.Position(eTransform.Position() + glm::vec3(0, -0.1, 0) * ref->DeltaTime());
 
             eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
+            //eTransform.Rotation(eTransform.Rotation() + glm::vec3(1, 0, 0) * ref->DeltaTime());
         }
     }
     
