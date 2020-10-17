@@ -3,9 +3,19 @@
 #include "ECS/Coordinator.h"
 extern ECS::Coordinator gCoordinator;
 
+#include <cstdlib>
+#include <ctime>
+
+float RandomNumber(float min, float max)
+{
+	return ((float(rand()) / float(RAND_MAX)) * (max - min)) + min;
+}
+
 Stage::Stage()
 {
 	mResources = &Resource::ResourceManager::Instance();
+
+	srand(time(NULL));
 }
 
 Stage::~Stage()
@@ -49,14 +59,16 @@ void Stage::Init()
 	mCamera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 	//Create entities here
-	auto backpack = gCoordinator.CreateEntity();
-		Component::com_Render	 backpackRender("backpack.obj", "backpack");
-		Component::com_Transform backpackTransform(glm::vec3(0), glm::vec3(0), glm::vec3(0.5));
 
-	gCoordinator.AddComponent<Component::com_Render>   (backpack, backpackRender);
-	gCoordinator.AddComponent<Component::com_Transform>(backpack, backpackTransform);
+	for (int i = 0; i < 100; i++)
+	{
+		auto entity = gCoordinator.CreateEntity();
 
-	Create("Backpack_01", backpack);
+		gCoordinator.AddComponent<Component::com_Render>(entity, Component::com_Render("backpack.obj", "backpack"));
+		gCoordinator.AddComponent<Component::com_Transform>(entity, Component::com_Transform(glm::vec3(RandomNumber(-100.0f, 100.0f), 0.0f, RandomNumber(-100.0f, 100.0f)), glm::vec3(0), glm::vec3(RandomNumber(0.1f, 2.0f))));
+
+		Create("Backpack_" + std::to_string(i), entity);
+	}
 
 	auto player = gCoordinator.CreateEntity();
 		Component::com_Player playerPlayer(2.5f, 0.1f);
