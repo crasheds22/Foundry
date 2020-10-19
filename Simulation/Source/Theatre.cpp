@@ -68,7 +68,7 @@ void Theatre::PlayShow()
 		if (mProps->Pressed(Actions::Global::QUIT))
 			mGraphics->SetWindowShouldClose();
 
-		mGraphics->Clear(135 / 256, 206 / 256, 235 / 256, 1.0f);
+		mGraphics->Clear(135.0f / 256.0f, 206.0f / 256.0f, 235.0f / 256.0f, 1.0f);
 
 		mActiveStage.Update();
 
