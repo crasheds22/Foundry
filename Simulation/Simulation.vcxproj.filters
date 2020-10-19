@@ -94,5 +94,6 @@
     <ClCompile Include="Source\Components\com_Render.cpp" />
     <ClCompile Include="Source\Components\Collider.cpp" />
     <ClCompile Include="Source\Components\com_Affordance.cpp" />
+    <ClCompile Include="Source\Components\com_AI.cpp" />
   </ItemGroup>
 </Project>
