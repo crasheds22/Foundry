@@ -155,11 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Headers\AI\emotions.h" />
     <ClInclude Include="Headers\Actions.h" />
     <ClInclude Include="Headers\Affordance\Action_Qualities.h" />
-    <ClInclude Include="Headers\AI\Belief.h" />
-    <ClInclude Include="Headers\AI\Mentality.h" />
     <ClInclude Include="Headers\Algorithms\CollisionAlgo.h" />
     <ClInclude Include="Headers\Algorithms\Physics.h" />
     <ClInclude Include="Headers\Components\Components.h" />
@@ -219,7 +216,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
-    <ClCompile Include="Source\AI\Mentality.cpp" />
     <ClCompile Include="Source\Components\com_Render.cpp" />
     <ClCompile Include="Source\Resource\ShaderManager.cpp" />
     <ClCompile Include="Source\Resource\ModelManager.cpp" />
@@ -229,7 +225,6 @@
     <ClCompile Include="Tests\ResourceManagerTest.cpp" />
     <ClCompile Include="Tests\ManagerTest.cpp" />
     <ClCompile Include="Source\Resource\ResourceManager.cpp" />
-    <ClCompile Include="Source\AI\Belief.cpp" />
     <ClCompile Include="Source\Algorithm\CollisionAlgo.cpp" />
     <ClCompile Include="Source\Algorithm\Physics.cpp" />
     <ClCompile Include="Source\Components\com_Affordance.cpp" />
