@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/vec3.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Component
 {
@@ -19,9 +20,16 @@ namespace Component
 		glm::vec3 Scale() const;
 		void Scale(glm::vec3 scale);
 
+		glm::vec3 Front() const;
+		void Front(glm::vec3 front);
+
+		glm::vec3 Right() const;
+
 	private:
 		glm::vec3 mPosition{};
 		glm::vec3 mRotation{};
 		glm::vec3 mScale{};
+
+		glm::vec3 mFront{};
 	};
 }
