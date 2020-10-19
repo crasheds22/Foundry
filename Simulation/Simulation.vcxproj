@@ -198,6 +198,7 @@
     <ClInclude Include="Headers\Stage.h" />
     <ClInclude Include="Headers\Systems\Systems.h" />
     <ClInclude Include="Headers\Systems\SystemsManager.h" />
+    <ClInclude Include="Headers\Systems\sys_AI.h" />
     <ClInclude Include="Headers\Systems\sys_Physics.h" />
     <ClInclude Include="Headers\Systems\sys_Render.h" />
     <ClInclude Include="Headers\Theatre.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="Source\Resource\ModelManager.cpp" />
     <ClCompile Include="Source\Components\com_Physics.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\Systems\sys_AI.cpp" />
     <ClCompile Include="Source\Systems\sys_Physics.cpp" />
     <ClCompile Include="Tests\ResourceManagerTest.cpp" />
     <ClCompile Include="Tests\ManagerTest.cpp" />
