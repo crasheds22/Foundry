@@ -59,6 +59,7 @@
     <ClInclude Include="Headers\Prototype\proto_Tom.h" />
     <ClInclude Include="Headers\Prototype\proto_Dick.h" />
     <ClInclude Include="Headers\Prototype\proto_Harry.h" />
+    <ClInclude Include="Headers\Components\com_AI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

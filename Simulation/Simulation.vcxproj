@@ -160,6 +160,7 @@
     <ClInclude Include="Headers\Algorithms\CollisionAlgo.h" />
     <ClInclude Include="Headers\Algorithms\Physics.h" />
     <ClInclude Include="Headers\Components\Components.h" />
+    <ClInclude Include="Headers\Components\com_AI.h" />
     <ClInclude Include="Headers\Components\com_Camera.h" />
     <ClInclude Include="Headers\Components\Collider.h" />
     <ClInclude Include="Headers\Components\com_Player.h" />
