@@ -313,7 +313,8 @@ bool SystemTest::PhysicsSystem()
     
     Box* boxCol = new Box(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
     Sphere* sphereCol = new Sphere(glm::vec3(0), 2.0f);
-    Component::com_Physics bagPhysics(1, 0.5, 0, 0, 0, 1, sphereCol);
+    Component::com_Physics bagPhysics2(5, 0.5, 0, 0, 0, 1, sphereCol);
+    Component::com_Physics bagPhysics(10, 0.5, 2, 2, 2, 1, boxCol);
     Component::com_Transform camTransform(glm::vec3(50, 0, 0.2), glm::vec3(0), glm::vec3(1));
     Component::com_Transform camTransform2(glm::vec3(-50, 0 ,-0.2), glm::vec3(0), glm::vec3(1));
     Component::com_Transform camTransform3(glm::vec3(80, 0, 0), glm::vec3(0), glm::vec3(1));
@@ -321,9 +322,9 @@ bool SystemTest::PhysicsSystem()
     Component::com_Render ourRender("backpack.obj", "1.model");
 
     Box* playCol = new Box(glm::vec3(-1, -2, -1), glm::vec3(1, 2, 1));
-    Component::com_Physics playPhysics(1, 1, 2, 4, 2, 1, playCol);
+    Component::com_Physics playPhysics(80, 1, 2, 4, 2, 1, playCol);
     Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 10.0f));
-    Component::com_Player ourPlayer(2.5f, 0.1f);
+    Component::com_Player ourPlayer(5.0f, 0.1f);
     Component::com_Transform plaTransform(ourCamera.Position(), glm::vec3(0), glm::vec3(1));
 
     //Initialise ECS
@@ -371,9 +372,9 @@ bool SystemTest::PhysicsSystem()
     gCoordinator.AddComponent<Component::com_Render>(backpack, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack, camTransform);
 
-    bagPhysics.Velocity(glm::vec3(5, 0, 0));
+    bagPhysics2.Velocity(glm::vec3(5, 0, 0));
     auto backpack2 = gCoordinator.CreateEntity();
-    gCoordinator.AddComponent<Component::com_Physics>(backpack2, bagPhysics);
+    gCoordinator.AddComponent<Component::com_Physics>(backpack2, bagPhysics2);
     gCoordinator.AddComponent<Component::com_Render>(backpack2, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack2, camTransform2);
 
@@ -383,14 +384,20 @@ bool SystemTest::PhysicsSystem()
     gCoordinator.AddComponent<Component::com_Render>(backpack3, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack3, camTransform3);
 
-    bagPhysics.Velocity(glm::vec3(0, 0, 5));
+    bagPhysics2.Velocity(glm::vec3(0, 0, 5));
     auto backpack4 = gCoordinator.CreateEntity();
-    gCoordinator.AddComponent<Component::com_Physics>(backpack4, bagPhysics);
+    gCoordinator.AddComponent<Component::com_Physics>(backpack4, bagPhysics2);
     gCoordinator.AddComponent<Component::com_Render>(backpack4, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack4, camTransform4);
 
+    auto backpack5 = gCoordinator.CreateEntity();
+    gCoordinator.AddComponent<Component::com_Render>(backpack5, ourRender);
+    gCoordinator.AddComponent<Component::com_Transform>(backpack5, camTransform);
+
+    playPhysics.Velocity(glm::vec3(2, 2, 2));
     auto player = gCoordinator.CreateEntity();
-    //gCoordinator.AddComponent<Component::com_Physics>(player, playPhysics);
+    ref->PlayerID(player);
+    gCoordinator.AddComponent<Component::com_Physics>(player, playPhysics);
     gCoordinator.AddComponent<Component::com_Player>(player, ourPlayer);
     gCoordinator.AddComponent<Component::com_Transform>(player, plaTransform);
 

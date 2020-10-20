@@ -1,4 +1,5 @@
 #include "Algorithms/CollisionAlgo.h"
+#include <iostream>
 
 CollisionPoint CollisionAlgo::FindSphereSphere(const Sphere* sA, const Component::com_Transform* tA, const Sphere* sB, const Component::com_Transform* tB)
 {
@@ -29,7 +30,7 @@ CollisionPoint CollisionAlgo::FindSphereBox(const Sphere* sA, const Component::c
 	
 	glm::vec3 Bmin = bB->Min() + tB->Position();
 	glm::vec3 Bmax = bB->Max() + tB->Position();
-	glm::vec3 Bcenter = { (Bmin.x + Bmax.x) / 2, (Bmin.y + Bmax.y) / 2, (Bmin.z + Bmax.z) / 2 };
+	glm::vec3 Bcenter = { (Bmin.x + Bmax.x) / 2.0f, (Bmin.y + Bmax.y) / 2.0f, (Bmin.z + Bmax.z) / 2.0f };
 
 	glm::vec3 B = ClampAABB(A, Bmax, Bmin);
 
@@ -41,10 +42,11 @@ CollisionPoint CollisionAlgo::FindSphereBox(const Sphere* sA, const Component::c
 
 	A += glm::normalize(AtoB) * Ar;
 
-	if (!distance < Ar * Ar) {
+	if (!(distance < Ar * Ar)) {
 		return CollisionPoint(A, B, false);
 	}
 
+	std::cout << "SphereBox Collide\n";
 	return CollisionPoint(A, B, true);
 }
 
@@ -56,20 +58,21 @@ CollisionPoint CollisionAlgo::FindBoxBox(const Box* bA, const Component::com_Tra
 	glm::vec3 Bmin = bB->Min() + tB->Position();
 	glm::vec3 Bmax = bB->Max() + tB->Position();
 
-	glm::vec3 Acenter = { (Amin.x + Amax.x) / 2, (Amin.y + Amax.y) / 2, (Amin.z + Amax.z) / 2 };
-	glm::vec3 Bcenter = { (Bmin.x + Bmax.x) / 2, (Bmin.y + Bmax.y) / 2, (Bmin.z + Bmax.z) / 2 };
+	glm::vec3 Acenter = { (Amin.x + Amax.x) / 2.0f, (Amin.y + Amax.y) / 2.0f, (Amin.z + Amax.z) / 2.0f };
+	glm::vec3 Bcenter = { (Bmin.x + Bmax.x) / 2.0f, (Bmin.y + Bmax.y) / 2.0f, (Bmin.z + Bmax.z) / 2.0f };
 
 	glm::vec3 A = ClampAABB(Bcenter, Amax, Amin);
 	glm::vec3 B = ClampAABB(Acenter, Bmax, Bmin);
 	
 	if (
-		!(Amin.x <= Bmax.x && Amax.x >= Bmin.x) &&
+		!((Amin.x <= Bmax.x && Amax.x >= Bmin.x) &&
 		(Amin.y <= Bmax.y && Amax.y >= Bmin.y) &&
-		(Amin.z <= Bmax.z && Amax.z >= Bmin.z)
+		(Amin.z <= Bmax.z && Amax.z >= Bmin.z))
 		) {
 		return CollisionPoint(A, B, false);
 	}
 
+	std::cout << "BoxBox Collide\n";
 	return CollisionPoint(A, B, true);
 }
 

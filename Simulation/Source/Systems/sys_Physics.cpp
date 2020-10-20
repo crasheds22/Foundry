@@ -56,11 +56,34 @@ namespace System
         
             auto& tA = gCoordinator.GetComponent<Component::com_Transform>(collide.EntityA());
             auto& tB = gCoordinator.GetComponent<Component::com_Transform>(collide.EntityB());
+
+            glm::vec3 vA;
+            glm::vec3 vB;
+
+            if (collide.EntityA() == ref->PlayerID())
+            {
+                //vA = tA.Front();
+                vA = glm::vec3(0);
+            }
+            else
+            {
+                vA = pA.Velocity();
+            }
+
+            if (collide.EntityB() == ref->PlayerID())
+            {
+                //vB = tB.Front();
+                vB = glm::vec3(0);
+            }
+            else
+            {
+                vB = pB.Velocity();
+            }
         
             float restitution = Physics::CalculateRestitution(pA.Restitution(), pB.Restitution());
             float radiusA = Physics::CalculateRadius(collide.Point().PointA(), collide.Point().PointB(), pA.CentreOfMass(), tA.Position());
             float radiusB = Physics::CalculateRadius(collide.Point().PointB(), collide.Point().PointA(), pB.CentreOfMass(), tB.Position());
-            float velocityDifference = Physics::CalculateVelocityDifference(collide.Point().Normal(), pA.Velocity(), pB.Velocity());
+            float velocityDifference = Physics::CalculateVelocityDifference(collide.Point().Normal(), vA, vB);
             float angleAroundA = Physics::CalculateAngleAround(pA.RotationVel(), radiusA, collide.Point().Normal());
             float angleAroundB = Physics::CalculateAngleAround(pB.RotationVel(), radiusB, collide.Point().Normal());
             float beastA = Physics::CalculateBeast(radiusA, collide.Point().Normal(), pA.Collidercom()->Inertia());
@@ -68,8 +91,8 @@ namespace System
         
             float lambda = (restitution * (velocityDifference + angleAroundA - angleAroundB)) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
 
-            tA.Position(tA.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2));
-            tB.Position(tB.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2));
+            tA.Position(tA.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
+            tB.Position(tB.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
 
             //tA.Position(tA.Position() + glm::vec3(0, -5, 0) * ref->DeltaTime());
             //tB.Position(tB.Position() + glm::vec3(0, 5, 0) * ref->DeltaTime());
@@ -77,8 +100,8 @@ namespace System
             //tA.Position(glm::vec3(tA.Position().x + 1.0f, tA.Position().y - 1.0f, tA.Position().z));
             //tB.Position(glm::vec3(tB.Position().x - 1.0f, tB.Position().y + 1.0f, tB.Position().z));
 
-            pA.Velocity(-Physics::CalculateCollisionVel(pA.Velocity(), lambda, pA.Mass(), collide.Point().Normal()));
-            pB.Velocity(-Physics::CalculateCollisionVel(pB.Velocity(), -lambda, pB.Mass(), collide.Point().Normal()));
+            pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
+            pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
 
             //pA.Velocity(- pA.Velocity());
             //pB.Velocity(- pB.Velocity());
@@ -96,12 +119,16 @@ namespace System
             auto& ePhysics = gCoordinator.GetComponent<Component::com_Physics>(entity);
             auto& eTransform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
-            eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
-            //eTransform.Position(eTransform.Position() + glm::vec3(0, -0.1, 0) * ref->DeltaTime());
+            if (!(entity == ref->PlayerID())) 
+            {
+                eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
+                //eTransform.Position(eTransform.Position() + glm::vec3(0, -0.1, 0) * ref->DeltaTime());
 
-            eTransform.Rotation(eTransform.Rotation() + glm::vec3(ePhysics.RotationVel().z, ePhysics.RotationVel().x, ePhysics.RotationVel().y) * ref->DeltaTime());
-            //eTransform.Rotation(eTransform.Rotation() + glm::vec3(1, 0, 0) * ref->DeltaTime());
+                eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
+                //eTransform.Rotation(eTransform.Rotation() + glm::vec3(1, 0, 0) * ref->DeltaTime());
+
+                
+            }
         }
     }
-    
 }

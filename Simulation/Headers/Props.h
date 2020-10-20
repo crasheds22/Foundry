@@ -35,6 +35,8 @@ public:
 
 	float DeltaTime() const;
 
+	void PlayerID(std::uint32_t playerID);
+	std::uint32_t PlayerID() const;
 private:
 	std::map<Actions::Move, int> mMoveActionMap;
 	std::map<Actions::User, int> mUserActionMap;
@@ -53,5 +55,7 @@ private:
 
 	float mDeltaTime;
 	float mLastFrame;
+
+	std::uint32_t mPlayerID;
 };
 
