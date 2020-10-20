@@ -83,8 +83,8 @@ namespace System
             //pA.Velocity(- pA.Velocity());
             //pB.Velocity(- pB.Velocity());
 
-            pA.RotationVel(-Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal()));
-            pB.RotationVel(-Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal()));
+            pA.RotationVel(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal()));
+            pB.RotationVel(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal()));
 
             
         }
@@ -99,7 +99,7 @@ namespace System
             eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
             //eTransform.Position(eTransform.Position() + glm::vec3(0, -0.1, 0) * ref->DeltaTime());
 
-            eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());// * ref->DeltaTime());
+            eTransform.Rotation(eTransform.Rotation() + glm::vec3(ePhysics.RotationVel().z, ePhysics.RotationVel().x, ePhysics.RotationVel().y) * ref->DeltaTime());
             //eTransform.Rotation(eTransform.Rotation() + glm::vec3(1, 0, 0) * ref->DeltaTime());
         }
     }

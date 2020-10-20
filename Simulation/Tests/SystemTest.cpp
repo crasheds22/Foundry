@@ -322,7 +322,7 @@ bool SystemTest::PhysicsSystem()
 
     Box* playCol = new Box(glm::vec3(-1, -2, -1), glm::vec3(1, 2, 1));
     Component::com_Physics playPhysics(1, 1, 2, 4, 2, 1, playCol);
-    Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 3.0f));
+    Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 10.0f));
     Component::com_Player ourPlayer(2.5f, 0.1f);
     Component::com_Transform plaTransform(ourCamera.Position(), glm::vec3(0), glm::vec3(1));
 
