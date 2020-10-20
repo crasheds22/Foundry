@@ -41,14 +41,14 @@ void Stage::Init()
 	//Create entities here
 	auto maars = gCoordinator.CreateEntity();
 	{
-		gCoordinator.AddComponent<Component::com_Render>(maars, Component::com_Render("MaARS.obj", "maars"));
+		gCoordinator.AddComponent<Component::com_Render>(maars, Component::com_Render("MaARS.obj", "models"));
 		gCoordinator.AddComponent<Component::com_Transform>(maars, Component::com_Transform(glm::vec3(0, 0, 0), glm::vec3(0), glm::vec3(1)));
 	}
 	Create("MaARS_lab", maars);
 
 	auto backpack = gCoordinator.CreateEntity();
 	{
-		gCoordinator.AddComponent<Component::com_Render>(backpack, Component::com_Render("backpack.obj", "backpack"));
+		gCoordinator.AddComponent<Component::com_Render>(backpack, Component::com_Render("backpack.obj", "models"));
 		gCoordinator.AddComponent<Component::com_Transform>(backpack, Component::com_Transform(glm::vec3(0), glm::vec3(0), glm::vec3(1)));
 	}
 	Create("Backpack_01", backpack);
