@@ -36,25 +36,28 @@ void Stage::Init()
 
 	PlayerSys->Init();
 
-	mCamera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+	mCamera = Component::com_Camera(glm::vec3(0.0f, 4.0f, 3.0f));
 
 	//Create entities here
+	auto maars = gCoordinator.CreateEntity();
+	{
+		gCoordinator.AddComponent<Component::com_Render>(maars, Component::com_Render("MaARS.obj", "maars"));
+		gCoordinator.AddComponent<Component::com_Transform>(maars, Component::com_Transform(glm::vec3(0, 0, 0), glm::vec3(0), glm::vec3(1)));
+	}
+	Create("MaARS_lab", maars);
+
 	auto backpack = gCoordinator.CreateEntity();
-		Component::com_Render	 backpackRender("backpack.obj", "backpack");
-		Component::com_Transform backpackTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
-
-	gCoordinator.AddComponent<Component::com_Render>   (backpack, backpackRender);
-	gCoordinator.AddComponent<Component::com_Transform>(backpack, backpackTransform);
-
+	{
+		gCoordinator.AddComponent<Component::com_Render>(backpack, Component::com_Render("backpack.obj", "backpack"));
+		gCoordinator.AddComponent<Component::com_Transform>(backpack, Component::com_Transform(glm::vec3(0), glm::vec3(0), glm::vec3(1)));
+	}
 	Create("Backpack_01", backpack);
 
 	auto player = gCoordinator.CreateEntity();
-		Component::com_Player playerPlayer(2.5f, 0.1f);
-		Component::com_Transform playerTransform(mCamera.Position(), glm::vec3(0), glm::vec3(1));
-
-	gCoordinator.AddComponent<Component::com_Player>   (player, playerPlayer);
-	gCoordinator.AddComponent<Component::com_Transform>(player, playerTransform);
-
+	{
+		gCoordinator.AddComponent<Component::com_Player>(player, Component::com_Player(2.5f, 0.1f));
+		gCoordinator.AddComponent<Component::com_Transform>(player, Component::com_Transform(mCamera.Position(), glm::vec3(0), glm::vec3(1)));
+	}
 	Create("Player", player);
 }
 

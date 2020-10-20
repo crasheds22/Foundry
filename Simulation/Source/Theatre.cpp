@@ -39,8 +39,10 @@ void Theatre::PreShow()
 
 	//Resources
 	mResourceManager->CreateModel("Data/Models/Backpack/backpack.obj");
+	mResourceManager->CreateModel("Data/Models/MaARS/MaARS.obj");
 
 	mResourceManager->CreateShader("backpack", "Data/Shaders/1.model_loading.vs", "Data/Shaders/1.model_loading.fs");
+	mResourceManager->CreateShader("maars", "Data/Shaders/1.model_loading.vs", "Data/Shaders/1.model_loading.fs");
 
 
 	//ECS
