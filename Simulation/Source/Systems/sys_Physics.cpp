@@ -119,15 +119,37 @@ namespace System
             auto& ePhysics = gCoordinator.GetComponent<Component::com_Physics>(entity);
             auto& eTransform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
-            if (!(entity == ref->PlayerID())) 
+            if (!(entity == ref->PlayerID()) && ePhysics.Dynamic()) 
             {
                 eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
-                //eTransform.Position(eTransform.Position() + glm::vec3(0, -0.1, 0) * ref->DeltaTime());
-
                 eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
-                //eTransform.Rotation(eTransform.Rotation() + glm::vec3(1, 0, 0) * ref->DeltaTime());
 
-                
+                if (ePhysics.Velocity().y > -20.0f)
+                {
+                    ePhysics.Velocity(ePhysics.Velocity() + glm::vec3(0, -1.0f, 0) * ref->DeltaTime());
+                }
+                else
+                {
+                    ePhysics.Velocity(glm::vec3(ePhysics.Velocity().x, -20.0f, ePhysics.Velocity().y));
+                }
+
+                if (glm::length(ePhysics.Velocity()) > 0.5)
+                {
+                    ePhysics.Velocity(ePhysics.Velocity() -= glm::normalize(ePhysics.Velocity()) * ref->DeltaTime() * 0.2f);
+                }
+                else
+                {
+                    ePhysics.Velocity(glm::vec3(0));
+                }
+
+                if (glm::length(ePhysics.RotationVel()) > 1)
+                {
+                    ePhysics.RotationVel(ePhysics.RotationVel() -= glm::normalize(ePhysics.RotationVel()) * ref->DeltaTime() * 0.3f);
+                }
+                else
+                {
+                    ePhysics.RotationVel(glm::vec3(0));
+                }
             }
         }
     }
