@@ -12,6 +12,9 @@ namespace Resource
 
         mTextureManager->DeleteAll();
         mTextureManager = nullptr;
+
+        mWorldManager->DeleteAll();
+        mWorldManager = nullptr;
     }
 
     void ResourceManager::CreateModel(std::string filepath, std::string name)
@@ -30,6 +33,12 @@ namespace Resource
     {
         if(mShaderManager)
             mShaderManager->Create(name, vertex, frag, geo);
+    }
+
+    void ResourceManager::CreateWorld(std::string filepath, std::string name)
+    {
+        if (mWorldManager)
+            mWorldManager->Create(filepath, name);
     }
 
     Model* ResourceManager::RetrieveModel(std::string name)
@@ -56,6 +65,14 @@ namespace Resource
         return nullptr;
     }
 
+    World* ResourceManager::RetrieveWorld(std::string name)
+    {
+        if (mWorldManager)
+            return mWorldManager->Retrieve(name);
+
+        return nullptr;
+    }
+
     ResourceManager::ResourceManager()
     {
         if (!mModelManager)
@@ -64,6 +81,8 @@ namespace Resource
             mTextureManager = &TextureManager::Instance();
         if (!mShaderManager)
             mShaderManager = &ShaderManager::Instance();
+        if (!mWorldManager)
+            mWorldManager = &WorldManager::Instance();
     }
 
     void ResourceManager::Init()
@@ -74,6 +93,8 @@ namespace Resource
             mTextureManager = &TextureManager::Instance();
         if(!mShaderManager)
             mShaderManager  = &ShaderManager::Instance();
+        if (!mWorldManager)
+            mWorldManager = &WorldManager::Instance();
     }
 
 }

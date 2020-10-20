@@ -72,7 +72,7 @@ class ModelLoader
 {
 public:
 	static void New(const std::string path, std::vector<Mesh>& meshes);
-	static void NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>> spawns);
+	static void NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns);
 
 	static std::string CurrentDirectory;
 
@@ -81,6 +81,6 @@ private:
 	static Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	static std::vector<Texture*> LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName);
 
-	static void ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>> spawns);
+	static void ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns);
 
 };

@@ -140,7 +140,7 @@ void ModelLoader::New(const std::string path, std::vector<Mesh>& meshes)
 	ProcessNode(scene->mRootNode, scene, meshes);
 }
 
-void ModelLoader::NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>> spawns)
+void ModelLoader::NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -277,7 +277,7 @@ std::vector<Texture*> ModelLoader::LoadMaterialTextures(aiMaterial* material, ai
 	return textures;
 }
 
-void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>> spawns)
+void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns)
 {
 	std::string nodeName = node->mName.C_Str();
 
@@ -291,6 +291,19 @@ void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vect
 		pos.z = node->mTransformation.c4;
 
 		spawns[objName].push_back(pos);
+	}
+	else
+	{
+		for (unsigned int i = 0; i < node->mNumMeshes; i++)
+		{
+			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+			meshes.push_back(ProcessMesh(mesh, scene));
+		}
+
+		for (unsigned int i = 0; i < node->mNumChildren; i++)
+		{
+			ProcessWorldNode(node->mChildren[i], scene, meshes, spawns);
+		}
 	}
 }
 
