@@ -376,6 +376,7 @@ bool SystemTest::PhysicsSystem()
     gCoordinator.AddComponent<Component::com_Render>(backpack, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack, camTransform);
 
+    /*
     bagPhysics2.Velocity(glm::vec3(5, 0, 0));
     auto backpack2 = gCoordinator.CreateEntity();
     gCoordinator.AddComponent<Component::com_Physics>(backpack2, bagPhysics2);
@@ -393,10 +394,11 @@ bool SystemTest::PhysicsSystem()
     gCoordinator.AddComponent<Component::com_Physics>(backpack4, bagPhysics2);
     gCoordinator.AddComponent<Component::com_Render>(backpack4, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack4, camTransform4);
-
+    */
     auto backpack5 = gCoordinator.CreateEntity();
     gCoordinator.AddComponent<Component::com_Render>(backpack5, ourRender);
     gCoordinator.AddComponent<Component::com_Transform>(backpack5, camTransform);
+    
 
     playPhysics.Velocity(glm::vec3(2, 2, 2));
     auto player = gCoordinator.CreateEntity();

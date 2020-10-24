@@ -49,6 +49,7 @@ namespace System
                     {
                         Collision temp2(entityA, entityB, temp);
                         CollisionList.push_back(temp2);
+                        std::cout << "Collision";
                     }
                 }
             }
@@ -86,8 +87,8 @@ namespace System
             }
         
             float restitution = Physics::CalculateRestitution(pA.Restitution(), pB.Restitution());
-            float radiusA = Physics::CalculateRadius(collide.Point().PointA(), collide.Point().PointB(), pA.CentreOfMass(), tA.Position());
-            float radiusB = Physics::CalculateRadius(collide.Point().PointB(), collide.Point().PointA(), pB.CentreOfMass(), tB.Position());
+            glm::vec3 radiusA = Physics::CalculateRadius(collide.Point().PointA(), collide.Point().PointB(), pA.CentreOfMass(), tA.Position());
+            glm::vec3 radiusB = Physics::CalculateRadius(collide.Point().PointB(), collide.Point().PointA(), pB.CentreOfMass(), tB.Position());
             float velocityDifference = Physics::CalculateVelocityDifference(collide.Point().Normal(), vA, vB);
             float angleAroundA = Physics::CalculateAngleAround(pA.RotationVel(), radiusA, collide.Point().Normal());
             float angleAroundB = Physics::CalculateAngleAround(pB.RotationVel(), radiusB, collide.Point().Normal());
@@ -95,6 +96,7 @@ namespace System
             float beastB = Physics::CalculateBeast(radiusB, collide.Point().Normal(), pB.Collidercom()->Inertia());
         
             float lambda = (restitution * (velocityDifference + angleAroundA - angleAroundB)) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
+            //float lambda = (restitution * velocityDifference) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
 
             if (pA.Dynamic() && pB.Dynamic())
             {
@@ -104,28 +106,19 @@ namespace System
             else if (pA.Dynamic() && !pB.Dynamic())
             {
                 glm::vec3 temp = tA.Position() - collide.Point().Normal() * collide.Point().Depth();
-                tA.Position(glm::vec3(temp.x, temp.y + 1.0f, temp.z));
+                tA.Position(glm::vec3(temp.x, temp.y, temp.z));
             }
             else
             {
                 glm::vec3 temp = tB.Position() + collide.Point().Normal() * collide.Point().Depth();
-                tB.Position(glm::vec3(temp.x, temp.y + 1.0f, temp.z));
+                tB.Position(glm::vec3(temp.x, temp.y, temp.z));
             }
-
-            //tA.Position(tA.Position() + glm::vec3(0, -5, 0) * ref->DeltaTime());
-            //tB.Position(tB.Position() + glm::vec3(0, 5, 0) * ref->DeltaTime());
-
-            //tA.Position(glm::vec3(tA.Position().x + 1.0f, tA.Position().y - 1.0f, tA.Position().z));
-            //tB.Position(glm::vec3(tB.Position().x - 1.0f, tB.Position().y + 1.0f, tB.Position().z));
 
             pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
             pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
 
-            //pA.Velocity(- pA.Velocity());
-            //pB.Velocity(- pB.Velocity());
-
-            pA.RotationVel(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal()));
-            pB.RotationVel(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal()));
+            pA.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal())));
+            pB.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal())));
 
             
         }
