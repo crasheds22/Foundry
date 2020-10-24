@@ -88,5 +88,9 @@
     <ClCompile Include="Source\Components\com_Render.cpp" />
     <ClCompile Include="Source\Components\Collider.cpp" />
     <ClCompile Include="Source\Components\com_Affordance.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Table.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Chair.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Computer.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Monitor.cpp" />
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 
 #include <string>
 #include "ECS/Types.h"
-#include "Components/com_Transform.h"
+#include "Components/Components.h"
 
 namespace Prototype
 {
@@ -17,8 +17,10 @@ namespace Prototype
 		ECS::Entity ID() const { return mID; }
 		std::string Name() const { return mName; }
 
-	private:
+	protected:
 		ECS::Entity mID = 0;
+
+	private:
 		std::string mName = "";
 	};
 }

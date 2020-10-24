@@ -9,7 +9,7 @@ namespace Prototype
 		: public IPrototype
 	{
 	public:
-		Chair(std::string name, Component::com_Transform);
+		Chair(std::string name, Component::com_Transform transform);
 
 	private:
 	};

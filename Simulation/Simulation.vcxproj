@@ -212,6 +212,10 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="Source\Components\com_Render.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Chair.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Computer.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Monitor.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Table.cpp" />
     <ClCompile Include="Source\Resource\ShaderManager.cpp" />
     <ClCompile Include="Source\Resource\ModelManager.cpp" />
     <ClCompile Include="Source\Components\com_Physics.cpp" />
