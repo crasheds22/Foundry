@@ -115,10 +115,10 @@ namespace System
             {
                 if (pA.Dynamic() && pB.Dynamic())
                 {
-                    tA.Position(tA.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
-                    tB.Position(tB.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
-                    pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
-                    pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
+                    tA.Position(tA.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
+                    tB.Position(tB.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
+                    pA.Velocity(Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
+                    pB.Velocity(Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
                 else if (pA.Dynamic() && !pB.Dynamic())
                 {
@@ -156,7 +156,7 @@ namespace System
                 eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
                 eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
 
-                if (ePhysics.Velocity().y > -1.0f && ePhysics.Velocity().y < 1.0f && eTransform.Position().y < -9)
+                if (ePhysics.Velocity().y > -0.1f && ePhysics.Velocity().y < 0.1f && eTransform.Position().y < -9)
                 {
                     ePhysics.Velocity(glm::vec3(ePhysics.Velocity().x, 0.0f, ePhysics.Velocity().y));
                 }
@@ -171,7 +171,7 @@ namespace System
 
                 
 
-                if (glm::length(ePhysics.Velocity()) > 0.5)
+                if (glm::length(ePhysics.Velocity()) > 0.1)
                 {
                     glm::vec3 temp = ePhysics.Velocity() -= glm::normalize(ePhysics.Velocity()) * ref->DeltaTime() * 0.2f;
                     ePhysics.Velocity(glm::vec3(temp.x, ePhysics.Velocity().y, temp.z));
@@ -181,7 +181,7 @@ namespace System
                     ePhysics.Velocity(glm::vec3(0));
                 }
 
-                if (glm::length(ePhysics.RotationVel()) > 1)
+                if (glm::length(ePhysics.RotationVel()) > 0.1)
                 {
                     ePhysics.RotationVel(ePhysics.RotationVel() -= glm::normalize(ePhysics.RotationVel()) * ref->DeltaTime() * 0.3f);
                 }
