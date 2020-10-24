@@ -100,13 +100,15 @@ namespace System
 
             if (collide.EntityA() == ref->PlayerID() || collide.EntityB() == ref->PlayerID())
             {
-                if (collide.EntityA() == ref->PlayerID())
+                if (collide.EntityA() == ref->PlayerID() && pB.Dynamic())
                 {
-                    tB.Position(tB.Position() + vA);
+                    tB.Position(tB.Position() + vA * 1.0f);
+                    pB.Velocity(pB.Velocity() + vA * 20.0f);
                 }
-                else
+                else if(collide.EntityB() == ref->PlayerID() && pA.Dynamic())
                 {
-                    tA.Position(tA.Position() + vB);
+                    tA.Position(tA.Position() + vB * 1.0f);
+                    pA.Velocity(pA.Velocity() + vB * 20.0f);
                 }
             }
             else
@@ -115,21 +117,26 @@ namespace System
                 {
                     tA.Position(tA.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
                     tB.Position(tB.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
+                    pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
+                    pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
                 else if (pA.Dynamic() && !pB.Dynamic())
                 {
                     glm::vec3 temp = tA.Position() - collide.Point().Normal() * collide.Point().Depth();
                     tA.Position(glm::vec3(temp.x, temp.y, temp.z));
+
+                    pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
+                    //pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
                 else
                 {
                     glm::vec3 temp = tB.Position() + collide.Point().Normal() * collide.Point().Depth();
                     tB.Position(glm::vec3(temp.x, temp.y, temp.z));
+
+                    //pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
+                    pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
             }
-
-            pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
-            pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
 
             pA.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal())));
             pB.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal())));
