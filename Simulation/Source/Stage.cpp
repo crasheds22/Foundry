@@ -41,24 +41,29 @@ void Stage::Init()
 	//Create entities here
 	auto maars = gCoordinator.CreateEntity();
 	{
-		gCoordinator.AddComponent<Component::com_Render>(maars, Component::com_Render("MaARS.obj", "models"));
+		gCoordinator.AddComponent<Component::com_Render>(maars, Component::com_Render("MaARS", "models"));
 		gCoordinator.AddComponent<Component::com_Transform>(maars, Component::com_Transform(glm::vec3(0, 0, 0), glm::vec3(0), glm::vec3(1)));
 	}
-	Create("MaARS_lab", maars);
+
+	for (auto pair : mResources->RetrieveWorld("MaARS")->SpawnPoints())
+	{
+		for (int i = 0; i < pair.second.size(); i++)
+		{
+			Create(pair.first + std::to_string(i), Prototype::Factory::Make(pair.first, Component::com_Transform(pair.second[i], glm::vec3(0), glm::vec3(1))));
+		}
+	}
 
 	auto backpack = gCoordinator.CreateEntity();
 	{
-		gCoordinator.AddComponent<Component::com_Render>(backpack, Component::com_Render("backpack.obj", "models"));
+		gCoordinator.AddComponent<Component::com_Render>(backpack, Component::com_Render("backpack", "models"));
 		gCoordinator.AddComponent<Component::com_Transform>(backpack, Component::com_Transform(glm::vec3(0), glm::vec3(0), glm::vec3(1)));
 	}
-	Create("Backpack_01", backpack);
-
+	
 	auto player = gCoordinator.CreateEntity();
 	{
 		gCoordinator.AddComponent<Component::com_Player>(player, Component::com_Player(2.5f, 0.1f));
 		gCoordinator.AddComponent<Component::com_Transform>(player, Component::com_Transform(mCamera.Position(), glm::vec3(0), glm::vec3(1)));
 	}
-	Create("Player", player);
 }
 
 void Stage::Update()
