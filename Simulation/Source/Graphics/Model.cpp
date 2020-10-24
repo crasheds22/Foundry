@@ -283,7 +283,7 @@ void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vect
 
 	if (nodeName.find("spawn") != std::string::npos)
 	{
-		std::string objName = nodeName.substr(nodeName.find_first_of('_'), nodeName.find_last_of('_'));
+		std::string objName = nodeName.substr(nodeName.find_first_of('_') + 1, nodeName.find_last_of('_') - nodeName.find_first_of('_') - 1);
 
 		glm::vec3 pos;
 		pos.x = node->mTransformation.a4;
