@@ -28,6 +28,11 @@ namespace System
                 }
         
                 auto& ePhysicsB = gCoordinator.GetComponent<Component::com_Physics>(entityB);
+
+                if (!(ePhysicsA.Dynamic()) && !(ePhysicsB.Dynamic())) {
+                    continue;
+                }
+
                 auto& eTransformB = gCoordinator.GetComponent<Component::com_Transform>(entityB);
         
                 CollisionPoint temp = ePhysicsA.Collidercom()->TestCollision(&eTransformA, ePhysicsB.Collidercom(), &eTransformB);
@@ -91,8 +96,21 @@ namespace System
         
             float lambda = (restitution * (velocityDifference + angleAroundA - angleAroundB)) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
 
-            tA.Position(tA.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
-            tB.Position(tB.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
+            if (pA.Dynamic() && pB.Dynamic())
+            {
+                tA.Position(tA.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
+                tB.Position(tB.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
+            }
+            else if (pA.Dynamic() && !pB.Dynamic())
+            {
+                glm::vec3 temp = tA.Position() - collide.Point().Normal() * collide.Point().Depth();
+                tA.Position(glm::vec3(temp.x, temp.y + 1.0f, temp.z));
+            }
+            else
+            {
+                glm::vec3 temp = tB.Position() + collide.Point().Normal() * collide.Point().Depth();
+                tB.Position(glm::vec3(temp.x, temp.y + 1.0f, temp.z));
+            }
 
             //tA.Position(tA.Position() + glm::vec3(0, -5, 0) * ref->DeltaTime());
             //tB.Position(tB.Position() + glm::vec3(0, 5, 0) * ref->DeltaTime());
@@ -124,18 +142,25 @@ namespace System
                 eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
                 eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
 
-                if (ePhysics.Velocity().y > -20.0f)
+                if (ePhysics.Velocity().y > -1.0f && ePhysics.Velocity().y < 1.0f && eTransform.Position().y < -9)
                 {
-                    ePhysics.Velocity(ePhysics.Velocity() + glm::vec3(0, -1.0f, 0) * ref->DeltaTime());
+                    ePhysics.Velocity(glm::vec3(ePhysics.Velocity().x, 0.0f, ePhysics.Velocity().y));
+                }
+                else if (ePhysics.Velocity().y > -20.0f)
+                {
+                    ePhysics.Velocity(ePhysics.Velocity() + glm::vec3(0, -9.8f, 0) * ref->DeltaTime());
                 }
                 else
                 {
                     ePhysics.Velocity(glm::vec3(ePhysics.Velocity().x, -20.0f, ePhysics.Velocity().y));
                 }
 
+                
+
                 if (glm::length(ePhysics.Velocity()) > 0.5)
                 {
-                    ePhysics.Velocity(ePhysics.Velocity() -= glm::normalize(ePhysics.Velocity()) * ref->DeltaTime() * 0.2f);
+                    glm::vec3 temp = ePhysics.Velocity() -= glm::normalize(ePhysics.Velocity()) * ref->DeltaTime() * 0.2f;
+                    ePhysics.Velocity(glm::vec3(temp.x, ePhysics.Velocity().y, temp.z));
                 }
                 else
                 {
