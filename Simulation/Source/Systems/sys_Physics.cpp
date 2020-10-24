@@ -119,7 +119,7 @@ namespace System
             auto& ePhysics = gCoordinator.GetComponent<Component::com_Physics>(entity);
             auto& eTransform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
-            if (!(entity == ref->PlayerID()) && ePhysics.Dynamic()) 
+            if (!(entity == ref->PlayerID()) && ePhysics.Dynamic() && ref->DeltaTime() < 1.0f) 
             {
                 eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
                 eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
