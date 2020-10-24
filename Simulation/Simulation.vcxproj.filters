@@ -47,18 +47,11 @@
     <ClInclude Include="Headers\Components\Components.h" />
     <ClInclude Include="Headers\Systems\Systems.h" />
     <ClInclude Include="Headers\Components\com_Affordance.h" />
-    <ClInclude Include="Headers\Prototype\proto_Bush.h" />
-    <ClInclude Include="Headers\Prototype\proto_Tree.h" />
-    <ClInclude Include="Headers\Prototype\proto_Desk.h" />
     <ClInclude Include="Headers\Prototype\proto_Table.h" />
-    <ClInclude Include="Headers\Prototype\proto_OutdoorChair.h" />
     <ClInclude Include="Headers\Prototype\IPrototype.h" />
     <ClInclude Include="Headers\Prototype\proto_Chair.h" />
-    <ClInclude Include="Headers\Prototype\proto_Apple.h" />
-    <ClInclude Include="Headers\Prototype\proto_RottenApple.h" />
-    <ClInclude Include="Headers\Prototype\proto_Tom.h" />
-    <ClInclude Include="Headers\Prototype\proto_Dick.h" />
-    <ClInclude Include="Headers\Prototype\proto_Harry.h" />
+    <ClInclude Include="Headers\Prototype\proto_Computer.h" />
+    <ClInclude Include="Headers\Prototype\proto_Monitor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
