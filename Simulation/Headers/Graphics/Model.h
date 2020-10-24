@@ -82,5 +82,6 @@ private:
 	static std::vector<Texture*> LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName);
 
 	static void ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns);
+	static glm::vec3 ProcessSpawnMesh(aiMesh* mesh, const aiScene* scene);
 
 };

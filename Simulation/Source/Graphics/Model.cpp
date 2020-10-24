@@ -285,12 +285,10 @@ void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vect
 	{
 		std::string objName = nodeName.substr(nodeName.find_first_of('_') + 1, nodeName.find_last_of('_') - nodeName.find_first_of('_') - 1);
 
-		glm::vec3 pos;
-		pos.x = node->mTransformation.a4;
-		pos.y = node->mTransformation.b4;
-		pos.z = node->mTransformation.c4;
-
-		spawns[objName].push_back(pos);
+		for (unsigned int i = 0; i < node->mNumMeshes; i++)
+		{
+			spawns[objName].push_back(ProcessSpawnMesh(scene->mMeshes[node->mMeshes[i]], scene));
+		}
 	}
 	else
 	{
@@ -305,6 +303,33 @@ void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vect
 			ProcessWorldNode(node->mChildren[i], scene, meshes, spawns);
 		}
 	}
+}
+
+glm::vec3 ModelLoader::ProcessSpawnMesh(aiMesh* mesh, const aiScene* scene)
+{
+	std::vector<glm::vec3> positions;
+
+	for (int i = 0; i < mesh->mNumVertices; i++)
+	{
+		glm::vec3 pos(0);
+
+		pos.x = mesh->mVertices[i].x;
+		pos.y = mesh->mVertices[i].y;
+		pos.z = mesh->mVertices[i].z;
+
+		positions.push_back(pos);
+	}
+
+	glm::vec3 worldPos(0);
+
+	for (int i = 0; i < positions.size(); i++)
+	{
+		worldPos += positions[i];
+	}
+
+	worldPos = glm::vec3(worldPos.x / positions.size(), worldPos.y / positions.size(), worldPos.z / positions.size());
+
+	return worldPos;
 }
 
 World::World(const std::string path, std::string name)
