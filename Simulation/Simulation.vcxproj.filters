@@ -52,6 +52,8 @@
     <ClInclude Include="Headers\Prototype\proto_Chair.h" />
     <ClInclude Include="Headers\Prototype\proto_Computer.h" />
     <ClInclude Include="Headers\Prototype\proto_Monitor.h" />
+    <ClInclude Include="Headers\Prototype\PrototypeFactory.h" />
+    <ClInclude Include="Headers\Prototype\Prototypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

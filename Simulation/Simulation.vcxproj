@@ -181,6 +181,8 @@
     <ClInclude Include="Headers\Graphics\Texture.h" />
     <ClInclude Include="Headers\Props.h" />
     <ClInclude Include="Headers\Manager.h" />
+    <ClInclude Include="Headers\Prototype\PrototypeFactory.h" />
+    <ClInclude Include="Headers\Prototype\Prototypes.h" />
     <ClInclude Include="Headers\Prototype\proto_Chair.h" />
     <ClInclude Include="Headers\Prototype\IPrototype.h" />
     <ClInclude Include="Headers\Prototype\proto_Computer.h" />
