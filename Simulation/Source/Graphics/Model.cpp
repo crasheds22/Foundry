@@ -104,7 +104,7 @@ Model::Model(const std::string path, std::string name)
 	if (name.length() > 0)
 		mName = name;
 	else
-		mName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - 3);
+		mName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - path.find_last_of('/') - 1);
 
 	ModelLoader::New(path, mMeshes);
 }
@@ -337,7 +337,7 @@ World::World(const std::string path, std::string name)
 	if (name.length() > 0)
 		mName = name;
 	else
-		mName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - 3);
+		mName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - path.find_last_of('/') - 1);
 
 	ModelLoader::NewWorld(path, mMeshes, mSpawns);
 }
