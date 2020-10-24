@@ -92,5 +92,6 @@
     <ClCompile Include="Source\Prototype\proto_Chair.cpp" />
     <ClCompile Include="Source\Prototype\proto_Computer.cpp" />
     <ClCompile Include="Source\Prototype\proto_Monitor.cpp" />
+    <ClCompile Include="Source\Prototype\PrototypeFactory.cpp" />
   </ItemGroup>
 </Project>

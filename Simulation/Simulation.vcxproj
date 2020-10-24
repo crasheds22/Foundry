@@ -212,6 +212,7 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="Source\Components\com_Render.cpp" />
+    <ClCompile Include="Source\Prototype\PrototypeFactory.cpp" />
     <ClCompile Include="Source\Prototype\proto_Chair.cpp" />
     <ClCompile Include="Source\Prototype\proto_Computer.cpp" />
     <ClCompile Include="Source\Prototype\proto_Monitor.cpp" />

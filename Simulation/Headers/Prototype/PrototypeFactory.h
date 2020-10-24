@@ -4,12 +4,14 @@
 #include "IPrototype.h"
 #include "Prototypes.h"
 
+#include "Components/com_Transform.h"
+
 namespace Prototype
 {
 	class Factory
 	{
 	public:
-		static IPrototype* Make(std::string name);
+		static IPrototype* Make(std::string name, Component::com_Transform transform);
 	};
 }
 
