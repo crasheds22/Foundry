@@ -6,3 +6,4 @@
 #include "proto_Table.h"
 #include "proto_Backpack.h"
 #include "proto_Player.h"
+#include "proto_World.h"

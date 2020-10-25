@@ -10,7 +10,7 @@ namespace Prototype
 	{
 		mID = gCoordinator.CreateEntity();
 
-		gCoordinator.AddComponent<Component::com_Render>(mID, Component::com_Render("monitor", "model"));
+		gCoordinator.AddComponent<Component::com_Render>(mID, Component::com_Render("monitor", "models"));
 		gCoordinator.AddComponent<Component::com_Transform>(mID, transform);
 
 	}

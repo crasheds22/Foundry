@@ -12,7 +12,7 @@ namespace Prototype
 	public:
 		IPrototype(std::string name) : mName(name) {}
 
-		virtual ~IPrototype() = 0;
+		virtual ~IPrototype() = 0 { };
 
 		ECS::Entity ID() const { return mID; }
 		std::string Name() const { return mName; }

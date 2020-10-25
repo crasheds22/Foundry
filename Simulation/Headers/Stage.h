@@ -10,8 +10,10 @@
 
 #include "Systems/Systems.h"
 
+#include "Prototype/PrototypeFactory.h"
+
 class Stage
-	: public Manager<ECS::Entity>
+	: public Manager<Prototype::IPrototype*>
 {
 public:
 	Stage();
