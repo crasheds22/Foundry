@@ -313,8 +313,8 @@ bool SystemTest::PhysicsSystem()
     
     Box* boxCol = new Box(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1));
     Sphere* sphereCol = new Sphere(glm::vec3(0), 2.0f);
-    Component::com_Physics bagPhysics2(5, 0.2, 4, 4, 4, 1, sphereCol);
-    Component::com_Physics bagPhysics(10, 0.2, 4, 4, 4, 1, sphereCol);
+    Component::com_Physics bagPhysics2(5, 0.2, 4, 4, 4, 0, sphereCol);
+    Component::com_Physics bagPhysics(10, 0.2, 4, 4, 4, 0, sphereCol);
     Component::com_Transform camTransform(glm::vec3(40, 10, 0.2), glm::vec3(0), glm::vec3(1));
     Component::com_Transform camTransform2(glm::vec3(10, 10,-0.2), glm::vec3(0), glm::vec3(1));
     Component::com_Transform camTransform3(glm::vec3(80, 10, 0), glm::vec3(0), glm::vec3(1));
@@ -322,13 +322,13 @@ bool SystemTest::PhysicsSystem()
     Component::com_Render ourRender("backpack.obj", "1.model");
 
     Box* playCol = new Box(glm::vec3(-1, -2, -1), glm::vec3(1, 2, 1));
-    Component::com_Physics playPhysics(80, 1, 2, 4, 2, 1, playCol);
+    Component::com_Physics playPhysics(80, 1, 2, 4, 2, 0, playCol);
     Component::com_Camera ourCamera(glm::vec3(0.0f, 0.0f, 10.0f));
     Component::com_Player ourPlayer(10.0f, 0.1f);
     Component::com_Transform plaTransform(ourCamera.Position(), glm::vec3(0), glm::vec3(1));
 
     Box* theFloor = new Box(glm::vec3(-100, -20, -100), glm::vec3(100, 20, 100));
-    Component::com_Physics floorPhysics(100, 0.2, 200, 40, 200, false, theFloor);
+    Component::com_Physics floorPhysics(100, 0.2, 200, 40, 200, 2, theFloor);
     Component::com_Transform floorTransform(glm::vec3(0, -30, 0), glm::vec3(0), glm::vec3(1));
 
     //Initialise ECS

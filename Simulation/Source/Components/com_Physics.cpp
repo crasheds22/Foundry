@@ -2,7 +2,7 @@
 
 namespace Component {
 
-	com_Physics::com_Physics(float mass, float res, int width, int height, int depth, bool dynamic, Collider* coll)
+	com_Physics::com_Physics(float mass, float res, int width, int height, int depth, int dynamic, Collider* coll)
 		: mVelocity(glm::vec3(0)), mAcceleration(glm::vec3(0)), mRotationVel(glm::vec3(0)), mRotationAcc(glm::vec3(0)),
 		mMass(mass), mRestitution(res), mDynamic(dynamic), mCollidercom(coll)
 	{
@@ -76,7 +76,7 @@ namespace Component {
 		return mCollidercom;
 	}
 
-	bool com_Physics::Dynamic() const
+	int com_Physics::Dynamic() const
 	{
 		return mDynamic;
 	}

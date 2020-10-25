@@ -29,7 +29,7 @@ namespace System
         
                 auto& ePhysicsB = gCoordinator.GetComponent<Component::com_Physics>(entityB);
 
-                if (!(ePhysicsA.Dynamic()) && !(ePhysicsB.Dynamic())) {
+                if (ePhysicsA.Dynamic() != 0 && ePhysicsB.Dynamic() != 0) {
                     continue;
                 }
 
@@ -68,6 +68,18 @@ namespace System
             glm::vec3 vA;
             glm::vec3 vB;
 
+            //If Static==============================================
+
+            if (pA.Dynamic() != 0)
+            {
+                vA = glm::vec3(0);
+            }
+
+            if (pB.Dynamic() != 0)
+            {
+                vB = glm::vec3(0);
+            }
+
             //If Player==============================================
 
             if (collide.EntityA() == ref->PlayerID())
@@ -90,18 +102,6 @@ namespace System
                 vB = pB.Velocity();
             }
 
-            //If Static==============================================
-
-            if (!pA.Dynamic())
-            {
-                vA = glm::vec3(0);
-            }
-
-            if (!pB.Dynamic())
-            {
-                vB = glm::vec3(0);
-            }
-
             //Calculating Lambda==================================================================================
 
             float restitution = Physics::CalculateRestitution(pA.Restitution(), pB.Restitution());
@@ -119,12 +119,12 @@ namespace System
 
             if (collide.EntityA() == ref->PlayerID() || collide.EntityB() == ref->PlayerID())
             {
-                if (collide.EntityA() == ref->PlayerID() && pB.Dynamic())
+                if (collide.EntityA() == ref->PlayerID() && pB.Dynamic() == 0)
                 {
                     tB.Position(tB.Position() + vA * 1.0f);
                     pB.Velocity(pB.Velocity() + vA * 20.0f);
                 }
-                else if(collide.EntityB() == ref->PlayerID() && pA.Dynamic())
+                else if(collide.EntityB() == ref->PlayerID() && pA.Dynamic() == 0)
                 {
                     tA.Position(tA.Position() + vB * 1.0f);
                     pA.Velocity(pA.Velocity() + vB * 20.0f);
@@ -132,21 +132,21 @@ namespace System
             }
             else
             {
-                if (pA.Dynamic() && pB.Dynamic())
+                if (pA.Dynamic() == 0 && pB.Dynamic() == 0)
                 {
                     tA.Position(tA.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
                     tB.Position(tB.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
                     pA.Velocity(Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
                     pB.Velocity(Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
-                else if (pA.Dynamic() && !pB.Dynamic())
+                else if (pA.Dynamic() == 0 && pB.Dynamic() == 2)
                 {
                     glm::vec3 temp = tA.Position() - collide.Point().Normal() * collide.Point().Depth() / 2.0f;
                     tA.Position(glm::vec3(tA.Position().x, temp.y, tA.Position().z));
                     //tA.Position(temp);
                     pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
                 }
-                else
+                else if (pA.Dynamic() == 2 && pB.Dynamic() == 0)
                 {
                     glm::vec3 temp = tB.Position() + collide.Point().Normal() * collide.Point().Depth() / 2.0f;
                     tB.Position(glm::vec3(tB.Position().x, temp.y, tB.Position().x));
@@ -169,7 +169,7 @@ namespace System
             auto& ePhysics = gCoordinator.GetComponent<Component::com_Physics>(entity);
             auto& eTransform = gCoordinator.GetComponent<Component::com_Transform>(entity);
 
-            if (!(entity == ref->PlayerID()) && ePhysics.Dynamic() && ref->DeltaTime() < 1.0f) 
+            if (!(entity == ref->PlayerID()) && ePhysics.Dynamic() == 0 && ref->DeltaTime() < 1.0f) 
             {
                 eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
                 eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
