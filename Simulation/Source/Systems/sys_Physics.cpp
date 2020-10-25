@@ -176,9 +176,12 @@ namespace System
 
                 //Gravity=======================================================================================================
 
-                if (ePhysics.Velocity().y > -1.0f && ePhysics.Velocity().y < 1.0f && eTransform.Position().y < -8.0f)
+                if (ePhysics.Velocity().y > -1.5f && ePhysics.Velocity().y < 1.5f && eTransform.Position().y < -6.0f)
                 {
-                    ePhysics.Velocity(glm::vec3(ePhysics.Velocity().x, 0.0f, ePhysics.Velocity().y));
+                    glm::vec3 temp = ePhysics.Velocity() -= glm::normalize(ePhysics.Velocity()) * ref->DeltaTime() * 0.3f;
+                    ePhysics.Velocity(glm::vec3(temp.x, 0.0f, temp.z));
+                    ePhysics.RotationVel(ePhysics.RotationVel() -= glm::normalize(ePhysics.RotationVel()) * ref->DeltaTime() * 0.1f);
+                    //eTransform.Position(glm::vec3(eTransform.Position().x, -6.0f, eTransform.Position().z));
                 }
                 else if (ePhysics.Velocity().y > -20.0f)
                 {
