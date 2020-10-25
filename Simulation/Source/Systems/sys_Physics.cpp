@@ -119,12 +119,12 @@ namespace System
 
             if (collide.EntityA() == ref->PlayerID() || collide.EntityB() == ref->PlayerID())
             {
-                if (collide.EntityA() == ref->PlayerID() && pB.Dynamic() == 0)
+                if (collide.EntityA() == ref->PlayerID() && pB.Dynamic() == 0) // A is player
                 {
                     tB.Position(tB.Position() + vA * 1.0f);
                     pB.Velocity(pB.Velocity() + vA * 20.0f);
                 }
-                else if(collide.EntityB() == ref->PlayerID() && pA.Dynamic() == 0)
+                else if(collide.EntityB() == ref->PlayerID() && pA.Dynamic() == 0) // B is player
                 {
                     tA.Position(tA.Position() + vB * 1.0f);
                     pA.Velocity(pA.Velocity() + vB * 20.0f);
@@ -132,25 +132,35 @@ namespace System
             }
             else
             {
-                if (pA.Dynamic() == 0 && pB.Dynamic() == 0)
+                if (pA.Dynamic() == 0 && pB.Dynamic() == 0) // Both dynamic
                 {
                     tA.Position(tA.Position() + collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
                     tB.Position(tB.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
                     pA.Velocity(Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
                     pB.Velocity(Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
-                else if (pA.Dynamic() == 0 && pB.Dynamic() == 2)
+                else if (pA.Dynamic() == 0 && pB.Dynamic() == 2) // B is floor
                 {
                     glm::vec3 temp = tA.Position() - collide.Point().Normal() * collide.Point().Depth() / 2.0f;
                     tA.Position(glm::vec3(tA.Position().x, temp.y, tA.Position().z));
-                    //tA.Position(temp);
                     pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
                 }
-                else if (pA.Dynamic() == 2 && pB.Dynamic() == 0)
+                else if (pA.Dynamic() == 2 && pB.Dynamic() == 0) // A is floor
                 {
                     glm::vec3 temp = tB.Position() + collide.Point().Normal() * collide.Point().Depth() / 2.0f;
-                    tB.Position(glm::vec3(tB.Position().x, temp.y, tB.Position().x));
-                    //tB.Position(temp);
+                    tB.Position(glm::vec3(tB.Position().x, temp.y, tB.Position().z));
+                    pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
+                }
+                else if (pA.Dynamic() == 0 && pB.Dynamic() == 3) // B is wall
+                {
+                    glm::vec3 temp = tA.Position() - collide.Point().Normal() * collide.Point().Depth() / 2.0f;
+                    tA.Position(glm::vec3(temp.x, tA.Position().y, temp.z));
+                    pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
+                }
+                else if (pA.Dynamic() == 3 && pB.Dynamic() == 0) // A is wall
+                {
+                    glm::vec3 temp = tB.Position() + collide.Point().Normal() * collide.Point().Depth() / 2.0f;
+                    tB.Position(glm::vec3(temp.x, tB.Position().y, temp.z));
                     pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
             }
