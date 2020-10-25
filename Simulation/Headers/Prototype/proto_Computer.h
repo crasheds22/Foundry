@@ -11,6 +11,8 @@ namespace Prototype
 	public:
 		Computer(std::string name, Component::com_Transform transform);
 
+		~Computer();
+
 	private:
 	};
 }

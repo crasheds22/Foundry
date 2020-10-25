@@ -14,4 +14,9 @@ namespace Prototype
 		gCoordinator.AddComponent<Component::com_Transform>(mID, transform);
 
 	}
+	
+	Monitor::~Monitor()
+	{
+		gCoordinator.DestroyEntity(mID);
+	}
 }

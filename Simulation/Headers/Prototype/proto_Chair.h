@@ -11,6 +11,8 @@ namespace Prototype
 	public:
 		Chair(std::string name, Component::com_Transform transform);
 
+		~Chair();
+
 	private:
 	};
 }

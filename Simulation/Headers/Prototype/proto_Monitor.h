@@ -11,6 +11,8 @@ namespace Prototype
 	public:
 		Monitor(std::string name, Component::com_Transform transform);
 
+		~Monitor();
+
 	private:
 	};
 }

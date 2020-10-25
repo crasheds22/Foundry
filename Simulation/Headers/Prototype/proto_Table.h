@@ -11,6 +11,8 @@ namespace Prototype
 	public:
 		Table(std::string name, Component::com_Transform transform);
 
+		~Table();
+
 	private:
 	};
 }
