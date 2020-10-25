@@ -142,15 +142,15 @@ namespace System
                 else if (pA.Dynamic() && !pB.Dynamic())
                 {
                     glm::vec3 temp = tA.Position() - collide.Point().Normal() * collide.Point().Depth() / 2.0f;
-                    tA.Position(glm::vec3(temp.x, temp.y, temp.z));
-
+                    tA.Position(glm::vec3(tA.Position().x, temp.y, tA.Position().z));
+                    //tA.Position(temp);
                     pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
                 }
                 else
                 {
                     glm::vec3 temp = tB.Position() + collide.Point().Normal() * collide.Point().Depth() / 2.0f;
-                    tB.Position(glm::vec3(temp.x, temp.y, temp.z));
-
+                    tB.Position(glm::vec3(tB.Position().x, temp.y, tB.Position().x));
+                    //tB.Position(temp);
                     pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
             }
@@ -176,11 +176,11 @@ namespace System
 
                 //Gravity=======================================================================================================
 
-                if (ePhysics.Velocity().y > -1.5f && ePhysics.Velocity().y < 1.5f && eTransform.Position().y < -6.0f)
+                if (ePhysics.Velocity().y > -1.5f && ePhysics.Velocity().y < 1.5f && eTransform.Position().y < -5.5f)
                 {
                     glm::vec3 temp = ePhysics.Velocity() -= glm::normalize(ePhysics.Velocity()) * ref->DeltaTime() * 0.3f;
                     ePhysics.Velocity(glm::vec3(temp.x, 0.0f, temp.z));
-                    ePhysics.RotationVel(ePhysics.RotationVel() -= glm::normalize(ePhysics.RotationVel()) * ref->DeltaTime() * 0.1f);
+                    ePhysics.RotationVel(ePhysics.RotationVel() -= glm::normalize(ePhysics.RotationVel()) * ref->DeltaTime() * 0.3f);
                     //eTransform.Position(glm::vec3(eTransform.Position().x, -6.0f, eTransform.Position().z));
                 }
                 else if (ePhysics.Velocity().y > -20.0f)
