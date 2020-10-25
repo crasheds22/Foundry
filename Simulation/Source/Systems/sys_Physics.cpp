@@ -55,6 +55,8 @@ namespace System
             }
         }
         
+        //Collision resolution step==================================================================================
+
         for (Collision collide : CollisionList)
         {
             auto& pA = gCoordinator.GetComponent<Component::com_Physics>(collide.EntityA());
@@ -65,6 +67,8 @@ namespace System
 
             glm::vec3 vA;
             glm::vec3 vB;
+
+            //If Player==============================================
 
             if (collide.EntityA() == ref->PlayerID())
             {
@@ -85,7 +89,21 @@ namespace System
             {
                 vB = pB.Velocity();
             }
-        
+
+            //If Static==============================================
+
+            if (!pA.Dynamic())
+            {
+                vA = glm::vec3(0);
+            }
+
+            if (!pB.Dynamic())
+            {
+                vB = glm::vec3(0);
+            }
+
+            //Calculating Lambda==================================================================================
+
             float restitution = Physics::CalculateRestitution(pA.Restitution(), pB.Restitution());
             glm::vec3 radiusA = Physics::CalculateRadius(collide.Point().PointA(), collide.Point().PointB(), pA.CentreOfMass(), tA.Position());
             glm::vec3 radiusB = Physics::CalculateRadius(collide.Point().PointB(), collide.Point().PointA(), pB.CentreOfMass(), tB.Position());
@@ -96,7 +114,8 @@ namespace System
             float beastB = Physics::CalculateBeast(radiusB, collide.Point().Normal(), pB.Collidercom()->Inertia());
         
             float lambda = (restitution * (velocityDifference + angleAroundA - angleAroundB)) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
-            //float lambda = (restitution * velocityDifference) / (pA.InvMass() + pB.InvMass() + (beastA + beastB));
+
+            //Resolution step===================================================================================
 
             if (collide.EntityA() == ref->PlayerID() || collide.EntityB() == ref->PlayerID())
             {
@@ -126,14 +145,12 @@ namespace System
                     tA.Position(glm::vec3(temp.x, temp.y, temp.z));
 
                     pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
-                    //pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
                 else
                 {
                     glm::vec3 temp = tB.Position() + collide.Point().Normal() * collide.Point().Depth() / 2.0f;
                     tB.Position(glm::vec3(temp.x, temp.y, temp.z));
 
-                    //pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
                     pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                 }
             }
@@ -141,10 +158,11 @@ namespace System
             pA.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal())));
             pB.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal())));
 
-            
         }
 
         CollisionList.clear();
+
+        //Force application step======================================================================================================
         
         for (const auto& entity : mEntities)
         {
@@ -156,7 +174,9 @@ namespace System
                 eTransform.Position(eTransform.Position() + ePhysics.Velocity() * ref->DeltaTime());
                 eTransform.Rotation(eTransform.Rotation() + ePhysics.RotationVel() * ref->DeltaTime());
 
-                if (ePhysics.Velocity().y > -1.0f && ePhysics.Velocity().y < 1.0f && eTransform.Position().y < -9.5f)
+                //Gravity=======================================================================================================
+
+                if (ePhysics.Velocity().y > -1.0f && ePhysics.Velocity().y < 1.0f && eTransform.Position().y < -8.0f)
                 {
                     ePhysics.Velocity(glm::vec3(ePhysics.Velocity().x, 0.0f, ePhysics.Velocity().y));
                 }
@@ -169,7 +189,7 @@ namespace System
                     ePhysics.Velocity(glm::vec3(ePhysics.Velocity().x, -20.0f, ePhysics.Velocity().y));
                 }
 
-                
+                //Linear Decay==================================================================================================
 
                 if (glm::length(ePhysics.Velocity()) > 0.1)
                 {
@@ -180,6 +200,8 @@ namespace System
                 {
                     ePhysics.Velocity(glm::vec3(0));
                 }
+
+                //Rotational Decay=======================================================================================================
 
                 if (glm::length(ePhysics.RotationVel()) > 0.1)
                 {

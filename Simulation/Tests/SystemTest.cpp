@@ -328,7 +328,7 @@ bool SystemTest::PhysicsSystem()
     Component::com_Transform plaTransform(ourCamera.Position(), glm::vec3(0), glm::vec3(1));
 
     Box* theFloor = new Box(glm::vec3(-100, -20, -100), glm::vec3(100, 20, 100));
-    Component::com_Physics floorPhysics(100, 0.5, 200, 40, 200, false, theFloor);
+    Component::com_Physics floorPhysics(100, 0.2, 200, 40, 200, false, theFloor);
     Component::com_Transform floorTransform(glm::vec3(0, -30, 0), glm::vec3(0), glm::vec3(1));
 
     //Initialise ECS
