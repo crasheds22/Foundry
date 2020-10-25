@@ -54,6 +54,9 @@
     <ClInclude Include="Headers\Prototype\proto_Monitor.h" />
     <ClInclude Include="Headers\Prototype\PrototypeFactory.h" />
     <ClInclude Include="Headers\Prototype\Prototypes.h" />
+    <ClInclude Include="Headers\Prototype\proto_Backpack.h" />
+    <ClInclude Include="Headers\Prototype\proto_World.h" />
+    <ClInclude Include="Headers\Prototype\proto_Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -93,5 +96,8 @@
     <ClCompile Include="Source\Prototype\proto_Computer.cpp" />
     <ClCompile Include="Source\Prototype\proto_Monitor.cpp" />
     <ClCompile Include="Source\Prototype\PrototypeFactory.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Backpack.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Player.cpp" />
+    <ClCompile Include="Source\Prototype\proto_World.cpp" />
   </ItemGroup>
 </Project>
