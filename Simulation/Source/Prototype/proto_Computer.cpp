@@ -11,6 +11,7 @@ namespace Prototype
 		mID = gCoordinator.CreateEntity();
 
 		gCoordinator.AddComponent<Component::com_Render>(mID, Component::com_Render("computer", "models"));
+		transform.Position(transform.Position() + glm::vec3(0, 1, 0));
 		gCoordinator.AddComponent<Component::com_Transform>(mID, transform);
 
 	}
