@@ -75,7 +75,7 @@ public:
 	virtual void SetInertia(float mass) = 0;
 
 protected:
-	glm::mat3 mInertia;
+	glm::mat3 mInertia = glm::mat3(0);
 };
 
 class Box : public Collider

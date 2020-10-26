@@ -1,9 +1,10 @@
 #include "Components/Collider.h"
 
 #include "Algorithms/CollisionAlgo.h"
+#include <iostream>
 
 CollisionPoint::CollisionPoint(glm::vec3 a, glm::vec3 b, bool hasCollided)
-	: mA(a), mB(b), mNormal(glm::normalize(mB - mA)), mDepth(glm::length(glm::normalize(mB - mA))), mHasCollision(hasCollided)
+	: mA(a), mB(b), mNormal(glm::normalize(mB - mA)), mDepth(glm::length(mB - mA)), mHasCollision(hasCollided)
 {
 }
 
@@ -117,13 +118,15 @@ void Box::SetInertia(float mass)
 	float width = mMax.x - mMin.x;
 	float depth = mMax.z - mMin.z;
 
-	float Ixx = (1 / 12) * mass * (height * height + depth * depth);
-	float Iyy = (1 / 12) * mass * (width * width + depth * depth);
-	float Izz = (1 / 12) * mass * (width * width + height * height);
+	float Ixx = (1.0f / 12.0f) * mass * (height * height + depth * depth);
+	float Iyy = (1.0f / 12.0f) * mass * (width * width + depth * depth);
+	float Izz = (1.0f / 12.0f) * mass * (width * width + height * height);
 
 	mInertia[0][0] = Ixx;
 	mInertia[1][1] = Iyy;
 	mInertia[2][2] = Izz;
+
+	std::cout << mInertia[0][0] << " " << mInertia[1][1] << " " << mInertia[2][2] << "\n" ;
 }
 
 
@@ -161,7 +164,7 @@ CollisionPoint Sphere::TestCollision(const Component::com_Transform* transformA,
 
 void Sphere::SetInertia(float mass)
 {
-	float MoI = (2 / 5) * mass * mRadius * mRadius;
+	float MoI = (2.0f / 5.0f) * mass * mRadius * mRadius;
 
 	mInertia[0][0] = MoI;
 	mInertia[1][1] = MoI;

@@ -35,4 +35,14 @@ namespace Component
 	{
 		mScale = scale;
 	}
+
+	glm::vec3 com_Transform::Front() const
+	{
+		return mFront;
+	}
+
+	void com_Transform::Front(glm::vec3 front)
+	{
+		mFront = front;
+	}
 }
