@@ -112,6 +112,16 @@ float Props::DeltaTime() const
     return mDeltaTime;
 }
 
+void Props::PlayerID(std::uint32_t playerID)
+{
+    mPlayerID = playerID;
+}
+
+std::uint32_t Props::PlayerID() const
+{
+    return mPlayerID;
+}
+
 Props::Props()
 {
     mContext = &Graphics::Instance();

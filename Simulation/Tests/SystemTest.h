@@ -11,11 +11,15 @@
 
 #include "Systems/sys_Render.h"
 #include "Systems/sys_PlayerControl.h"
+#include "Systems/sys_Physics.h"
 
 #include "Components/com_Transform.h"
 #include "Components/com_Camera.h"
 #include "Components/com_Player.h"
 #include "Components/com_Render.h"
+#include "Components/com_Physics.h"
+
+#include "Components/Collider.h"
 
 class SystemTest
 	: public UnitTest
@@ -49,6 +53,7 @@ public:
 private:
 	bool RenderSystem();
 	bool ControlSystem();
+	bool PhysicsSystem();
 
 };
 

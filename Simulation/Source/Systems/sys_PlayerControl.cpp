@@ -27,7 +27,9 @@ namespace System
 
 			glm::vec3 direction = ((camera->Front() * (float)FB) + (camera->Right() * (float)RL)) * v;
 
-			direction.y = 0.0f;
+			//direction.y = 0.0f;
+
+			transform.Front(camera->Front());
 
 			transform.Position(transform.Position() + direction);
 
