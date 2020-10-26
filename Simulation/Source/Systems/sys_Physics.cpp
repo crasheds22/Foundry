@@ -138,6 +138,8 @@ namespace System
                     tB.Position(tB.Position() - collide.Point().Normal() * (collide.Point().Depth() / 2.0f));
                     pA.Velocity(Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
                     pB.Velocity(Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
+                    pA.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal())));
+                    pB.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal())));
                 }
                 else if (pA.Dynamic() == 0 && pB.Dynamic() == 2) // B is floor
                 {
@@ -145,6 +147,7 @@ namespace System
                     tA.Position(glm::vec3(tA.Position().x, temp.y, tA.Position().z));
                     //pA.Velocity(-Physics::CalculateCollisionVel(vA, lambda, pA.Mass(), collide.Point().Normal()));
                     pA.Velocity((1.0f - pA.Restitution()) * glm::vec3(pA.Velocity().x + pA.RotationVel().x, -pA.Velocity().y * (1.0 - pA.Restitution()), pA.Velocity().z + pA.RotationVel().z));
+                    pA.RotationVel(glm::cross(glm::normalize(pA.Velocity()), glm::vec3(0, 1, 0)) * glm::length(pA.Velocity()) / 2.0f);
                 }
                 else if (pA.Dynamic() == 2 && pB.Dynamic() == 0) // A is floor
                 {
@@ -152,6 +155,7 @@ namespace System
                     tB.Position(glm::vec3(tB.Position().x, temp.y, tB.Position().z));
                     //pB.Velocity(-Physics::CalculateCollisionVel(vB, -lambda, pB.Mass(), collide.Point().Normal()));
                     pB.Velocity((1.0f - pB.Restitution()) * glm::vec3(pB.Velocity().x + pB.RotationVel().x, -pB.Velocity().y * (1.0 - pB.Restitution()), pB.Velocity().z + pB.RotationVel().z));
+                    pB.RotationVel(glm::cross(glm::normalize(pB.Velocity()), glm::vec3(0, 1, 0)) * glm::length(pB.Velocity()) / 2.0f);
                 }
                 else if (pA.Dynamic() == 0 && pB.Dynamic() == 3) // B is wall
                 {
@@ -167,8 +171,7 @@ namespace System
                 }
             }
 
-            pA.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pA.RotationVel(), lambda, pA.Collidercom()->Inertia(), radiusA, collide.Point().Normal())));
-            pB.RotationVel(glm::radians(Physics::CalculateCollisionRotVel(pB.RotationVel(), -lambda, pB.Collidercom()->Inertia(), radiusB, collide.Point().Normal())));
+            
 
         }
 
