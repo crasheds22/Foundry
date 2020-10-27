@@ -15,7 +15,7 @@ namespace Prototype
 
 		Props::Instance().PlayerID(mID);
 
-		Component::com_Physics physics(70.0f, 0.5f, 2, 5, 2, 0, new Box(minMax.first, minMax.second));
+		Component::com_Physics physics(70.0f, 0.5f, 2, 5, 2, 0, new Box(minMax.second, minMax.first));
 		gCoordinator.AddComponent<Component::com_Physics>(mID, physics);
 
 	}

@@ -319,7 +319,7 @@ bool SystemTest::PhysicsSystem()
     Component::com_Transform camTransform2(glm::vec3(10, 10,-0.2), glm::vec3(0), glm::vec3(1));
     Component::com_Transform camTransform3(glm::vec3(80, 10, 0), glm::vec3(0), glm::vec3(1));
     Component::com_Transform camTransform4(glm::vec3(-10, 10, -60), glm::vec3(0), glm::vec3(1));
-    Component::com_Render ourRender("backpack.obj", "1.model");
+    Component::com_Render ourRender("backpack", "1.model");
 
     Box* playCol = new Box(glm::vec3(-1, -2, -1), glm::vec3(1, 2, 1));
     Component::com_Physics playPhysics(80, 1, 2, 4, 2, 0, playCol);

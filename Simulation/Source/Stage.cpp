@@ -60,7 +60,7 @@ void Stage::Init()
 
 	Create("Player", Prototype::Factory::Make("player"
 											, Component::com_Transform(glm::vec3(mCamera.Position()), glm::vec3(0), glm::vec3(0))
-											, std::pair<glm::vec3, glm::vec3>(glm::vec3(1.5f, 5.0f, 1.5f), glm::vec3(-1.5f, 0.0f, -1.5f))));
+											, std::pair<glm::vec3, glm::vec3>(glm::vec3(1.0f, 2.0f, 1.0f), glm::vec3(-1.0f, -2.0f, -1.0f))));
 }
 
 void Stage::Update()
