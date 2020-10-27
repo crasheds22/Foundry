@@ -56,7 +56,6 @@ void Stage::Init()
 			Create(pair.first + "_" + std::to_string(i), Prototype::Factory::Make(pair.first, Component::com_Transform(pair.second[i], glm::vec3(0), glm::vec3(1))));
 	}
 
-	Create("Backpack", Prototype::Factory::Make("backpack", Component::com_Transform(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec3(1))));
 	Create("Player", Prototype::Factory::Make("player", Component::com_Transform(glm::vec3(mCamera.Position()), glm::vec3(0), glm::vec3(0))));
 }
 
