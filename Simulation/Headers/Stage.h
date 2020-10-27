@@ -30,5 +30,6 @@ private:
 
 	std::shared_ptr<System::sys_PlayerControl> PlayerSys;
 	std::shared_ptr<System::sys_Render> RenderSys;
+	std::shared_ptr<System::sys_Physics> PhysicsSys
 };
 

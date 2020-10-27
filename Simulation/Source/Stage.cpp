@@ -36,6 +36,16 @@ void Stage::Init()
 
 	PlayerSys->Init();
 
+	PhysicsSys = gCoordinator.RegisterSystem<System::sys_Physics>();
+	{
+		ECS::Signature sig;
+		sig.set(gCoordinator.GetComponentType<Component::com_Physics>());
+		sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
+		gCoordinator.SetSystemSignature<System::sys_Physics>(sig);
+	}
+
+	PhysicsSys->Init();
+
 	mCamera = Component::com_Camera(glm::vec3(0.0f, 4.0f, 3.0f));
 
 	//Create entities here
@@ -55,4 +65,6 @@ void Stage::Update()
 	PlayerSys->Update(&mCamera);
 
 	RenderSys->Update(&mCamera);
+
+	PhysicsSys->Update();
 }
