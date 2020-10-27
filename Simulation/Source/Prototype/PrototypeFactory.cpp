@@ -22,11 +22,11 @@ namespace Prototype
 		if (name.find("player") != std::string::npos)
 			return new Player(name, transform, minMax);
 
-		if (name.find("collider") != std::string::npos)
-			return new Collider(name, transform, minMax, 1);
+		//if (name.find("collider") != std::string::npos)
+			//return new Collider(name, transform, minMax, 3);
 
-		if (name.find("floor") != std::string::npos)
-			return new Collider(name, transform, minMax, 2);
+		//if (name.find("floor") != std::string::npos)
+			//return new Collider(name, transform, minMax, 2);
 
 		return nullptr;
 	}

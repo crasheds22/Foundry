@@ -57,9 +57,25 @@ void Stage::Init()
 																				, Component::com_Transform(pair.second[i].first, glm::vec3(0), glm::vec3(1))
 																				, pair.second[i].second));
 	}
+	/*
+	Create("Floor", new Prototype::Collider("floor" 
+											, Component::com_Transform(glm::vec3(0, 0, 0), glm::vec3(0), glm::vec3(1))
+											, glm::vec3(100.0f, 0.0f, 100.0f), glm::vec3(-100.0f, -40.0f, -100.0f)
+											, 0));
+											*/
+
+	auto mID = gCoordinator.CreateEntity();
+	Component::com_Transform transform(glm::vec3(0, 0, 0), glm::vec3(0), glm::vec3(1));
+	Box* boxCol = new Box(glm::vec3(-100, -40, -100), glm::vec3(100, 0, 100));
+
+	gCoordinator.AddComponent<Component::com_Transform>(mID, transform);
+
+	glm::vec3 dim = glm::vec3(200, 40, 200);
+	Component::com_Physics physics(10.0f, 0.5f, dim.x, dim.y, dim.z, 2, boxCol);
+	gCoordinator.AddComponent<Component::com_Physics>(mID, physics);
 
 	Create("Player", Prototype::Factory::Make("player"
-											, Component::com_Transform(glm::vec3(mCamera.Position()), glm::vec3(0), glm::vec3(0))
+											, Component::com_Transform(glm::vec3(mCamera.Position()), glm::vec3(0), glm::vec3(1))
 											, std::pair<glm::vec3, glm::vec3>(glm::vec3(1.5f, 5.0f, 1.5f), glm::vec3(-1.5f, 0.0f, -1.5f))));
 }
 
