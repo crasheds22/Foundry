@@ -15,8 +15,7 @@ namespace Prototype
 
 		Props::Instance().PlayerID(mID);
 
-		glm::vec3 dim = minMax.first - minMax.second;
-		Component::com_Physics physics(70.0f, 0.5f, dim.x, dim.y, dim.z, 0, new Box(minMax.first, minMax.second));
+		Component::com_Physics physics(70.0f, 0.5f, 2, 5, 2, 0, new Box(minMax.first, minMax.second));
 		gCoordinator.AddComponent<Component::com_Physics>(mID, physics);
 
 	}

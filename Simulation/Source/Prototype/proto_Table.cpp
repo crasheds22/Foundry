@@ -13,8 +13,7 @@ namespace Prototype
 		gCoordinator.AddComponent<Component::com_Render>(mID, Component::com_Render("table", "models"));
 		gCoordinator.AddComponent<Component::com_Transform>(mID, transform);
 
-		glm::vec3 dim = minMax.first - minMax.second;
-		Component::com_Physics physics(10.0f, 0.5f, dim.x, dim.y, dim.z, 0, new Box(minMax.first, minMax.second));
+		Component::com_Physics physics(10.0f, 0.5f, 0.5, 1.5, 1.5f, 0, new Box(glm::vec3(-0.25, -0.75f, -0.75f), glm::vec3(0.25f, 0.75f, 0.75f)));
 		gCoordinator.AddComponent<Component::com_Physics>(mID, physics);
 
 	}
