@@ -51,15 +51,28 @@ public:
 
 	void Draw(unsigned int shaderID);
 
-private:
+protected:
 	std::vector<Mesh> mMeshes;
 	std::string mName;
+};
+
+class World : public Model
+{
+public:
+	World(const std::string path, std::string name = "");
+
+	std::map<std::string, std::vector<glm::vec3>> SpawnPoints() const;
+
+private:
+	std::map<std::string, std::vector<glm::vec3>> mSpawns;
+
 };
 
 class ModelLoader
 {
 public:
 	static void New(const std::string path, std::vector<Mesh>& meshes);
+	static void NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns);
 
 	static std::string CurrentDirectory;
 
@@ -67,5 +80,8 @@ private:
 	static void ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes);
 	static Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	static std::vector<Texture*> LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName);
+
+	static void ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns);
+	static glm::vec3 ProcessSpawnMesh(aiMesh* mesh, const aiScene* scene);
 
 };

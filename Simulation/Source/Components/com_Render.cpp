@@ -4,7 +4,10 @@ namespace Component
 {
 	com_Render::com_Render(std::string modelName, std::string shaderName)
 	{
-		mModel =  Resource::ResourceManager::Instance().RetrieveModel(modelName);
+		mModel = Resource::ResourceManager::Instance().RetrieveWorld(modelName);
+		if(!mModel)
+			mModel =  Resource::ResourceManager::Instance().RetrieveModel(modelName);
+
 		mShader = Resource::ResourceManager::Instance().RetrieveShader(shaderName);
 	}
 

@@ -18,4 +18,16 @@ namespace Resource
 	private:
 
 	};
+
+	class WorldManager
+		: public Manager<World>, public Singleton<WorldManager>
+	{
+	public:
+		~WorldManager();
+
+		bool Create(const std::string path, std::string name = "");
+
+	private:
+
+	};
 }

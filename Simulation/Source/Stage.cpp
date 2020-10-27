@@ -36,26 +36,18 @@ void Stage::Init()
 
 	PlayerSys->Init();
 
-	mCamera = Component::com_Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+	mCamera = Component::com_Camera(glm::vec3(0.0f, 4.0f, 3.0f));
 
 	//Create entities here
-	auto backpack = gCoordinator.CreateEntity();
-		Component::com_Render	 backpackRender("backpack.obj", "backpack");
-		Component::com_Transform backpackTransform(glm::vec3(0), glm::vec3(0), glm::vec3(1));
+	Create("MaARS", new Prototype::World("MaARS"));
+	for (auto pair : mResources->RetrieveWorld("MaARS")->SpawnPoints())
+	{
+		for (int i = 0; i < pair.second.size(); i++)
+			Create(pair.first + "_" + std::to_string(i), Prototype::Factory::Make(pair.first, Component::com_Transform(pair.second[i], glm::vec3(0), glm::vec3(1))));
+	}
 
-	gCoordinator.AddComponent<Component::com_Render>   (backpack, backpackRender);
-	gCoordinator.AddComponent<Component::com_Transform>(backpack, backpackTransform);
-
-	Create("Backpack_01", backpack);
-
-	auto player = gCoordinator.CreateEntity();
-		Component::com_Player playerPlayer(2.5f, 0.1f);
-		Component::com_Transform playerTransform(mCamera.Position(), glm::vec3(0), glm::vec3(1));
-
-	gCoordinator.AddComponent<Component::com_Player>   (player, playerPlayer);
-	gCoordinator.AddComponent<Component::com_Transform>(player, playerTransform);
-
-	Create("Player", player);
+	Create("Backpack", Prototype::Factory::Make("backpack", Component::com_Transform(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec3(1))));
+	Create("Player", Prototype::Factory::Make("player", Component::com_Transform(glm::vec3(mCamera.Position()), glm::vec3(0), glm::vec3(0))));
 }
 
 void Stage::Update()

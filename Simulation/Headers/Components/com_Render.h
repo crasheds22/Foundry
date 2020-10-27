@@ -15,7 +15,7 @@ namespace Component
 		Shader* _Shader() const;
 
 	private:
-		Model* mModel;
-		Shader* mShader;
+		Model* mModel = nullptr;
+		Shader* mShader = nullptr;
 	};
 }

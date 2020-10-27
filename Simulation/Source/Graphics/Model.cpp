@@ -104,7 +104,7 @@ Model::Model(const std::string path, std::string name)
 	if (name.length() > 0)
 		mName = name;
 	else
-		mName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - 3);
+		mName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - path.find_last_of('/') - 1);
 
 	ModelLoader::New(path, mMeshes);
 }
@@ -126,33 +126,44 @@ std::string ModelLoader::CurrentDirectory = "";
 
 void ModelLoader::New(const std::string path, std::vector<Mesh>& meshes)
 {
-	// read file via ASSIMP
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-	// check for errors
+
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 	{
 		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
 		exit(1);
 	}
-	// retrieve the directory path of the filepath
+
 	CurrentDirectory = path.substr(0, path.find_last_of('/'));
 
-	// process ASSIMP's root node recursively
 	ProcessNode(scene->mRootNode, scene, meshes);
+}
+
+void ModelLoader::NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns)
+{
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
+	{
+		std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+		exit(1);
+	}
+
+	CurrentDirectory = path.substr(0, path.find_last_of('/'));
+
+	ProcessWorldNode(scene->mRootNode, scene, meshes, spawns);
 }
 
 void ModelLoader::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes)
 {
-	// process each mesh located at the current node
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
-		// the node object only contains indices to index the actual objects in the scene. 
-		// the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		meshes.push_back(ProcessMesh(mesh, scene));
 	}
-	// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
+
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		ProcessNode(node->mChildren[i], scene, meshes);
@@ -161,12 +172,10 @@ void ModelLoader::ProcessNode(aiNode* node, const aiScene* scene, std::vector<Me
 
 Mesh ModelLoader::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
-	// data to fill
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture*> textures;
 
-	// walk through each of the mesh's vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
 		Vertex vertex;
@@ -209,11 +218,11 @@ Mesh ModelLoader::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 		vertices.push_back(vertex);
 	}
-	// now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
+
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
-		// retrieve all indices of the face and store them in the indices vector
+
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
 	}
@@ -266,4 +275,74 @@ std::vector<Texture*> ModelLoader::LoadMaterialTextures(aiMaterial* material, ai
 		}
 	}
 	return textures;
+}
+
+void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns)
+{
+	std::string nodeName = node->mName.C_Str();
+
+	if (nodeName.find("spawn") != std::string::npos)
+	{
+		std::string objName = nodeName.substr(nodeName.find_first_of('_') + 1, nodeName.find_last_of('_') - nodeName.find_first_of('_') - 1);
+
+		for (unsigned int i = 0; i < node->mNumMeshes; i++)
+		{
+			spawns[objName].push_back(ProcessSpawnMesh(scene->mMeshes[node->mMeshes[i]], scene));
+		}
+	}
+	else
+	{
+		for (unsigned int i = 0; i < node->mNumMeshes; i++)
+		{
+			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+			meshes.push_back(ProcessMesh(mesh, scene));
+		}
+
+		for (unsigned int i = 0; i < node->mNumChildren; i++)
+		{
+			ProcessWorldNode(node->mChildren[i], scene, meshes, spawns);
+		}
+	}
+}
+
+glm::vec3 ModelLoader::ProcessSpawnMesh(aiMesh* mesh, const aiScene* scene)
+{
+	std::vector<glm::vec3> positions;
+
+	for (int i = 0; i < mesh->mNumVertices; i++)
+	{
+		glm::vec3 pos(0);
+
+		pos.x = mesh->mVertices[i].x;
+		pos.y = mesh->mVertices[i].y;
+		pos.z = mesh->mVertices[i].z;
+
+		positions.push_back(pos);
+	}
+
+	glm::vec3 worldPos(0);
+
+	for (int i = 0; i < positions.size(); i++)
+	{
+		worldPos += positions[i];
+	}
+
+	worldPos = glm::vec3(worldPos.x / positions.size(), worldPos.y / positions.size(), worldPos.z / positions.size());
+
+	return worldPos;
+}
+
+World::World(const std::string path, std::string name)
+{
+	if (name.length() > 0)
+		mName = name;
+	else
+		mName = path.substr(path.find_last_of('/') + 1, path.find_last_of('.') - path.find_last_of('/') - 1);
+
+	ModelLoader::NewWorld(path, mMeshes, mSpawns);
+}
+
+std::map<std::string, std::vector<glm::vec3>> World::SpawnPoints() const
+{
+	return mSpawns;
 }
