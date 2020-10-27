@@ -140,7 +140,7 @@ void ModelLoader::New(const std::string path, std::vector<Mesh>& meshes)
 	ProcessNode(scene->mRootNode, scene, meshes);
 }
 
-void ModelLoader::NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns)
+void ModelLoader::NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<std::pair<glm::vec3, std::pair<glm::vec3, glm::vec3>>>>& spawns)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -277,7 +277,7 @@ std::vector<Texture*> ModelLoader::LoadMaterialTextures(aiMaterial* material, ai
 	return textures;
 }
 
-void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns)
+void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<std::pair<glm::vec3, std::pair<glm::vec3, glm::vec3>>>>& spawns)
 {
 	std::string nodeName = node->mName.C_Str();
 
@@ -305,7 +305,7 @@ void ModelLoader::ProcessWorldNode(aiNode* node, const aiScene* scene, std::vect
 	}
 }
 
-glm::vec3 ModelLoader::ProcessSpawnMesh(aiMesh* mesh, const aiScene* scene)
+std::pair<glm::vec3, std::pair<glm::vec3, glm::vec3>> ModelLoader::ProcessSpawnMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<glm::vec3> positions;
 
@@ -320,16 +320,37 @@ glm::vec3 ModelLoader::ProcessSpawnMesh(aiMesh* mesh, const aiScene* scene)
 		positions.push_back(pos);
 	}
 
-	glm::vec3 worldPos(0);
+	glm::vec3 worldPos(0), min(0.0f), max(0.0f);
 
 	for (int i = 0; i < positions.size(); i++)
 	{
 		worldPos += positions[i];
+
+		if (positions[i].x < min.x)
+			min.x = positions[i].x;
+		
+		if (positions[i].x > max.x)
+			max.x = positions[i].x;
+
+		if (positions[i].y < min.y)
+			min.y = positions[i].y;
+		
+		if (positions[i].y > max.y)
+			max.y = positions[i].y;
+
+		if (positions[i].z < min.z)
+			min.z = positions[i].z;
+		
+		if (positions[i].z > max.z)
+			max.z = positions[i].z;
 	}
 
 	worldPos = glm::vec3(worldPos.x / positions.size(), worldPos.y / positions.size(), worldPos.z / positions.size());
 
-	return worldPos;
+	max = max - worldPos;
+	min = min - worldPos;
+
+	return std::make_pair(worldPos, std::make_pair(max, min));
 }
 
 World::World(const std::string path, std::string name)
@@ -342,7 +363,7 @@ World::World(const std::string path, std::string name)
 	ModelLoader::NewWorld(path, mMeshes, mSpawns);
 }
 
-std::map<std::string, std::vector<glm::vec3>> World::SpawnPoints() const
+std::map<std::string, std::vector<std::pair<glm::vec3, std::pair<glm::vec3, glm::vec3>>>> World::SpawnPoints() const
 {
 	return mSpawns;
 }

@@ -9,7 +9,7 @@ namespace Prototype
 		: public IPrototype
 	{
 	public:
-		Collider(std::string name, Component::com_Transform transform);
+		Collider(std::string name, Component::com_Transform transform, std::pair<glm::vec3, glm::vec3> minMax);
 
 		~Collider();
 

@@ -48,8 +48,8 @@ namespace System
                     if (!duplicate)
                     {
                         Collision temp2(entityA, entityB, temp);
+                        std::cout << "Collision" << std::endl;
                         CollisionList.push_back(temp2);
-                        std::cout << "Collision";
                     }
                 }
             }
@@ -200,7 +200,7 @@ namespace System
                 }
                 else if (ePhysics.Velocity().y > -20.0f)
                 {
-                    ePhysics.Velocity(ePhysics.Velocity() + glm::vec3(0, -9.8f, 0) * ref->DeltaTime());
+                    //ePhysics.Velocity(ePhysics.Velocity() + glm::vec3(0, -9.8f, 0) * ref->DeltaTime());
                 }
                 else
                 {

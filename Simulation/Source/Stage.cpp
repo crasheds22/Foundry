@@ -53,10 +53,14 @@ void Stage::Init()
 	for (auto pair : mResources->RetrieveWorld("MaARS")->SpawnPoints())
 	{
 		for (int i = 0; i < pair.second.size(); i++)
-			Create(pair.first + "_" + std::to_string(i), Prototype::Factory::Make(pair.first, Component::com_Transform(pair.second[i], glm::vec3(0), glm::vec3(1))));
+			Create(pair.first + "_" + std::to_string(i), Prototype::Factory::Make(pair.first
+																				, Component::com_Transform(pair.second[i].first, glm::vec3(0), glm::vec3(1))
+																				, pair.second[i].second));
 	}
 
-	Create("Player", Prototype::Factory::Make("player", Component::com_Transform(glm::vec3(mCamera.Position()), glm::vec3(0), glm::vec3(0))));
+	Create("Player", Prototype::Factory::Make("player"
+											, Component::com_Transform(glm::vec3(mCamera.Position()), glm::vec3(0), glm::vec3(0))
+											, std::pair<glm::vec3, glm::vec3>(glm::vec3(1.5f, 5.0f, 1.5f), glm::vec3(-1.5f, 0.0f, -1.5f))));
 }
 
 void Stage::Update()

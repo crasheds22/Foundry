@@ -46,7 +46,6 @@ CollisionPoint CollisionAlgo::FindSphereBox(const Sphere* sA, const Component::c
 		return CollisionPoint(A, B, false);
 	}
 
-	//std::cout << "SphereBox Collide\n";
 	return CollisionPoint(A, B, true);
 }
 
@@ -72,7 +71,6 @@ CollisionPoint CollisionAlgo::FindBoxBox(const Box* bA, const Component::com_Tra
 		return CollisionPoint(A, B, false);
 	}
 
-	//std::cout << "BoxBox Collide\n";
 	return CollisionPoint(A, B, true);
 }
 
