@@ -23,7 +23,7 @@ namespace Prototype
 			return new Player(name, transform, minMax);
 
 		if (name.find("collider") != std::string::npos)
-			return new Collider(name, transform, minMax, 3);
+			return new Collider(name, transform, minMax, 1);
 
 		if (name.find("floor") != std::string::npos)
 			return new Collider(name, transform, minMax, 2);

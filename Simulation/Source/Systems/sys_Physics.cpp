@@ -48,7 +48,6 @@ namespace System
                     if (!duplicate)
                     {
                         Collision temp2(entityA, entityB, temp);
-                        std::cout << "Collision" << std::endl;
                         CollisionList.push_back(temp2);
                     }
                 }
