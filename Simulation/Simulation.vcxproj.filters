@@ -57,6 +57,7 @@
     <ClInclude Include="Headers\Prototype\proto_Backpack.h" />
     <ClInclude Include="Headers\Prototype\proto_World.h" />
     <ClInclude Include="Headers\Prototype\proto_Player.h" />
+    <ClInclude Include="Headers\Prototype\proto_Collider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -99,5 +100,6 @@
     <ClCompile Include="Source\Prototype\proto_Backpack.cpp" />
     <ClCompile Include="Source\Prototype\proto_Player.cpp" />
     <ClCompile Include="Source\Prototype\proto_World.cpp" />
+    <ClCompile Include="Source\Prototype\proto_Collider.cpp" />
   </ItemGroup>
 </Project>

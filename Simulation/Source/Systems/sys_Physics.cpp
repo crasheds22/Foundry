@@ -49,7 +49,6 @@ namespace System
                     {
                         Collision temp2(entityA, entityB, temp);
                         CollisionList.push_back(temp2);
-                        std::cout << "Collision";
                     }
                 }
             }

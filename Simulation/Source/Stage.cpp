@@ -36,6 +36,16 @@ void Stage::Init()
 
 	PlayerSys->Init();
 
+	PhysicsSys = gCoordinator.RegisterSystem<System::sys_Physics>();
+	{
+		ECS::Signature sig;
+		sig.set(gCoordinator.GetComponentType<Component::com_Physics>());
+		sig.set(gCoordinator.GetComponentType<Component::com_Transform>());
+		gCoordinator.SetSystemSignature<System::sys_Physics>(sig);
+	}
+
+	PhysicsSys->Init();
+
 	mCamera = Component::com_Camera(glm::vec3(0.0f, 4.0f, 3.0f));
 
 	//Create entities here
@@ -43,11 +53,14 @@ void Stage::Init()
 	for (auto pair : mResources->RetrieveWorld("MaARS")->SpawnPoints())
 	{
 		for (int i = 0; i < pair.second.size(); i++)
-			Create(pair.first + "_" + std::to_string(i), Prototype::Factory::Make(pair.first, Component::com_Transform(pair.second[i], glm::vec3(0), glm::vec3(1))));
+			Create(pair.first + "_" + std::to_string(i), Prototype::Factory::Make(pair.first
+																				, Component::com_Transform(pair.second[i].first, glm::vec3(0), glm::vec3(1))
+																				, pair.second[i].second));
 	}
 
-	Create("Backpack", Prototype::Factory::Make("backpack", Component::com_Transform(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec3(1))));
-	Create("Player", Prototype::Factory::Make("player", Component::com_Transform(glm::vec3(mCamera.Position()), glm::vec3(0), glm::vec3(0))));
+	Create("Player", Prototype::Factory::Make("player"
+											, Component::com_Transform(glm::vec3(mCamera.Position()), glm::vec3(0), glm::vec3(0))
+											, std::pair<glm::vec3, glm::vec3>(glm::vec3(1.0f, 2.0f, 1.0f), glm::vec3(-1.0f, -2.0f, -1.0f))));
 }
 
 void Stage::Update()
@@ -55,4 +68,6 @@ void Stage::Update()
 	PlayerSys->Update(&mCamera);
 
 	RenderSys->Update(&mCamera);
+
+	PhysicsSys->Update();
 }

@@ -9,7 +9,7 @@ namespace Prototype
 		: public IPrototype
 	{
 	public:
-		Computer(std::string name, Component::com_Transform transform);
+		Computer(std::string name, Component::com_Transform transform, std::pair<glm::vec3, glm::vec3> minMax);
 
 		~Computer();
 

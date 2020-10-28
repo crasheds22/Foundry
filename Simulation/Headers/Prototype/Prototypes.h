@@ -7,3 +7,4 @@
 #include "proto_Backpack.h"
 #include "proto_Player.h"
 #include "proto_World.h"
+#include "proto_Collider.h"

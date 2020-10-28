@@ -125,8 +125,6 @@ void Box::SetInertia(float mass)
 	mInertia[0][0] = Ixx;
 	mInertia[1][1] = Iyy;
 	mInertia[2][2] = Izz;
-
-	std::cout << mInertia[0][0] << " " << mInertia[1][1] << " " << mInertia[2][2] << "\n" ;
 }
 
 

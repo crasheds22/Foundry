@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <utility>
 
 #include "Resource/TextureManager.h"
 
@@ -61,10 +62,10 @@ class World : public Model
 public:
 	World(const std::string path, std::string name = "");
 
-	std::map<std::string, std::vector<glm::vec3>> SpawnPoints() const;
+	std::map<std::string, std::vector<std::pair<glm::vec3, std::pair<glm::vec3, glm::vec3>>>> SpawnPoints() const;
 
 private:
-	std::map<std::string, std::vector<glm::vec3>> mSpawns;
+	std::map<std::string, std::vector<std::pair<glm::vec3, std::pair<glm::vec3, glm::vec3>>>> mSpawns;
 
 };
 
@@ -72,7 +73,7 @@ class ModelLoader
 {
 public:
 	static void New(const std::string path, std::vector<Mesh>& meshes);
-	static void NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns);
+	static void NewWorld(const std::string path, std::vector<Mesh>& meshes, std::map<std::string, std::vector<std::pair<glm::vec3, std::pair<glm::vec3, glm::vec3>>>>& spawns);
 
 	static std::string CurrentDirectory;
 
@@ -81,7 +82,7 @@ private:
 	static Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	static std::vector<Texture*> LoadMaterialTextures(aiMaterial* material, aiTextureType type, TextureType typeName);
 
-	static void ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<glm::vec3>>& spawns);
-	static glm::vec3 ProcessSpawnMesh(aiMesh* mesh, const aiScene* scene);
+	static void ProcessWorldNode(aiNode* node, const aiScene* scene, std::vector<Mesh>& meshes, std::map<std::string, std::vector<std::pair<glm::vec3, std::pair<glm::vec3, glm::vec3>>>>& spawns);
+	static std::pair<glm::vec3, std::pair<glm::vec3, glm::vec3>> ProcessSpawnMesh(aiMesh* mesh, const aiScene* scene);
 
 };
