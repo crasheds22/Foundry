@@ -5,6 +5,12 @@
 
 namespace Prototype
 {
+	/** @brief Coputer
+	 *
+	 *	@brief Details the resources for spawning a computer in the world
+	 *
+	 *	@author Aaron Thomson
+	 */
 	class Computer
 		: public IPrototype
 	{

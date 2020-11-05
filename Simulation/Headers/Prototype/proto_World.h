@@ -5,12 +5,22 @@
 
 namespace Prototype
 {
+	/** @class World
+	 *
+	 *	@brief Defines the resources needed to create a world
+	 *
+	 *	@author Aaron Thomson
+	 */
 	class World
 		: public IPrototype
 	{
 	public:
+		/** @brief Constructor
+		 */
 		World(std::string name);
 
+		/** @brief Destructor
+		 */
 		~World();
 
 	private:
