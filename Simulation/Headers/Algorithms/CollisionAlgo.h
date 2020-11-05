@@ -10,7 +10,7 @@
  *	
  *	@brief A class for static collision detection algorithms
  * 
- *	@author Nichola Subianto
+ *	@author Nicholas Subianto
  */
 class CollisionAlgo
 {

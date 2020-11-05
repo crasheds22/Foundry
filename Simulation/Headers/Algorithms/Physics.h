@@ -78,7 +78,7 @@ public:
 	 */
 	static glm::vec3 CalculateCollisionRotVel(glm::vec3 irotvel, float lambda, glm::mat3 inertia, glm::vec3 radius, glm::vec3 normal);
 
-	/**	@brief	Applies friction to the body's velocity
+	/**	@brief	Applies drag to the body's velocity
 	 *
 	 *	@return glm::vec3
 	 *	@param ivelocity	The intial velocity of the body

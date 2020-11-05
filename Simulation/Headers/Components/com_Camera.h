@@ -13,7 +13,7 @@ namespace Component
 
 	/** @class com_Camera
 	 *
-	 *	@breif A flying camera
+	 *	@brief A flying camera
 	 *
 	 *	@author Aaron Thomson
 	 */
