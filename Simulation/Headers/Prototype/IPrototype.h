@@ -8,21 +8,36 @@
 
 namespace Prototype
 {
+	/** @class IPrototype
+	 *
+	 *	@brief Base class for entities in the world, all objects in the world should inherit
+	 *
+	 *	@author Aaron Thomson
+	 */
 	class IPrototype
 	{
 	public:
+		/** @brief Constructor
+		 */
 		IPrototype(std::string name) : mName(name) {}
 
+		/** @brief Destructor
+		 */
 		virtual ~IPrototype() = 0 { };
 
+		/** @brief Returns the ID of the entity
+		 */
 		ECS::Entity ID() const { return mID; }
+		
+		/** @brief Returns the name of the entity
+		 */
 		std::string Name() const { return mName; }
 
 	protected:
-		ECS::Entity mID = 0;
+		ECS::Entity mID = 0;	/*!< The ID of the entity */
 
 	private:
-		std::string mName = "";
+		std::string mName = "";	/*!< The name of the entity */
 	};
 }
 
