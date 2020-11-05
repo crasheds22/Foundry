@@ -2,6 +2,10 @@
 
 namespace Actions
 {
+	/** @enum Global
+	 *
+	 *	@brief Actions that can be taken on a global scale
+	 */
 	enum class Global
 	{
 		QUIT
@@ -10,6 +14,10 @@ namespace Actions
 		,RESUME
 	};
 
+	/** @enum Move
+	 *
+	 *	@brief Actions relate to motion
+	 */
 	enum class Move
 	{
 		LEFT
@@ -20,6 +28,10 @@ namespace Actions
 		,DOWN
 	};
 
+	/** @enum User
+	 *
+	 *	@brief Actions related to the user
+	 */
 	enum class User
 	{
 		USE

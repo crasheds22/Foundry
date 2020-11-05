@@ -4,10 +4,18 @@
 #include <map>
 #include <string>
 
+/** @class Manager
+ *
+ *	@brief Template class for managing items
+ *
+ *	@author Aaron Thomson
+ */
 template<typename T>
 class Manager
 {
 public:
+	/** @brief Inserts an object into the backing map
+	 */
 	bool Create(std::string name, T obj)
 	{
 		if (!Find(name))
@@ -19,6 +27,8 @@ public:
 		return false;
 	}
 
+	/** @brief Returns an object specified by the name
+	 */
 	T* Retrieve(std::string name)
 	{
 		if(mItems.find(name) != mItems.end())
@@ -27,6 +37,8 @@ public:
 		return nullptr;
 	}
 
+	/** @brief Returns true if the object searched for is found
+	 */
 	bool Find(std::string name)
 	{
 		if (mItems.find(name) != mItems.end())
@@ -35,6 +47,8 @@ public:
 		return false;
 	}
 
+	/** @brief Deletes the item if found in the backing map
+	 */
 	bool DeleteItem(std::string name)
 	{
 		if (Find(name))
@@ -46,13 +60,15 @@ public:
 		return false;
 	}
 
+	/** @brief Deletes all object from the backing map
+	 */
 	void DeleteAll()
 	{
 		mItems.clear();
 	}
 
 private:
-	std::map<std::string, T> mItems;
+	std::map<std::string, T> mItems;	/*!< The backing map */
 };
 
 #endif // !__MANAGER__
